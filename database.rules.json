@@ -1,0 +1,21 @@
+{
+    "rules": {
+        ".read": true,
+        ".write": false,
+        "metadata": {
+            ".read": true,
+            ".write": "auth != null",
+            "$itemId": {
+                ".validate": "newData.hasChildren(['access_type', 'locked'])"
+            }
+        },
+        "admin": {
+            ".read": "auth != null",
+            ".write": "auth != null"
+        },
+        "analytics": {
+            ".read": "auth != null",
+            ".write": true
+        }
+    }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | HubSnap - AI Tools Discovery Platform</title>
+    <meta name="description"
+        content="Get in touch with HubSnap. Have questions about AI tools or need help finding the right solution? Contact our team.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header loaded via header.js -->
+
+    <main class="container" style="padding-top: 6rem;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 4rem;">
+            <section>
+                <h1 class="gradient-text" style="margin-bottom: 1.5rem;">Get in Touch</h1>
+                <p style="color: var(--text-dim); margin-bottom: 3rem; font-size: 1.1rem;">
+                    Looking for a specific AI tool integration or have questions about our discovery engine? We're here
+                    to help.
+                </p>
+
+                <div style="display: flex; flexDirection: column; gap: 2rem;">
+                    <div style="display: flex; gap: 1rem; align-items: center;">
+                        <div class="glass" style="padding: 0.8rem; color: var(--accent-primary);"><i
+                                class="fas fa-envelope"></i></div>
+                        <div>
+                            <p style="font-size: 0.8rem; color: var(--text-dim); margin: 0;">Email Us</p>
+                            <p style="font-weight: 600; margin: 0;">contact@hubsnap.io</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass" style="padding: 3rem;">
+                <form id="contactForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                        <div class="input-group">
+                            <label>Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Email</label>
+                            <input type="email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Subject</label>
+                        <input type="text" placeholder="Inquiry about..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Message</label>
+                        <textarea rows="5" placeholder="How can we help?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="justify-content: center;">
+                        Send Message <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer loaded via footer.js -->
+
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Message received! Our team will contact you shortly.');
+            e.target.reset();
+        });
+    </script>
+</body>
+
+</html>

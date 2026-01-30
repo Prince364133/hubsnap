@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - HubSnap Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container" style="padding-top: 2rem;">
+        <div class="admin-header">
+            <h1 class="gradient-text">Website Analytics</h1>
+            <div style="display: flex; gap: 1rem;">
+                <select id="dateRange" class="filter-select">
+                    <option value="7">Last 7 Days</option>
+                    <option value="30">Last 30 Days</option>
+                </select>
+                <button class="btn btn-glass" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-nav glass">
+            <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="analytics.html" class="active"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="tools.html"><i class="fas fa-robot"></i> AI Tools</a>
+            <a href="features.html"><i class="fas fa-magic"></i> AI Features</a>
+            <a href="guides.html"><i class="fas fa-book"></i> Guides & Blueprints</a>
+            <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="stats-grid" style="margin-bottom: 2rem;">
+            <div class="glass stat-card">
+                <h3 id="totalViews">0</h3>
+                <p>Total Views (All Time)</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="todayViews">0</h3>
+                <p>Views Today</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="topToolName">-</h3>
+                <p>Top Performing Tool</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="activeUsers">-</h3>
+                <p>Realtime Visitors</p>
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <!-- Main Chart -->
+            <div class="glass" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Traffic Overview</h3>
+                <canvas id="trafficChart"></canvas>
+            </div>
+
+            <!-- Top Tools List -->
+            <div class="glass" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Top AI Tools</h3>
+                <div id="topToolsList" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <p style="color: var(--text-dim); text-align: center;">Loading data...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/analytics-manager.js"></script>
+</body>
+
+</html>

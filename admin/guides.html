@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Guides - HubSnap Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SheetJS for Excel Import -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div class="container" style="padding-top: 2rem;">
+        <div class="admin-header">
+            <h1 class="gradient-text">Manage Guides & Blueprints</h1>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" id="addGuideBtn">
+                    <i class="fas fa-plus"></i> New Guide
+                </button>
+
+                <div class="dropdown">
+                    <button class="btn btn-glass" id="importExportBtn">
+                        <i class="fas fa-file-excel"></i> Excel Actions
+                    </button>
+                    <div class="dropdown-content" id="excelDropdown"
+                        style="display: none; position: absolute; background: #1a1a1a; padding: 10px; border: 1px solid #333; border-radius: 8px; z-index: 10;">
+                        <button class="btn btn-sm btn-glass" style="width: 100%; margin-bottom: 5px;"
+                            onclick="document.getElementById('excelInput').click()">Import Excel</button>
+                        <button class="btn btn-sm btn-glass" style="width: 100%;" onclick="downloadTemplate()">Download
+                            Template</button>
+                    </div>
+                </div>
+                <input type="file" id="excelInput" accept=".xlsx, .xls" style="display: none;">
+
+                <button class="btn btn-glass" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-nav glass">
+            <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="tools.html"><i class="fas fa-robot"></i> AI Tools</a>
+            <a href="features.html"><i class="fas fa-magic"></i> AI Features</a>
+            <a href="guides.html" class="active"><i class="fas fa-book"></i> Guides & Blueprints</a>
+            <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        </div>
+
+        <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <!-- Bulk Actions Toolbar -->
+            <div id="bulkActions"
+                style="display: none; background: rgba(0, 247, 255, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; align-items: center; justify-content: space-between;">
+                <span id="selectedCount">0 items selected</span>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-sm btn-glass" onclick="bulkToggleStatus(true)">Mark Active</button>
+                    <button class="btn btn-sm btn-glass" onclick="bulkToggleStatus(false)">Mark Inactive</button>
+                    <button class="btn btn-sm btn-danger" onclick="bulkDelete()">Delete Selected</button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <input type="text" id="searchGuides" placeholder="Search guides..."
+                    style="flex: 1; padding: 0.8rem; background: var(--bg-main); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                <select id="filterType" class="filter-select">
+                    <option value="all">All Types</option>
+                    <option value="guide">Guides</option>
+                    <option value="blueprint">Blueprints</option>
+                </select>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th width="40"><input type="checkbox" id="selectAll"></th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th>Difficulty</th>
+                            <th>Read Time</th>
+                            <th>Active</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guidesTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 3rem;">
+                                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                                <p style="margin-top: 1rem;">Loading guides...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="loadMoreBtn" class="btn btn-glass">Load More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Guide Modal -->
+    <div id="guideModal" class="modal">
+        <div class="modal-content glass" style="max-width: 800px;">
+            <span class="modal-close">&times;</span>
+            <h2 id="modalTitle" style="margin-bottom: 2rem;">Add New Guide</h2>
+            <form id="guideForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <input type="hidden" id="guideId">
+
+                <div class="input-group">
+                    <label>Title *</label>
+                    <input type="text" id="title" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label>Type</label>
+                        <select id="type">
+                            <option value="guide">Guide</option>
+                            <option value="blueprint">Blueprint</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Category</label>
+                        <input type="text" id="category" placeholder="e.g. Prompt Engineering">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Short Description *</label>
+                    <textarea id="description" rows="2" required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Content (HTML/Markdown) *</label>
+                    <textarea id="content" rows="10" required placeholder="<h3>Step 1...</h3>"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label>Difficulty</label>
+                        <select id="difficulty">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Read Time</label>
+                        <input type="text" id="read_time" placeholder="e.g. 5 min read">
+                    </div>
+                    <div class="input-group">
+                        <label style="display: flex; align-items: center; gap: 1rem; height: 100%;">
+                            <span>Active</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="isActive" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Image URL</label>
+                    <input type="url" id="image_url" placeholder="https://...">
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-glass" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Guide</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/guides-manager.js"></script>
+    <script>
+        // Simple dropdown toggle for Excel actions
+        document.getElementById('importExportBtn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dd = document.getElementById('excelDropdown');
+            dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+        });
+        document.addEventListener('click', () => {
+            document.getElementById('excelDropdown').style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>

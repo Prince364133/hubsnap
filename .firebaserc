@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "yt-tool-1c8fe"
+  },
+  "targets": {
+    "yt-tool-1c8fe": {
+      "hosting": {
+        "hubsnap": [
+          "hubsnap"
+        ]
+      }
+    }
+  }
+}

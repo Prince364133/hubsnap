@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tools - HubSnap Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SheetJS for Excel Import -->
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <script>
+        // Simple dropdown toggle for Excel actions
+        document.addEventListener('click', (e) => {
+            const dd = document.getElementById('excelDropdown');
+            if (e.target.id === 'importExportBtn' || e.target.parentElement.id === 'importExportBtn') {
+                dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+            } else if (!dd.contains(e.target)) {
+                dd.style.display = 'none';
+            }
+        });
+    </script>
+    <div class="container" style="padding-top: 2rem;">
+        <div class="admin-header">
+            <h1 class="gradient-text">Manage AI Tools</h1>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-primary" id="addToolBtn">
+                    <i class="fas fa-plus"></i> Add New Tool
+                </button>
+
+                <div class="dropdown">
+                    <button class="btn btn-glass" id="importExportBtn">
+                        <i class="fas fa-file-excel"></i> Excel Actions
+                    </button>
+                    <div class="dropdown-content" id="excelDropdown"
+                        style="display: none; position: absolute; background: #1a1a1a; padding: 10px; border: 1px solid #333; border-radius: 8px; z-index: 10;">
+                        <button class="btn btn-sm btn-glass" style="width: 100%; margin-bottom: 5px;"
+                            onclick="document.getElementById('excelInput').click()">Import Excel</button>
+                        <button class="btn btn-sm btn-glass" style="width: 100%;" onclick="downloadTemplate()">Download
+                            Template</button>
+                    </div>
+                </div>
+                <input type="file" id="excelInput" accept=".xlsx, .xls" style="display: none;">
+
+                <button class="btn btn-glass" id="syncGitHubBtn">
+                    <i class="fab fa-github"></i> Sync to GitHub
+                </button>
+                <button class="btn btn-glass" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-nav glass">
+            <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="tools.html" class="active"><i class="fas fa-robot"></i> AI Tools</a>
+            <a href="features.html"><i class="fas fa-magic"></i> AI Features</a>
+            <a href="guides.html"><i class="fas fa-book"></i> Guides & Blueprints</a>
+            <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        </div>
+
+        <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <!-- Bulk Actions Toolbar -->
+            <div id="bulkActions"
+                style="display: none; background: rgba(0, 247, 255, 0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; align-items: center; justify-content: space-between;">
+                <span id="selectedCount">0 items selected</span>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-sm btn-glass" onclick="bulkToggleLock(true)">Lock Selected</button>
+                    <button class="btn btn-sm btn-glass" onclick="bulkToggleLock(false)">Unlock Selected</button>
+                    <button class="btn btn-sm btn-danger" onclick="bulkDelete()">Delete Selected</button>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                <input type="text" id="searchTools" placeholder="Search tools..."
+                    style="flex: 1; padding: 0.8rem; background: var(--bg-main); border: 1px solid var(--glass-border); border-radius: 8px; color: white;">
+                <select id="filterLocked" class="filter-select">
+                    <option value="all">All Tools</option>
+                    <option value="locked">Locked Only</option>
+                    <option value="unlocked">Unlocked Only</option>
+                </select>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th width="40"><input type="checkbox" id="selectAll"></th>
+                            <th>Name</th>
+                            <th>Company</th>
+                            <th>Category</th>
+                            <th>Access Type</th>
+                            <th>Price</th>
+                            <th>Locked</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="toolsTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center; padding: 3rem;">
+                                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                                <p style="margin-top: 1rem;">Loading tools...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button id="loadMoreBtn" class="btn btn-glass">Load More</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Tool Modal -->
+    <div id="toolModal" class="modal">
+        <div class="modal-content glass">
+            <span class="modal-close">&times;</span>
+            <h2 id="modalTitle" style="margin-bottom: 2rem;">Add New Tool</h2>
+            <form id="toolForm" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <input type="hidden" id="toolId">
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label>Tool Name *</label>
+                        <input type="text" id="toolName" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Company</label>
+                        <input type="text" id="toolCompany">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Short Description (120 chars)</label>
+                    <input type="text" id="toolShortDesc" maxlength="120">
+                </div>
+
+                <div class="input-group">
+                    <label>Full Description</label>
+                    <textarea id="toolFullDesc" rows="4"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label>Website URL *</label>
+                        <input type="url" id="toolWebsite" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Launch Year</label>
+                        <input type="number" id="toolYear" min="2000" max="2030">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Categories (comma-separated)</label>
+                    <input type="text" id="toolCategories" placeholder="Text, Image, Video">
+                </div>
+
+                <div class="input-group">
+                    <label>Tags (comma-separated)</label>
+                    <input type="text" id="toolTags" placeholder="AI, GPT, Automation">
+                </div>
+
+                <div class="input-group">
+                    <label>Use Cases (comma-separated)</label>
+                    <input type="text" id="toolUseCases" placeholder="Content Creation, Marketing">
+                </div>
+
+                <div class="input-group">
+                    <label>Platforms (comma-separated)</label>
+                    <input type="text" id="toolPlatforms" placeholder="Web, Mobile, API" value="Web">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                    <div class="input-group">
+                        <label>Pricing Model</label>
+                        <select id="toolPricingModel">
+                            <option value="FREE">FREE</option>
+                            <option value="PAID">PAID</option>
+                            <option value="FREE_PAID">FREE + PAID</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Access Type</label>
+                        <select id="toolAccessType">
+                            <option value="FREE">FREE</option>
+                            <option value="SUBSCRIPTION">SUBSCRIPTION</option>
+                            <option value="ONE_TIME_PURCHASE">ONE-TIME PURCHASE</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Price (₹)</label>
+                        <input type="number" id="toolPrice" min="0" value="0">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label style="display: flex; align-items: center; gap: 1rem;">
+                        <span>Locked Content</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="toolLocked">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </label>
+                </div>
+
+                <div class="input-group" id="lockReasonGroup" style="display: none;">
+                    <label>Lock Reason</label>
+                    <input type="text" id="toolLockReason" placeholder="Premium content - Subscribe to unlock">
+                </div>
+
+                <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-glass" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Tool</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/tools-manager.js"></script>
+</body>
+
+</html>

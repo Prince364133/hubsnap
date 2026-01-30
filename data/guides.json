@@ -1,0 +1,302 @@
+[
+    {
+        "id": "guide-1",
+        "slug": "ai-content-creator-kit",
+        "title": "AI Content Creator Freelancing Kit",
+        "type": "Freelancing Kit",
+        "category": "Content Creation",
+        "short_description": "Complete toolkit for launching your AI-powered content creation freelance business",
+        "full_description": "This comprehensive kit includes everything you need to start and scale a profitable AI content creation business. Learn which tools to use, how to price your services, client acquisition strategies, and ready-to-use templates for proposals, contracts, and deliverables.",
+        "access_type": "FREE",
+        "locked": false,
+        "price": 0,
+        "includes": [
+            "Tool recommendations for content creation",
+            "Pricing calculator and rate sheet templates",
+            "Client proposal templates",
+            "Service agreement contracts",
+            "Content brief templates",
+            "Portfolio showcase examples"
+        ],
+        "tools_used": [
+            "ChatGPT",
+            "Jasper AI",
+            "Copy.ai",
+            "Grammarly"
+        ],
+        "difficulty": "Beginner",
+        "estimated_time": "2-3 hours to complete",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-2",
+        "slug": "ai-video-editor-blueprint",
+        "title": "AI Video Editing Business Blueprint",
+        "type": "Blueprint",
+        "category": "Video Editing",
+        "short_description": "Step-by-step blueprint for building a 6-figure AI video editing agency",
+        "full_description": "Learn how to leverage AI video editing tools to build a scalable video production business. This blueprint covers niche selection, tool stack setup, workflow automation, client acquisition, and scaling strategies used by successful AI video agencies.",
+        "access_type": "SUBSCRIPTION",
+        "locked": true,
+        "price": 99,
+        "includes": [
+            "Niche selection framework",
+            "AI tool stack recommendations",
+            "Automated workflow templates",
+            "Client acquisition playbook",
+            "Pricing and packaging strategies",
+            "Scaling roadmap"
+        ],
+        "tools_used": [
+            "Runway",
+            "Descript",
+            "Pictory",
+            "InVideo"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_time": "5-7 hours to implement",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-3",
+        "slug": "chatgpt-prompt-library",
+        "title": "ChatGPT Mega Prompt Library",
+        "type": "Template",
+        "category": "Prompts",
+        "short_description": "500+ battle-tested ChatGPT prompts for every use case",
+        "full_description": "Access our curated collection of 500+ high-performing ChatGPT prompts organized by category. Includes prompts for content writing, marketing, coding, business strategy, creative work, and more. Each prompt is tested and optimized for maximum output quality.",
+        "access_type": "ONE_TIME_PURCHASE",
+        "locked": true,
+        "price": 49,
+        "includes": [
+            "500+ categorized prompts",
+            "Prompt engineering guide",
+            "Use case examples",
+            "Customization templates",
+            "Regular updates with new prompts"
+        ],
+        "tools_used": [
+            "ChatGPT",
+            "Claude",
+            "Gemini"
+        ],
+        "difficulty": "Beginner",
+        "estimated_time": "Immediate access",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-4",
+        "slug": "ai-graphic-design-freelancer",
+        "title": "AI Graphic Design Freelancer Starter Pack",
+        "type": "Freelancing Kit",
+        "category": "Design",
+        "short_description": "Launch your AI-powered graphic design freelance career in 30 days",
+        "full_description": "Everything you need to start freelancing as an AI graphic designer. Includes tool recommendations, portfolio building strategies, client outreach templates, pricing guides, and project management workflows optimized for AI-assisted design work.",
+        "access_type": "FREE",
+        "locked": false,
+        "price": 0,
+        "includes": [
+            "AI design tool comparison",
+            "Portfolio building guide",
+            "Client outreach email templates",
+            "Pricing strategy worksheet",
+            "Project workflow templates",
+            "Design brief templates"
+        ],
+        "tools_used": [
+            "Canva",
+            "Adobe Firefly",
+            "Midjourney",
+            "Leonardo.ai"
+        ],
+        "difficulty": "Beginner",
+        "estimated_time": "3-4 hours to complete",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-5",
+        "slug": "ai-seo-content-strategy",
+        "title": "AI-Powered SEO Content Strategy Template",
+        "type": "Template",
+        "category": "SEO & Marketing",
+        "short_description": "Complete SEO content strategy framework using AI tools",
+        "full_description": "Master SEO content creation with AI. This template provides a complete framework for keyword research, content planning, AI-assisted writing, and optimization. Includes spreadsheet templates, workflow diagrams, and tool integration guides.",
+        "access_type": "SUBSCRIPTION",
+        "locked": true,
+        "price": 99,
+        "includes": [
+            "Keyword research framework",
+            "Content calendar template",
+            "AI writing workflow",
+            "SEO optimization checklist",
+            "Performance tracking dashboard",
+            "Tool integration guides"
+        ],
+        "tools_used": [
+            "Surfer SEO",
+            "Frase",
+            "ChatGPT",
+            "Semrush"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_time": "4-6 hours to implement",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-6",
+        "slug": "ai-automation-agency-blueprint",
+        "title": "AI Automation Agency Blueprint",
+        "type": "Blueprint",
+        "category": "Productivity",
+        "short_description": "Build a profitable AI automation agency from scratch",
+        "full_description": "Complete roadmap for starting and scaling an AI automation agency. Learn how to identify high-value automation opportunities, build custom solutions, price your services, and acquire clients. Includes case studies, templates, and proven strategies.",
+        "access_type": "ONE_TIME_PURCHASE",
+        "locked": true,
+        "price": 149,
+        "includes": [
+            "Agency positioning framework",
+            "Service offering templates",
+            "Automation opportunity assessment",
+            "Client proposal templates",
+            "Pricing calculator",
+            "Case study examples",
+            "Sales playbook"
+        ],
+        "tools_used": [
+            "Zapier",
+            "Make",
+            "n8n",
+            "ChatGPT"
+        ],
+        "difficulty": "Advanced",
+        "estimated_time": "10-15 hours to implement",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-7",
+        "slug": "social-media-ai-templates",
+        "title": "Social Media AI Content Templates",
+        "type": "Template",
+        "category": "Social Media",
+        "short_description": "200+ AI-powered social media content templates",
+        "full_description": "Never run out of social media content ideas. This pack includes 200+ templates for creating engaging posts, captions, and visuals using AI tools. Covers all major platforms: Instagram, LinkedIn, Twitter, Facebook, and TikTok.",
+        "access_type": "FREE",
+        "locked": false,
+        "price": 0,
+        "includes": [
+            "200+ content templates",
+            "Platform-specific guides",
+            "AI image generation prompts",
+            "Hashtag strategy templates",
+            "Content calendar",
+            "Engagement optimization tips"
+        ],
+        "tools_used": [
+            "ChatGPT",
+            "Canva",
+            "Midjourney",
+            "Copy.ai"
+        ],
+        "difficulty": "Beginner",
+        "estimated_time": "1-2 hours to explore",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-8",
+        "slug": "ai-coding-assistant-guide",
+        "title": "AI Coding Assistant Mastery Guide",
+        "type": "Freelancing Kit",
+        "category": "Code & Development",
+        "short_description": "10x your coding productivity with AI assistants",
+        "full_description": "Comprehensive guide to leveraging AI coding assistants for maximum productivity. Learn advanced prompting techniques, workflow integration, debugging strategies, and how to use AI to learn new languages and frameworks faster.",
+        "access_type": "SUBSCRIPTION",
+        "locked": true,
+        "price": 99,
+        "includes": [
+            "AI coding tool comparison",
+            "Advanced prompting techniques",
+            "Workflow integration guide",
+            "Debugging with AI strategies",
+            "Learning framework templates",
+            "Code review checklist"
+        ],
+        "tools_used": [
+            "GitHub Copilot",
+            "Cursor",
+            "Tabnine",
+            "ChatGPT"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_time": "6-8 hours to master",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-9",
+        "slug": "ai-voice-over-business",
+        "title": "AI Voice-Over Business Starter Kit",
+        "type": "Freelancing Kit",
+        "category": "Audio & Voice",
+        "short_description": "Start your AI voice-over business in 14 days",
+        "full_description": "Everything you need to launch a profitable AI voice-over business. Includes tool selection guide, voice cloning setup, client acquisition strategies, pricing templates, and project delivery workflows.",
+        "access_type": "ONE_TIME_PURCHASE",
+        "locked": true,
+        "price": 79,
+        "includes": [
+            "AI voice tool comparison",
+            "Voice cloning setup guide",
+            "Service packages templates",
+            "Client outreach scripts",
+            "Pricing calculator",
+            "Delivery workflow",
+            "Sample portfolio"
+        ],
+        "tools_used": [
+            "ElevenLabs",
+            "Murf AI",
+            "Play.ht",
+            "Descript"
+        ],
+        "difficulty": "Beginner",
+        "estimated_time": "4-5 hours to setup",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    },
+    {
+        "id": "guide-10",
+        "slug": "ai-image-generation-prompts",
+        "title": "AI Image Generation Prompt Masterclass",
+        "type": "Template",
+        "category": "Image Generation",
+        "short_description": "1000+ premium AI image generation prompts",
+        "full_description": "Master AI image generation with our curated collection of 1000+ prompts for Midjourney, DALL-E, Stable Diffusion, and more. Organized by style, subject, and use case with detailed parameter guides.",
+        "access_type": "SUBSCRIPTION",
+        "locked": true,
+        "price": 99,
+        "includes": [
+            "1000+ image prompts",
+            "Style guide library",
+            "Parameter optimization guide",
+            "Use case examples",
+            "Prompt engineering course",
+            "Monthly prompt updates"
+        ],
+        "tools_used": [
+            "Midjourney",
+            "DALL-E",
+            "Stable Diffusion",
+            "Leonardo.ai"
+        ],
+        "difficulty": "Intermediate",
+        "estimated_time": "Ongoing reference",
+        "created_at": "2026-01-30T00:00:00Z",
+        "updated_at": "2026-01-30T00:00:00Z"
+    }
+]

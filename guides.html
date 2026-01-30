@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Guides, Templates & Blueprints | HubSnap</title>
+    <meta name="description"
+        content="Access freelancing kits, execution templates, and business blueprints for AI-powered work. Learn how to build profitable businesses with AI tools.">
+    <meta name="keywords"
+        content="AI freelancing, AI templates, AI blueprints, AI business kits, AI prompts, freelance AI tools">
+    <meta property="og:title" content="AI Guides & Templates | HubSnap">
+    <meta property="og:description" content="Freelancing kits, templates, and blueprints to execute faster with AI.">
+    <meta property="og:site_name" content="HubSnap">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header loaded via header.js -->
+
+    <main class="container" style="padding-top: 6rem;">
+        <header style="margin-bottom: 4rem; text-align: center;">
+            <h1 class="gradient-text">AI Guides & Execution Templates</h1>
+            <p style="color: var(--text-dim); max-width: 700px; margin: 1rem auto;">
+                Freelancing kits, templates, and blueprints to help you execute faster with AI.
+                From content creation to automation—find ready-to-use resources mapped to real-world outcomes.
+            </p>
+        </header>
+
+        <!-- Filter Bar -->
+        <div class="glass" style="padding: 1.5rem; display: flex; gap: 1rem; margin-bottom: 3rem; align-items: center;">
+            <div style="position: relative; flex: 1;">
+                <i class="fas fa-search"
+                    style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-dim);"></i>
+                <input type="text" id="searchQuery" placeholder="Search guides, templates, blueprints..."
+                    style="width: 100%; padding: 1rem 1rem 1rem 3rem; background: var(--bg-main); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-size: 1rem;" />
+            </div>
+
+            <button id="advancedFilterToggle" class="btn btn-glass" style="padding: 1rem 1.5rem; white-space: nowrap;">
+                <i class="fas fa-sliders-h"></i> Filters
+            </button>
+        </div>
+
+        <!-- Advanced Filters Panel -->
+        <div id="advancedFiltersPanel" class="glass" style="display: none; padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0;">Filter Options</h3>
+                <button id="clearFilters" class="btn btn-glass btn-sm">
+                    <i class="fas fa-times"></i> Clear All
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Type</label>
+                    <select id="typeFilter" class="filter-select">
+                        <option value="All">All Types</option>
+                        <option value="Freelancing Kit">Freelancing Kits</option>
+                        <option value="Template">Templates</option>
+                        <option value="Blueprint">Blueprints</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Category</label>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="All">All Categories</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Access</label>
+                    <select id="accessFilter" class="filter-select">
+                        <option value="All">All Access</option>
+                        <option value="FREE">Free</option>
+                        <option value="SUBSCRIPTION">Subscription</option>
+                        <option value="ONE_TIME_PURCHASE">One-Time Purchase</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Difficulty</label>
+                    <select id="difficultyFilter" class="filter-select">
+                        <option value="All">All Levels</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Guides Grid -->
+        <div id="guidesGrid" class="grid grid-cols-3">
+            <!-- Guides will be injected here -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; opacity: 0.5;">
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                <p style="margin-top: 1rem;">Loading guides...</p>
+            </div>
+        </div>
+
+        <div id="noResults" style="display: none; text-align: center; padding: 4rem; opacity: 0.5;">
+            <p>No guides found matching your criteria.</p>
+        </div>
+    </main>
+
+    <!-- Footer loaded via footer.js -->
+
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/guides.js"></script>
+</body>
+
+</html>

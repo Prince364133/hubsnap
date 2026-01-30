@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HubSnap Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container" style="padding-top: 2rem;">
+        <div class="admin-header">
+            <h1 class="gradient-text">Admin Dashboard</h1>
+            <button class="btn btn-glass" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+
+        <div class="admin-nav glass">
+            <a href="dashboard.html" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="tools.html"><i class="fas fa-robot"></i> AI Tools</a>
+            <a href="features.html"><i class="fas fa-magic"></i> AI Features</a>
+            <a href="guides.html"><i class="fas fa-book"></i> Guides & Blueprints</a>
+            <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        </div>
+
+        <div class="stats-grid">
+            <div class="glass stat-card">
+                <h3 id="totalTools">0</h3>
+                <p>Total AI Tools</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="totalGuides">0</h3>
+                <p>Guides & Blueprints</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="lockedContent">0</h3>
+                <p>Locked Content</p>
+            </div>
+            <div class="glass stat-card">
+                <h3 id="totalUsers">0</h3>
+                <p>Registered Users</p>
+            </div>
+        </div>
+
+        <div class="glass" style="padding: 2rem;">
+            <h2 style="margin-bottom: 1.5rem;">Recent Activity</h2>
+            <div id="activityLog" style="color: var(--text-dim);">
+                <p>Loading activity...</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+
+</html>

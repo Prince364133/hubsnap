@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage AI Features - HubSnap Admin</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container" style="padding-top: 2rem;">
+        <div class="admin-header">
+            <h1 class="gradient-text">Manage AI Features</h1>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-glass" onclick="window.location.href='dashboard.html'">
+                    <i class="fas fa-arrow-left"></i> Dashboard
+                </button>
+            </div>
+        </div>
+
+        <div class="admin-nav glass">
+            <a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="tools.html"><i class="fas fa-robot"></i> AI Tools</a>
+            <a href="features.html" class="active"><i class="fas fa-magic"></i> AI Features</a>
+            <a href="guides.html"><i class="fas fa-book"></i> Guides & Blueprints</a>
+            <a href="users.html"><i class="fas fa-users"></i> Users</a>
+        </div>
+
+        <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+            <div class="features-header" style="margin-bottom: 2rem;">
+                <p style="color: var(--text-dim);">Control the visibility and functionality of AI-powered features
+                    across the HubSnap platform. Changes are reflected immediately.</p>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="content-table">
+                    <thead>
+                        <tr>
+                            <th>Feature Name</th>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="featuresTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 3rem;">
+                                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                                <p style="margin-top: 1rem;">Loading features configuration...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/features-manager.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firestore Migration Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .status {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-value {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .log {
+            background: #1e1e1e;
+            color: #00ff00;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .log-entry {
+            margin-bottom: 0.5rem;
+        }
+
+        .log-entry.error {
+            color: #ff4444;
+        }
+
+        .log-entry.success {
+            color: #00ff00;
+        }
+
+        .log-entry.info {
+            color: #4dabf7;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #856404;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🚀 Firestore Migration Tool</h1>
+        <p class="subtitle">Upload all website content to Firestore</p>
+
+        <div class="warning">
+            <strong>⚠️ Important:</strong> This will upload all tools and guides data to Firestore. Make sure you have
+            proper permissions.
+        </div>
+
+        <div class="status">
+            <div class="status-item">
+                <span class="status-label">Tools to Upload:</span>
+                <span class="status-value" id="toolsCount">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Guides to Upload:</span>
+                <span class="status-value" id="guidesCount">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Status:</span>
+                <span class="status-value" id="migrationStatus">Ready</span>
+            </div>
+        </div>
+
+        <div class="progress-bar" style="display: none;" id="progressBar">
+            <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+        </div>
+
+        <button class="btn" id="startMigration">
+            Start Migration
+        </button>
+
+        <div class="log" id="logContainer">
+            <div class="log-entry info">📦 Migration script loaded and ready...</div>
+            <div class="log-entry info">💡 Click "Start Migration" to begin uploading data to Firestore</div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, doc, setDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDqPgZCR-8qlIGvjEjQWKOdWtLCkSPGGJo",
+            authDomain: "yt-tool-1c8fe.firebaseapp.com",
+            databaseURL: "https://yt-tool-1c8fe-default-rtdb.firebaseio.com",
+            projectId: "yt-tool-1c8fe",
+            storageBucket: "yt-tool-1c8fe.firebasestorage.app",
+            messagingSenderId: "1078575056869",
+            appId: "1:1078575056869:web:1c3e0e5a7b7b7b7b7b7b7b"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // UI Elements
+        const logContainer = document.getElementById('logContainer');
+        const startButton = document.getElementById('startMigration');
+        const statusElement = document.getElementById('migrationStatus');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+
+        // Logging functions
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = message;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            console.log(message);
+        }
+
+        function updateProgress(percent) {
+            progressBar.style.display = 'block';
+            progressFill.style.width = percent + '%';
+            progressFill.textContent = Math.round(percent) + '%';
+        }
+
+        // Migration class
+        class FirestoreMigration {
+            constructor() {
+                this.batchSize = 500;
+                this.uploadedTools = 0;
+                this.uploadedGuides = 0;
+                this.errors = [];
+            }
+
+            async uploadTools() {
+                addLog('🔄 Starting tools migration...', 'info');
+
+                try {
+                    const response = await fetch('../data/tools.json');
+                    const tools = await response.json();
+
+                    addLog(`📊 Found ${tools.length} tools to upload`, 'info');
+
+                    for (let i = 0; i < tools.length; i += this.batchSize) {
+                        const batch = writeBatch(db);
+                        const toolsBatch = tools.slice(i, i + this.batchSize);
+
+                        toolsBatch.forEach(tool => {
+                            const toolRef = doc(db, 'tools', tool.id || tool.slug);
+                            const toolData = {
+                                id: tool.id || tool.slug,
+                                name: tool.name,
+                                slug: tool.slug,
+                                description: tool.short_description || tool.full_description || '',
+                                fullDescription: tool.full_description || tool.short_description || '',
+                                category: tool.categories?.[0] || 'Uncategorized',
+                                categories: tool.categories || [],
+                                useCases: tool.use_cases || [],
+                                pricing: tool.pricing_model || 'UNKNOWN',
+                                pricingModel: tool.pricing_model || 'UNKNOWN',
+                                badgeColor: tool.badge_color || 'gray',
+                                websiteUrl: tool.website_url || '',
+                                url: tool.website_url || '',
+                                platforms: tool.platforms_supported || [],
+                                tags: tool.tags || [],
+                                company: tool.company || '',
+                                views: 0,
+                                favorites: 0,
+                                rating: 0,
+                                reviewCount: 0,
+                                createdAt: tool.created_at || new Date().toISOString(),
+                                updatedAt: tool.updated_at || new Date().toISOString()
+                            };
+                            batch.set(toolRef, toolData);
+                        });
+
+                        await batch.commit();
+                        this.uploadedTools += toolsBatch.length;
+
+                        addLog(`✅ Uploaded ${this.uploadedTools}/${tools.length} tools`, 'success');
+                        updateProgress(10 + (this.uploadedTools / tools.length) * 30);
+
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+
+                    addLog(`🎉 Successfully uploaded ${this.uploadedTools} tools!`, 'success');
+                    return true;
+                } catch (error) {
+                    addLog(`❌ Error uploading tools: ${error.message}`, 'error');
+                    this.errors.push({ type: 'tools', error: error.message });
+                    return false;
+                }
+            }
+
+            async uploadGuides() {
+                addLog('🔄 Starting guides migration...', 'info');
+
+                try {
+                    const response = await fetch('../data/guides.json');
+                    const guides = await response.json();
+
+                    addLog(`📊 Found ${guides.length} guides to upload`, 'info');
+
+                    for (let i = 0; i < guides.length; i += this.batchSize) {
+                        const batch = writeBatch(db);
+                        const guidesBatch = guides.slice(i, i + this.batchSize);
+
+                        guidesBatch.forEach(guide => {
+                            const guideRef = doc(db, 'guides', guide.id || guide.slug);
+                            const guideData = {
+                                id: guide.id || guide.slug,
+                                title: guide.title || guide.name,
+                                slug: guide.slug,
+                                description: guide.short_description || guide.description || '',
+                                fullDescription: guide.full_description || guide.description || '',
+                                category: guide.category || 'General',
+                                type: guide.type || 'guide',
+                                difficulty: guide.difficulty || 'Intermediate',
+                                estimatedTime: guide.estimated_time || '10 min',
+                                access: guide.access || 'free',
+                                locked: guide.locked || false,
+                                content: guide.content || '',
+                                steps: guide.steps || [],
+                                tools: guide.tools || [],
+                                tags: guide.tags || [],
+                                views: 0,
+                                likes: 0,
+                                createdAt: guide.created_at || new Date().toISOString(),
+                                updatedAt: guide.updated_at || new Date().toISOString()
+                            };
+                            batch.set(guideRef, guideData);
+                        });
+
+                        await batch.commit();
+                        this.uploadedGuides += guidesBatch.length;
+
+                        addLog(`✅ Uploaded ${this.uploadedGuides}/${guides.length} guides`, 'success');
+                        updateProgress(50 + (this.uploadedGuides / guides.length) * 30);
+
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+
+                    addLog(`🎉 Successfully uploaded ${this.uploadedGuides} guides!`, 'success');
+                    return true;
+                } catch (error) {
+                    addLog(`❌ Error uploading guides: ${error.message}`, 'error');
+                    this.errors.push({ type: 'guides', error: error.message });
+                    return false;
+                }
+            }
+
+            async uploadCategories() {
+                addLog('🔄 Uploading categories...', 'info');
+                updateProgress(85);
+
+                try {
+                    const response = await fetch('../data/tools.json');
+                    const tools = await response.json();
+
+                    const categoriesSet = new Set();
+                    tools.forEach(tool => {
+                        if (tool.categories) {
+                            tool.categories.forEach(cat => categoriesSet.add(cat));
+                        }
+                    });
+
+                    const categories = Array.from(categoriesSet);
+                    const batch = writeBatch(db);
+
+                    categories.forEach(category => {
+                        const categoryRef = doc(db, 'categories', category.toLowerCase().replace(/[^a-z0-9]/g, '-'));
+                        batch.set(categoryRef, {
+                            id: category.toLowerCase().replace(/[^a-z0-9]/g, '-'),
+                            name: category,
+                            toolCount: tools.filter(t => t.categories?.includes(category)).length,
+                            createdAt: new Date().toISOString()
+                        });
+                    });
+
+                    await batch.commit();
+                    addLog(`✅ Uploaded ${categories.length} categories`, 'success');
+                    return true;
+                } catch (error) {
+                    addLog(`❌ Error uploading categories: ${error.message}`, 'error');
+                    this.errors.push({ type: 'categories', error: error.message });
+                    return false;
+                }
+            }
+
+            async uploadFeatures() {
+                addLog('🔄 Uploading feature flags...', 'info');
+                updateProgress(95);
+
+                const features = [
+                    { id: 'ai-search', name: 'AI-Powered Search', enabled: true },
+                    { id: 'smart-filters', name: 'Smart Filter Suggestions', enabled: true },
+                    { id: 'similar-tools', name: 'Similar Tools', enabled: true },
+                    { id: 'trending-tools', name: 'Trending Tools', enabled: true },
+                    { id: 'personalized-feed', name: 'Personalized Feed', enabled: true },
+                    { id: 'tool-comparison', name: 'Tool Comparison', enabled: true },
+                    { id: 'favorites-system', name: 'Favorites System', enabled: true },
+                    { id: 'tool-reviews', name: 'Tool Reviews', enabled: true },
+                    { id: 'share-tools', name: 'Share Tools', enabled: true },
+                    { id: 'email-alerts', name: 'Email Alerts', enabled: true }
+                ];
+
+                try {
+                    const batch = writeBatch(db);
+
+                    features.forEach(feature => {
+                        const featureRef = doc(db, 'features', feature.id);
+                        batch.set(featureRef, {
+                            ...feature,
+                            config: {},
+                            usage: { totalUses: 0, lastUsed: null },
+                            createdAt: new Date().toISOString()
+                        });
+                    });
+
+                    await batch.commit();
+                    addLog(`✅ Uploaded ${features.length} feature flags`, 'success');
+                    return true;
+                } catch (error) {
+                    addLog(`❌ Error uploading features: ${error.message}`, 'error');
+                    this.errors.push({ type: 'features', error: error.message });
+                    return false;
+                }
+            }
+
+            async runMigration() {
+                addLog('🚀 Starting Firestore migration...', 'info');
+                const startTime = Date.now();
+
+                await this.uploadTools();
+                await this.uploadGuides();
+                await this.uploadCategories();
+                await this.uploadFeatures();
+
+                const endTime = Date.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+
+                updateProgress(100);
+
+                addLog('\n📊 Migration Summary:', 'info');
+                addLog(`✅ Tools uploaded: ${this.uploadedTools}`, 'success');
+                addLog(`✅ Guides uploaded: ${this.uploadedGuides}`, 'success');
+                addLog(`⏱️  Duration: ${duration}s`, 'info');
+
+                if (this.errors.length > 0) {
+                    addLog(`\n⚠️  Errors encountered: ${this.errors.length}`, 'error');
+                    this.errors.forEach(err => {
+                        addLog(`  - ${err.type}: ${err.error}`, 'error');
+                    });
+                } else {
+                    addLog('\n🎉 Migration completed successfully!', 'success');
+                }
+
+                return {
+                    success: this.errors.length === 0,
+                    toolsUploaded: this.uploadedTools,
+                    guidesUploaded: this.uploadedGuides,
+                    duration,
+                    errors: this.errors
+                };
+            }
+        }
+
+        // Load data counts
+        async function loadCounts() {
+            try {
+                const toolsResponse = await fetch('../data/tools.json');
+                const tools = await toolsResponse.json();
+                document.getElementById('toolsCount').textContent = tools.length;
+
+                const guidesResponse = await fetch('../data/guides.json');
+                const guides = await guidesResponse.json();
+                document.getElementById('guidesCount').textContent = guides.length;
+            } catch (error) {
+                addLog('Error loading data counts: ' + error.message, 'error');
+            }
+        }
+
+        // Start migration on button click
+        startButton.addEventListener('click', async () => {
+            startButton.disabled = true;
+            startButton.textContent = 'Migration in Progress...';
+            statusElement.textContent = 'Running...';
+            logContainer.innerHTML = '';
+
+            try {
+                const migration = new FirestoreMigration();
+                const result = await migration.runMigration();
+
+                if (result.success) {
+                    statusElement.textContent = 'Completed ✅';
+                    statusElement.style.color = '#00ff00';
+                    startButton.textContent = 'Migration Complete!';
+                } else {
+                    statusElement.textContent = 'Completed with Errors ⚠️';
+                    statusElement.style.color = '#ff4444';
+                    startButton.textContent = 'Migration Complete (with errors)';
+                }
+            } catch (error) {
+                addLog('Fatal error: ' + error.message, 'error');
+                statusElement.textContent = 'Failed ❌';
+                statusElement.style.color = '#ff4444';
+                startButton.textContent = 'Migration Failed - Retry';
+                startButton.disabled = false;
+            }
+        });
+
+        // Load counts on page load
+        loadCounts();
+        addLog('✅ Migration tool ready!', 'success');
+        addLog('💡 Click "Start Migration" to begin', 'info');
+    </script>
+</body>
+
+</html>

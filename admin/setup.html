@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Setup - HubSnap</title>
+    <style>
+        body {
+            background-color: #0d0d0d;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            color: #00f7ff;
+        }
+
+        p {
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            background: #00f7ff;
+            color: #000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 247, 255, 0.3);
+        }
+
+        #status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Admin Setup</h1>
+        <p>Click below to grant your current account Administrator privileges.</p>
+        <button id="grantBtn">Make Me Admin</button>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        import { auth, database, ref, set, onAuthStateChanged } from '../js/firebase-config.js';
+
+        const status = document.getElementById('status');
+        const btn = document.getElementById('grantBtn');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Already logged in
+                showGrantUI(user);
+            } else {
+                // Show Login Form
+                status.innerHTML = `
+                    <form id="setupLoginForm" style="display: flex; flex-direction: column; gap: 1rem; text-align: left; margin-top: 1rem;">
+                        <input type="email" id="email" placeholder="Email" required style="padding: 0.8rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white;">
+                        <input type="password" id="password" placeholder="Password" required style="padding: 0.8rem; border-radius: 4px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: white;">
+                        <button type="submit">Sign In to Setup</button>
+                    </form>
+                `;
+
+                // Import signIn function dynamically or assume global access via config? 
+                // firebase-config imports it. 
+                import('../js/firebase-config.js').then(({ signInWithEmailAndPassword }) => {
+                    document.getElementById('setupLoginForm').addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        const email = document.getElementById('email').value;
+                        const password = document.getElementById('password').value;
+                        try {
+                            await signInWithEmailAndPassword(auth, email, password);
+                            // Auth state change will trigger showGrantUI
+                        } catch (err) {
+                            alert('Login failed: ' + err.message);
+                        }
+                    });
+                });
+            }
+        });
+
+        function showGrantUI(user) {
+            status.innerHTML = `<p style="color: #00f7ff;">Logged in as: ${user.email}</p>`;
+            btn.style.display = 'inline-block';
+            btn.onclick = async () => {
+                btn.disabled = true;
+                btn.textContent = 'Processing...';
+                try {
+                    const adminRef = ref(database, `admins/${user.uid}`);
+                    await set(adminRef, {
+                        email: user.email,
+                        grantedAt: Date.now(),
+                        role: 'super_admin'
+                    });
+                    status.innerHTML += '<p style="color: #00f7ff;">Success! You are now an Admin. Redirecting...</p>';
+                    setTimeout(() => window.location.href = 'dashboard.html', 2000);
+                } catch (error) {
+                    console.error(error);
+                    status.innerHTML += `<p style="color: #ff4d4d;">Error: ${error.message}</p>`;
+                    btn.disabled = false;
+                    btn.textContent = 'Try Again';
+                }
+            };
+        }
+    </script>
+</body>
+
+</html>
