@@ -5,10 +5,14 @@
   "targets": {
     "yt-tool-1c8fe": {
       "hosting": {
+        "creator-os": [
+          "creator-os"
+        ],
         "hubsnap": [
           "hubsnap"
         ]
       }
     }
-  }
+  },
+  "etags": {}
 }

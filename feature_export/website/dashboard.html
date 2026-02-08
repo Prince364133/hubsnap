@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreatorOS | Mission Control</title>
+    <link rel="stylesheet" href="css/dashboard-theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container" id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fas fa-rocket"></i> CreatorOS <span
+                    style="font-size:0.7rem; background:var(--primary-light); color:var(--primary); padding:2px 6px; border-radius:4px; margin-left:auto;">PRO</span>
+            </div>
+
+            <nav class="side-nav">
+                <div class="nav-section">
+                    <h4>Main</h4>
+                    <a href="#/home" class="nav-item active"><i class="fas fa-home"></i> Mission Control</a>
+                    <a href="#/channel-ideas" class="nav-item"><i class="fas fa-rocket"></i> Launch Channel</a>
+                    <a href="#/trends" class="nav-item"><i class="fas fa-fire-alt"></i> Trend Discovery</a>
+                    <a href="#/content" class="nav-item"><i class="fas fa-pen-fancy"></i> Content Lab</a>
+                    <a href="#/saved" class="nav-item"><i class="fas fa-bookmark"></i> Idea Vault</a>
+                </div>
+
+                <div class="nav-section">
+                    <h4>Resources</h4>
+                    <a href="#/tools" class="nav-item"><i class="fas fa-toolbox"></i> AI Tools</a>
+                    <a href="#/income" class="nav-item"><i class="fas fa-coins"></i> Income Sources</a>
+                </div>
+
+                <div class="nav-section">
+                    <h4>Analytics</h4>
+                    <a href="#/analytics" class="nav-item"><i class="fas fa-chart-line"></i> Channel Data</a>
+                </div>
+            </nav>
+
+            <div
+                style="margin-top:auto; padding-top:1rem; border-top:1px solid var(--border); display:flex; align-items:center; gap:0.75rem;">
+                <img src="" id="userAvatar" style="width:32px; height:32px; border-radius:50%; background:#eee;">
+                <div style="flex:1; overflow:hidden;">
+                    <div id="userName"
+                        style="font-weight:600; font-size:0.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        User</div>
+                </div>
+                <button id="logoutBtn" style="background:none; border:none; color:var(--text-muted); cursor:pointer;"><i
+                        class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="main-area">
+            <header class="top-header">
+                <h1 class="page-title" id="pageTitle">Mission Control</h1>
+                <div class="flex items-center gap-4">
+                    <button class="btn btn-primary" onclick="window.location.hash='#/content/new'"><i
+                            class="fas fa-plus"></i> New Project</button>
+                </div>
+            </header>
+
+            <div id="workspace" class="workspace">
+                <!-- Views Render Here -->
+                <div class="flex items-center justify-center p-4">
+                    <div class="loading-spinner" style="font-size: 2rem;"><i class="fas fa-circle-notch"></i></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modular Entry Point -->
+    <script type="module" src="js/dashboard/router.js"></script>
+</body>
+
+</html>

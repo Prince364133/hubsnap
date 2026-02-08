@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  /* Sky Blue Theme - Standardized */
+  --primary: #0EA5E9;
+  /* Sky 500 */
+  --primary-dark: #0284C7;
+  /* Sky 600 */
+  --primary-light: #E0F2FE;
+  /* Sky 50 */
+
+  --text-primary: #0F172A;
+  /* Slate 900 */
+  --text-secondary: #64748B;
+  /* Slate 500 */
+
+  --border: #E2E8F0;
+  /* Slate 200 */
+  --input: #E2E8F0;
+  --ring: #0EA5E9;
+
+  /* Light Gray */
+  --background: #FFFFFF;
+  --foreground: #0F172A;
+
+  --success: #10B981;
+  /* Emerald 500 */
+  --warning: #F59E0B;
+  /* Amber 500 */
+  --error: #EF4444;
+  /* Red 500 */
+
+  --font-inter: "Inter", sans-serif;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-light: var(--primary-light);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-inter);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Styles for smoothness */
+html {
+  scroll-behavior: smooth;
+}

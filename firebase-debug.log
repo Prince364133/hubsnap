@@ -1,0 +1,886 @@
+[debug] [2026-02-05T09:33:08.970Z] ----------------------------------------------------------------------
+[debug] [2026-02-05T09:33:08.974Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting --project yt-tool-1c8fe
+[debug] [2026-02-05T09:33:08.974Z] CLI Version:   15.5.1
+[debug] [2026-02-05T09:33:08.975Z] Platform:      win32
+[debug] [2026-02-05T09:33:08.975Z] Node Version:  v22.17.1
+[debug] [2026-02-05T09:33:08.975Z] Time:          Thu Feb 05 2026 15:03:08 GMT+0530 (India Standard Time)
+[debug] [2026-02-05T09:33:08.975Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-02-05T09:33:11.359Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-05T09:33:11.359Z] > authorizing via signed-in user (snapshiksha@gmail.com)
+[debug] [2026-02-05T09:33:11.359Z] [iam] checking project yt-tool-1c8fe for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-02-05T09:33:11.360Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:11.361Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:11.362Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions [none]
+[debug] [2026-02-05T09:33:11.362Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:33:11.362Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-02-05T09:33:13.977Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions 200
+[debug] [2026-02-05T09:33:13.977Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-02-05T09:33:13.978Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:13.978Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:13.979Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe [none]
+[debug] [2026-02-05T09:33:15.503Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe 200
+[debug] [2026-02-05T09:33:15.503Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe {"projectId":"yt-tool-1c8fe","projectNumber":"597639946272","displayName":"yt-tool","name":"projects/yt-tool-1c8fe","resources":{"hostingSite":"yt-tool-1c8fe","realtimeDatabaseInstance":"yt-tool-1c8fe-default-rtdb"},"state":"ACTIVE","etag":"1_22e09a8d-72de-4f0c-89cb-63f06e46bec4"}
+[debug] [2026-02-05T09:33:18.673Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:18.674Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:18.674Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites pageToken=&pageSize=10
+[debug] [2026-02-05T09:33:20.834Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites 200
+[debug] [2026-02-05T09:33:20.834Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites {"sites":[{"name":"projects/yt-tool-1c8fe/sites/creator-os","defaultUrl":"https://creator-os.web.app","appId":"1:597639946272:web:4d545466c6f77e387edc45","type":"USER_SITE"},{"name":"projects/yt-tool-1c8fe/sites/hubsnap","defaultUrl":"https://hubsnap.web.app","appId":"1:597639946272:web:974763ad16d207487edc45","type":"USER_SITE"},{"name":"projects/yt-tool-1c8fe/sites/yt-tool-1c8fe","defaultUrl":"https://yt-tool-1c8fe.web.app","appId":"1:597639946272:web:ff1d2a3c6dc72a1b7edc45","type":"DEFAULT_SITE"}]}
+[debug] [2026-02-05T09:33:20.835Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:20.835Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:20.836Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:4d545466c6f77e387edc45/config [none]
+[debug] [2026-02-05T09:33:22.159Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:4d545466c6f77e387edc45/config 200
+[debug] [2026-02-05T09:33:22.159Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:4d545466c6f77e387edc45/config {"projectId":"yt-tool-1c8fe","appId":"1:597639946272:web:4d545466c6f77e387edc45","databaseURL":"https://yt-tool-1c8fe-default-rtdb.firebaseio.com","storageBucket":"yt-tool-1c8fe.firebasestorage.app","apiKey":"AIzaSyArGnOC4ldVR3C161-6mvoruAF6WZHNptY","authDomain":"yt-tool-1c8fe.firebaseapp.com","messagingSenderId":"597639946272","measurementId":"G-4Y4LGEH17W","projectNumber":"597639946272","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-02-05T09:33:29.513Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:29.513Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:33:29.513Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe [none]
+[debug] [2026-02-05T09:33:31.708Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe 200
+[debug] [2026-02-05T09:33:31.708Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe {"name":"projects/yt-tool-1c8fe/sites/yt-tool-1c8fe","defaultUrl":"https://yt-tool-1c8fe.web.app","appId":"1:597639946272:web:ff1d2a3c6dc72a1b7edc45","type":"DEFAULT_SITE"}
+[info] ▲ Next.js 16.1.6 (Turbopack)
+
+[info] - Environments: .env.local
+
+
+[info]   Creating an optimized production build ...
+
+[info] ✓ Compiled successfully in 12.7s
+
+[info]   Running TypeScript ...
+
+[info]   Collecting page data using 3 workers ...
+
+[info]   Generating static pages using 3 workers (0/27) ...
+
+[info]   Generating static pages using 3 workers (6/27) 
+
+[info]   Generating static pages using 3 workers (13/27) 
+
+[info]   Generating static pages using 3 workers (20/27) 
+
+[info] ✓ Generating static pages using 3 workers (27/27) in 895.9ms
+
+[info]   Finalizing page optimization ...
+
+[info] 
+
+[info] Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /admin
+├ ○ /admin/trends
+├ ○ /admin/users
+├ ○ /dashboard
+├ ○ /dashboard/channel-ideas
+├ ○ /dashboard/channel-name
+├ ○ /dashboard/content-mode
+├ ○ /dashboard/content/day-1
+├ ○ /dashboard/content/generate
+├ ○ /dashboard/home
+├ ○ /dashboard/income-sources
+├ ● /dashboard/income-sources/[id]
+│ ├ /dashboard/income-sources/amazon-associates
+│ ├ /dashboard/income-sources/youtube-adsense
+│ └ /dashboard/income-sources/brand-sponsorships
+├ ○ /dashboard/logo-selection
+├ ○ /dashboard/saved
+├ ○ /dashboard/setup-pack
+├ ○ /dashboard/subscription
+├ ○ /dashboard/tools
+├ ○ /dashboard/trends
+├ ○ /dashboard/youtube-analytics
+├ ○ /login
+└ ○ /signup
+
+
+[info] 
+○  (Static)  prerendered as static content
+●  (SSG)     prerendered as static HTML (uses generateStaticParams)
+
+
+[info] Building a Cloud Function to run this application. This is needed due to:
+[info]  • use of fallback /dashboard/income-sources/[id]
+[info]  • route with server action /dashboard/content/day-1
+[info]  • route with server action /dashboard/content/generate
+[info]  • route with server action /dashboard/home
+[info] 
+[debug] [2026-02-05T09:34:00.377Z] skipping /dashboard/content/day-1 due to server action
+[debug] [2026-02-05T09:34:00.377Z] skipping /dashboard/content/generate due to server action
+[debug] [2026-02-05T09:34:00.377Z] skipping /dashboard/home due to server action
+[debug] [2026-02-05T09:34:00.414Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:34:00.414Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:34:00.414Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe [none]
+[debug] [2026-02-05T09:34:02.300Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe 200
+[debug] [2026-02-05T09:34:02.300Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe {"name":"projects/yt-tool-1c8fe/sites/yt-tool-1c8fe","defaultUrl":"https://yt-tool-1c8fe.web.app","appId":"1:597639946272:web:ff1d2a3c6dc72a1b7edc45","type":"DEFAULT_SITE"}
+[debug] [2026-02-05T09:39:24.257Z] [web frameworks] effective firebase.json:  {
+  "hosting": [
+    {
+      "target": "creator-os",
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        },
+        {
+          "source": "/**",
+          "function": {
+            "functionId": "ssrcreatoros",
+            "region": "us-central1",
+            "pinTag": true
+          }
+        }
+      ],
+      "site": "creator-os",
+      "redirects": [],
+      "headers": [
+        {
+          "source": "/(.*)",
+          "headers": [
+            {
+              "key": "Content-Security-Policy",
+              "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://integrate.api.nvidia.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;"
+            }
+          ]
+        },
+        {
+          "source": "/_global-error",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_global-error/layout,_N_T_/_global-error/page,_N_T_/_global-error"
+            }
+          ]
+        },
+        {
+          "source": "/_not-found",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/_not-found/layout,_N_T_/_not-found/page,_N_T_/_not-found"
+            }
+          ]
+        },
+        {
+          "source": "/admin",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/page,_N_T_/admin"
+            }
+          ]
+        },
+        {
+          "source": "/admin/users",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/users/layout,_N_T_/admin/users/page,_N_T_/admin/users"
+            }
+          ]
+        },
+        {
+          "source": "/admin/trends",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/admin/layout,_N_T_/admin/trends/layout,_N_T_/admin/trends/page,_N_T_/admin/trends"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/channel-ideas",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/channel-ideas/layout,_N_T_/dashboard/channel-ideas/page,_N_T_/dashboard/channel-ideas"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/channel-name",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/channel-name/layout,_N_T_/dashboard/channel-name/page,_N_T_/dashboard/channel-name"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/content-mode",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/content-mode/layout,_N_T_/dashboard/content-mode/page,_N_T_/dashboard/content-mode"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/content/generate",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/content/layout,_N_T_/dashboard/content/generate/layout,_N_T_/dashboard/content/generate/page,_N_T_/dashboard/content/generate"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/content/day-1",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/content/layout,_N_T_/dashboard/content/day-1/layout,_N_T_/dashboard/content/day-1/page,_N_T_/dashboard/content/day-1"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/home",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/home/layout,_N_T_/dashboard/home/page,_N_T_/dashboard/home"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/income-sources",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/income-sources/layout,_N_T_/dashboard/income-sources/page,_N_T_/dashboard/income-sources"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/logo-selection",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/logo-selection/layout,_N_T_/dashboard/logo-selection/page,_N_T_/dashboard/logo-selection"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard",
+          "headers": [
+            {
+              "key": "location",
+              "value": "/dashboard/home"
+            },
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/page,_N_T_/dashboard"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/saved",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/saved/layout,_N_T_/dashboard/saved/page,_N_T_/dashboard/saved"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/setup-pack",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/setup-pack/layout,_N_T_/dashboard/setup-pack/page,_N_T_/dashboard/setup-pack"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/subscription",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/subscription/layout,_N_T_/dashboard/subscription/page,_N_T_/dashboard/subscription"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/tools",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/tools/layout,_N_T_/dashboard/tools/page,_N_T_/dashboard/tools"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/trends",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/trends/layout,_N_T_/dashboard/trends/page,_N_T_/dashboard/trends"
+            }
+          ]
+        },
+        {
+          "source": "/dashboard/youtube-analytics",
+          "headers": [
+            {
+              "key": "x-nextjs-stale-time",
+              "value": "300"
+            },
+            {
+              "key": "x-nextjs-prerender",
+              "value": "1"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/dashboard/layout,_N_T_/dashboard/youtube-analytics/layout,_N_T_/dashboard/youtube-analytics/page,_N_T_/dashboard/youtube-analytics"
+            }
+          ]
+        },
+        {
+          "source": "/favicon.ico",
+          "headers": [
+            {
+              "key": "cache-control",
+              "value": "public, max-age=0, must-revalidate"
+            },
+            {
+              "key": "content-type",
+              "value": "image/x-icon"
+            },
+            {
+              "key": "x-next-cache-tags",
+              "value": "_N_T_/layout,_N_T_/favicon.ico/layout,_N_T_/favicon.ico/route,_N_T_/favicon.ico"
+            }
+          ]
+        },
+        {
+          "source": "/**/*.[jt]s",
+          "headers": [
+            {
+              "key": "Set-Cookie",
+              "value": "__FIREBASE_DEFAULTS__=eyJjb25maWciOnsicHJvamVjdElkIjoieXQtdG9vbC0xYzhmZSIsImFwcElkIjoiMTo1OTc2Mzk5NDYyNzI6d2ViOjRkNTQ1NDY2YzZmNzdlMzg3ZWRjNDUiLCJkYXRhYmFzZVVSTCI6Imh0dHBzOi8veXQtdG9vbC0xYzhmZS1kZWZhdWx0LXJ0ZGIuZmlyZWJhc2Vpby5jb20iLCJzdG9yYWdlQnVja2V0IjoieXQtdG9vbC0xYzhmZS5maXJlYmFzZXN0b3JhZ2UuYXBwIiwiYXBpS2V5IjoiQUl6YVN5QXJHbk9DNGxkVlIzQzE2MS02bXZvcnVBRjZXWkhOcHRZIiwiYXV0aERvbWFpbiI6Inl0LXRvb2wtMWM4ZmUuZmlyZWJhc2VhcHAuY29tIiwibWVzc2FnaW5nU2VuZGVySWQiOiI1OTc2Mzk5NDYyNzIiLCJtZWFzdXJlbWVudElkIjoiRy00WTRMR0VIMTdXIiwicHJvamVjdE51bWJlciI6IjU5NzYzOTk0NjI3MiIsInZlcnNpb24iOiIyIn0sIl9hdXRoVG9rZW5TeW5jVVJMIjoiL19fc2Vzc2lvbiJ9; SameSite=Strict; Expires=2027-12-31T20:19:24.256Z; Path=/;"
+            }
+          ]
+        }
+      ],
+      "cleanUrls": true,
+      "trailingSlash": false,
+      "public": ".firebase\\creator-os\\hosting",
+      "webFramework": "next_ssr"
+    }
+  ],
+  "functions": [
+    {
+      "source": ".firebase\\creator-os\\functions",
+      "codebase": "firebase-frameworks-creator-os"
+    }
+  ]
+}
+[debug] [2026-02-05T09:39:24.259Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-05T09:39:24.259Z] > authorizing via signed-in user (snapshiksha@gmail.com)
+[debug] [2026-02-05T09:39:24.259Z] [iam] checking project yt-tool-1c8fe for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2026-02-05T09:39:24.260Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:24.260Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:24.260Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions [none]
+[debug] [2026-02-05T09:39:24.260Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:39:24.260Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-02-05T09:39:28.849Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions 200
+[debug] [2026-02-05T09:39:28.849Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2026-02-05T09:39:28.850Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:28.850Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:28.850Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v1/projects/yt-tool-1c8fe/locations/-/functions [none]
+[debug] [2026-02-05T09:39:34.076Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v1/projects/yt-tool-1c8fe/locations/-/functions 200
+[debug] [2026-02-05T09:39:34.076Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v1/projects/yt-tool-1c8fe/locations/-/functions {}
+[debug] [2026-02-05T09:39:34.077Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:34.077Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:34.079Z] >>> [apiv2][query] GET https://cloudfunctions.googleapis.com/v2/projects/yt-tool-1c8fe/locations/-/functions filter=environment%3D%22GEN_2%22
+[debug] [2026-02-05T09:39:36.026Z] <<< [apiv2][status] GET https://cloudfunctions.googleapis.com/v2/projects/yt-tool-1c8fe/locations/-/functions 200
+[debug] [2026-02-05T09:39:36.026Z] <<< [apiv2][body] GET https://cloudfunctions.googleapis.com/v2/projects/yt-tool-1c8fe/locations/-/functions {"functions":[{"name":"projects/yt-tool-1c8fe/locations/us-central1/functions/youtubeWebhook","buildConfig":{"build":"projects/597639946272/locations/us-central1/builds/e0116d4a-d033-42c9-8467-6fd7f48576a6","runtime":"nodejs20","entryPoint":"youtubeWebhook","source":{"storageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"youtubeWebhook/function-source.zip","generation":"1769658004573303"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/yt-tool-1c8fe/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"youtubeWebhook/function-source.zip","generation":"1769658004573303"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/yt-tool-1c8fe/serviceAccounts/597639946272-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/yt-tool-1c8fe/locations/us-central1/services/youtubewebhook","timeoutSeconds":300,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"yt-tool-1c8fe\",\"databaseURL\":\"https://yt-tool-1c8fe-default-rtdb.firebaseio.com\",\"storageBucket\":\"yt-tool-1c8fe.firebasestorage.app\"}","GCLOUD_PROJECT":"yt-tool-1c8fe","EVENTARC_CLOUD_EVENT_SOURCE":"projects/yt-tool-1c8fe/locations/us-central1/services/youtubeWebhook","FUNCTION_TARGET":"youtubeWebhook","LOG_EXECUTION_ID":"true"},"maxInstanceCount":3,"ingressSettings":"ALLOW_ALL","uri":"https://youtubewebhook-k7qfcpjflq-uc.a.run.app","serviceAccountEmail":"597639946272-compute@developer.gserviceaccount.com","availableMemory":"512Mi","allTrafficOnLatestRevision":true,"revision":"youtubewebhook-00002-maw","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-02-03T17:45:13.436568846Z","labels":{"deployment-tool":"cli-firebase","firebase-functions-hash":"b063ddb5d5f5c5660a2120a1800996832fce2757"},"environment":"GEN_2","url":"https://us-central1-yt-tool-1c8fe.cloudfunctions.net/youtubeWebhook","createTime":"2026-01-25T00:16:23.034486758Z"},{"name":"projects/yt-tool-1c8fe/locations/us-central1/functions/generateYouTubeContent","buildConfig":{"build":"projects/597639946272/locations/us-central1/builds/e20d1ea0-107b-42ad-9fb8-f7c4163179df","runtime":"nodejs20","entryPoint":"generateYouTubeContent","source":{"storageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"generateYouTubeContent/function-source.zip","generation":"1769658004597609"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/yt-tool-1c8fe/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"generateYouTubeContent/function-source.zip","generation":"1769658004597609"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/yt-tool-1c8fe/serviceAccounts/597639946272-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/yt-tool-1c8fe/locations/us-central1/services/generateyoutubecontent","timeoutSeconds":300,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"yt-tool-1c8fe\",\"databaseURL\":\"https://yt-tool-1c8fe-default-rtdb.firebaseio.com\",\"storageBucket\":\"yt-tool-1c8fe.firebasestorage.app\"}","GCLOUD_PROJECT":"yt-tool-1c8fe","EVENTARC_CLOUD_EVENT_SOURCE":"projects/yt-tool-1c8fe/locations/us-central1/services/generateYouTubeContent","FUNCTION_TARGET":"generateYouTubeContent","LOG_EXECUTION_ID":"true"},"maxInstanceCount":10,"ingressSettings":"ALLOW_ALL","uri":"https://generateyoutubecontent-k7qfcpjflq-uc.a.run.app","serviceAccountEmail":"597639946272-compute@developer.gserviceaccount.com","availableMemory":"1024Mi","allTrafficOnLatestRevision":true,"revision":"generateyoutubecontent-00002-zeg","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-02-03T17:45:13.484285723Z","labels":{"firebase-functions-hash":"b063ddb5d5f5c5660a2120a1800996832fce2757","deployment-tool":"cli-firebase","deployment-callable":"true"},"environment":"GEN_2","url":"https://us-central1-yt-tool-1c8fe.cloudfunctions.net/generateYouTubeContent","createTime":"2026-01-25T00:16:24.351387563Z"},{"name":"projects/yt-tool-1c8fe/locations/us-central1/functions/dailyScheduler","buildConfig":{"build":"projects/597639946272/locations/us-central1/builds/e20d1ea0-107b-42ad-9fb8-f7c4163179df","runtime":"nodejs20","entryPoint":"dailyScheduler","source":{"storageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"dailyScheduler/function-source.zip","generation":"1769658054927008"}},"environmentVariables":{"GOOGLE_NODE_RUN_SCRIPTS":""},"dockerRepository":"projects/yt-tool-1c8fe/locations/us-central1/repositories/gcf-artifacts","sourceProvenance":{"resolvedStorageSource":{"bucket":"gcf-v2-sources-597639946272-us-central1","object":"dailyScheduler/function-source.zip","generation":"1769658054927008"}},"dockerRegistry":"ARTIFACT_REGISTRY","serviceAccount":"projects/yt-tool-1c8fe/serviceAccounts/597639946272-compute@developer.gserviceaccount.com","automaticUpdatePolicy":{}},"serviceConfig":{"service":"projects/yt-tool-1c8fe/locations/us-central1/services/dailyscheduler","timeoutSeconds":540,"environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"yt-tool-1c8fe\",\"databaseURL\":\"https://yt-tool-1c8fe-default-rtdb.firebaseio.com\",\"storageBucket\":\"yt-tool-1c8fe.firebasestorage.app\"}","GCLOUD_PROJECT":"yt-tool-1c8fe","EVENTARC_CLOUD_EVENT_SOURCE":"projects/yt-tool-1c8fe/locations/us-central1/services/dailyScheduler","FUNCTION_TARGET":"dailyScheduler","LOG_EXECUTION_ID":"true","FUNCTION_SIGNATURE_TYPE":"http"},"maxInstanceCount":3,"ingressSettings":"ALLOW_ALL","uri":"https://dailyscheduler-k7qfcpjflq-uc.a.run.app","serviceAccountEmail":"597639946272-compute@developer.gserviceaccount.com","availableMemory":"1024Mi","allTrafficOnLatestRevision":true,"revision":"dailyscheduler-00002-yoc","maxInstanceRequestConcurrency":80,"availableCpu":"1"},"state":"ACTIVE","updateTime":"2026-02-03T17:45:13.533869625Z","labels":{"deployment-tool":"cli-firebase","deployment-scheduled":"true","firebase-functions-hash":"b063ddb5d5f5c5660a2120a1800996832fce2757"},"environment":"GEN_2","url":"https://us-central1-yt-tool-1c8fe.cloudfunctions.net/dailyScheduler","createTime":"2026-01-25T00:17:35.410840035Z"}]}
+[info] i  hosting: The following function(s) are pinned to site creator-os and will be deployed as well: ssrcreatoros 
+[info] 
+[info] === Deploying to 'yt-tool-1c8fe'...
+[info] 
+[info] i  deploying functions, hosting 
+[debug] [2026-02-05T09:39:36.045Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:36.045Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:36.046Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe [none]
+[debug] [2026-02-05T09:39:38.169Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe 200
+[debug] [2026-02-05T09:39:38.169Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe {"projectNumber":"597639946272","projectId":"yt-tool-1c8fe","lifecycleState":"ACTIVE","name":"yt-tool","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-01-24T22:30:06.256943Z"}
+[info] i  functions: preparing codebase firebase-frameworks-creator-os for deployment 
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[debug] [2026-02-05T09:39:38.172Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.173Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.173Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.173Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2026-02-05T09:39:38.174Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.174Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled... 
+[debug] [2026-02-05T09:39:38.174Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.174Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:38.174Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudfunctions.googleapis.com [none]
+[debug] [2026-02-05T09:39:38.174Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudfunctions.googleapis.com  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:39:38.176Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/runtimeconfig.googleapis.com [none]
+[debug] [2026-02-05T09:39:38.176Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/runtimeconfig.googleapis.com  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:39:38.177Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudbuild.googleapis.com [none]
+[debug] [2026-02-05T09:39:38.177Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudbuild.googleapis.com  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:39:38.178Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/artifactregistry.googleapis.com [none]
+[debug] [2026-02-05T09:39:38.178Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/artifactregistry.googleapis.com  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:39:42.577Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudfunctions.googleapis.com 200
+[debug] [2026-02-05T09:39:42.577Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudfunctions.googleapis.com [omitted]
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2026-02-05T09:39:42.675Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudbuild.googleapis.com 200
+[debug] [2026-02-05T09:39:42.675Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/cloudbuild.googleapis.com [omitted]
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2026-02-05T09:39:43.810Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/runtimeconfig.googleapis.com 200
+[debug] [2026-02-05T09:39:43.810Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/runtimeconfig.googleapis.com [omitted]
+[debug] [2026-02-05T09:39:44.120Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/artifactregistry.googleapis.com 200
+[debug] [2026-02-05T09:39:44.121Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/artifactregistry.googleapis.com [omitted]
+[info] +  artifactregistry: required API artifactregistry.googleapis.com is enabled 
+[debug] [2026-02-05T09:39:44.139Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:44.139Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:44.139Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe/adminSdkConfig [none]
+[debug] [2026-02-05T09:39:52.714Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe/adminSdkConfig 200
+[debug] [2026-02-05T09:39:52.714Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe/adminSdkConfig {"projectId":"yt-tool-1c8fe","databaseURL":"https://yt-tool-1c8fe-default-rtdb.firebaseio.com","storageBucket":"yt-tool-1c8fe.firebasestorage.app"}
+[debug] [2026-02-05T09:39:52.716Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:52.716Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:39:52.717Z] >>> [apiv2][query] GET https://runtimeconfig.googleapis.com/v1beta1/projects/yt-tool-1c8fe/configs [none]
+[debug] [2026-02-05T09:39:57.374Z] <<< [apiv2][status] GET https://runtimeconfig.googleapis.com/v1beta1/projects/yt-tool-1c8fe/configs 200
+[debug] [2026-02-05T09:39:57.374Z] <<< [apiv2][body] GET https://runtimeconfig.googleapis.com/v1beta1/projects/yt-tool-1c8fe/configs {}
+[debug] [2026-02-05T09:39:57.376Z] Validating nodejs source
+[debug] [2026-02-05T09:40:07.765Z] checkFunctionsSDKVersion was unable to fetch information from NPM Error: spawnSync C:\Windows\system32\cmd.exe ETIMEDOUT
+    at Object.spawnSync (node:internal/child_process:1120:20)
+    at Object.spawnSync (node:child_process:869:24)
+    at Function.spawnSync [as sync] (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\cross-spawn\index.js:26:23)
+    at Object.getLatestSDKVersion (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:55:25)
+    at Object.checkFunctionsSDKVersion (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\versioning.js:74:32)
+    at Delegate.validate (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\runtimes\node\index.js:88:20)
+    at loadCodebases (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\prepare.js:323:31)
+    at async prepare (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\functions\prepare.js:69:24)
+    at async chain (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:43:9)
+    at async deploy (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\deploy\index.js:122:9)
+[debug] [2026-02-05T09:40:07.768Z] > [functions] package.json contents: {
+  "name": "creator-os-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@radix-ui/react-slot": "^1.2.4",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "firebase": "^12.8.0",
+    "lucide-react": "^0.563.0",
+    "next": "16.1.6",
+    "openai": "^6.17.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwind-merge": "^3.4.0",
+    "firebase-frameworks": "^0.11.0",
+    "firebase-functions": "^6.0.1",
+    "firebase-admin": "^11.11.1"
+  },
+  "main": "server.js",
+  "engines": {
+    "node": "22"
+  }
+}
+[debug] [2026-02-05T09:40:07.769Z] Building nodejs source
+[info] i  functions: Loading and analyzing source code for codebase firebase-frameworks-creator-os to determine what to deploy 
+[debug] [2026-02-05T09:40:07.773Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-02-05T09:40:07.815Z] Found firebase-functions binary at 'C:\Users\Windows-10\OneDrive\Desktop\creator os\creator-os-app\.firebase\creator-os\functions\node_modules\.bin\firebase-functions'
+[info] Serving at port 8117
+
+[debug] [2026-02-05T09:40:09.021Z] Got response from /__/functions.yaml {"endpoints":{"ssrcreatoros":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"ssrcreatoros"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] i  extensions: ensuring required API firebaseextensions.googleapis.com is enabled... 
+[debug] [2026-02-05T09:40:13.711Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:13.711Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:13.711Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/firebaseextensions.googleapis.com [none]
+[debug] [2026-02-05T09:40:13.711Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/firebaseextensions.googleapis.com  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:40:25.682Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/firebaseextensions.googleapis.com 200
+[debug] [2026-02-05T09:40:25.682Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/yt-tool-1c8fe/services/firebaseextensions.googleapis.com [omitted]
+[info] +  extensions: required API firebaseextensions.googleapis.com is enabled 
+[debug] [2026-02-05T09:40:25.689Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-05T09:40:25.689Z] > authorizing via signed-in user (snapshiksha@gmail.com)
+[debug] [2026-02-05T09:40:25.690Z] [iam] checking project yt-tool-1c8fe for permissions ["firebase.projects.get","firebaseextensions.instances.list"]
+[debug] [2026-02-05T09:40:25.690Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:25.690Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:25.690Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions [none]
+[debug] [2026-02-05T09:40:25.690Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-05T09:40:25.690Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["firebase.projects.get","firebaseextensions.instances.list"]}
+[debug] [2026-02-05T09:40:39.651Z] *** [apiv2] error from fetch(https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions, {"headers":{},"method":"POST","body":"{\"permissions\":[\"firebase.projects.get\",\"firebaseextensions.instances.list\"]}"}): FetchError: request to https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions failed, reason: read ECONNRESET
+[debug] [2026-02-05T09:40:39.652Z] [iam] error while checking permissions, command may fail: Failed to make request to https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions
+[debug] [2026-02-05T09:40:39.652Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:39.652Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:40:39.653Z] >>> [apiv2][query] GET https://firebaseextensions.googleapis.com/v1beta/projects/yt-tool-1c8fe/instances pageSize=100&pageToken=
+[debug] [2026-02-05T09:40:51.603Z] <<< [apiv2][status] GET https://firebaseextensions.googleapis.com/v1beta/projects/yt-tool-1c8fe/instances 200
+[debug] [2026-02-05T09:40:51.603Z] <<< [apiv2][body] GET https://firebaseextensions.googleapis.com/v1beta/projects/yt-tool-1c8fe/instances {}
+[info] i  functions: Loaded environment variables from .env. 
+[info] i  functions: preparing .firebase\creator-os\functions directory for uploading... 
+[info] i  functions: packaged C:\Users\Windows-10\OneDrive\Desktop\creator os\creator-os-app\.firebase\creator-os\functions (309.33 MB) for uploading 
+[info] i  functions: ensuring required API run.googleapis.com is enabled... 
+[debug] [2026-02-05T09:41:16.635Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:16.635Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  functions: ensuring required API eventarc.googleapis.com is enabled... 
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  functions: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  functions: ensuring required API storage.googleapis.com is enabled... 
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:16.636Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:16.636Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/run.googleapis.com [none]
+[debug] [2026-02-05T09:41:16.637Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/run.googleapis.com  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:16.638Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/eventarc.googleapis.com [none]
+[debug] [2026-02-05T09:41:16.638Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/eventarc.googleapis.com  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:16.639Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/pubsub.googleapis.com [none]
+[debug] [2026-02-05T09:41:16.639Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/pubsub.googleapis.com  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:16.640Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/storage.googleapis.com [none]
+[debug] [2026-02-05T09:41:16.640Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/storage.googleapis.com  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:20.305Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/storage.googleapis.com 200
+[debug] [2026-02-05T09:41:20.306Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/storage.googleapis.com [omitted]
+[info] +  functions: required API storage.googleapis.com is enabled 
+[debug] [2026-02-05T09:41:20.979Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/run.googleapis.com 200
+[debug] [2026-02-05T09:41:20.979Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/run.googleapis.com [omitted]
+[info] +  functions: required API run.googleapis.com is enabled 
+[debug] [2026-02-05T09:41:22.212Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/eventarc.googleapis.com 200
+[debug] [2026-02-05T09:41:22.212Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/eventarc.googleapis.com [omitted]
+[info] +  functions: required API eventarc.googleapis.com is enabled 
+[debug] [2026-02-05T09:41:22.267Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/pubsub.googleapis.com 200
+[debug] [2026-02-05T09:41:22.267Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/597639946272/services/pubsub.googleapis.com [omitted]
+[info] +  functions: required API pubsub.googleapis.com is enabled 
+[info] i  functions: generating the service identity for pubsub.googleapis.com... 
+[debug] [2026-02-05T09:41:22.275Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:22.275Z] Checked if tokens are valid: true, expires at: 1770287319244
+[info] i  functions: generating the service identity for eventarc.googleapis.com... 
+[debug] [2026-02-05T09:41:22.275Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:22.275Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:22.275Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/pubsub.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-02-05T09:41:22.275Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/pubsub.googleapis.com:generateServiceIdentity  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:22.276Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/pubsub.googleapis.com:generateServiceIdentity {}
+[debug] [2026-02-05T09:41:22.277Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/eventarc.googleapis.com:generateServiceIdentity [none]
+[debug] [2026-02-05T09:41:22.277Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/eventarc.googleapis.com:generateServiceIdentity  x-goog-user-project=597639946272
+[debug] [2026-02-05T09:41:22.277Z] >>> [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/eventarc.googleapis.com:generateServiceIdentity {}
+[debug] [2026-02-05T09:41:23.128Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/eventarc.googleapis.com:generateServiceIdentity 200
+[debug] [2026-02-05T09:41:23.128Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/eventarc.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-597639946272@gcp-sa-eventarc.iam.gserviceaccount.com","uniqueId":"114974464668273497589"}}
+[debug] [2026-02-05T09:41:24.869Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/pubsub.googleapis.com:generateServiceIdentity 200
+[debug] [2026-02-05T09:41:24.870Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1beta1/projects/597639946272/services/pubsub.googleapis.com:generateServiceIdentity {"name":"operations/finished.DONE_OPERATION","done":true,"response":{"@type":"type.googleapis.com/google.api.serviceusage.v1beta1.ServiceIdentity","email":"service-597639946272@gcp-sa-pubsub.iam.gserviceaccount.com","uniqueId":"107747521600325364287"}}
+[debug] [2026-02-05T09:41:24.875Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:24.875Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:24.875Z] >>> [apiv2][query] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe [none]
+[debug] [2026-02-05T09:41:27.640Z] <<< [apiv2][status] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe 200
+[debug] [2026-02-05T09:41:27.640Z] <<< [apiv2][body] GET https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe {"projectNumber":"597639946272","projectId":"yt-tool-1c8fe","lifecycleState":"ACTIVE","name":"yt-tool","labels":{"firebase":"enabled","firebase-core":"disabled"},"createTime":"2026-01-24T22:30:06.256943Z"}
+[debug] [2026-02-05T09:41:27.640Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:27.640Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:27.641Z] >>> [apiv2][query] GET https://compute.googleapis.com/compute/v1/projects/597639946272 [none]
+[debug] [2026-02-05T09:41:29.680Z] <<< [apiv2][status] GET https://compute.googleapis.com/compute/v1/projects/597639946272 403
+[debug] [2026-02-05T09:41:29.680Z] <<< [apiv2][body] GET https://compute.googleapis.com/compute/v1/projects/597639946272 {"error":{"code":403,"message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"service":"compute.googleapis.com","containerInfo":"597639946272","activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272","serviceTitle":"Compute Engine API","consumer":"projects/597639946272"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272"}]}]}}
+[debug] [2026-02-05T09:41:29.681Z] unable to look up default compute service account. Falling back to 597639946272-compute@developer.gserviceaccount.com. Error: {"name":"FirebaseError","children":[],"context":{"body":{"error":{"code":403,"message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","errors":[{"message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","domain":"usageLimits","reason":"accessNotConfigured","extendedHelp":"https://console.developers.google.com"}],"status":"PERMISSION_DENIED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"SERVICE_DISABLED","domain":"googleapis.com","metadata":{"service":"compute.googleapis.com","containerInfo":"597639946272","activationUrl":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272","serviceTitle":"Compute Engine API","consumer":"projects/597639946272"}},{"@type":"type.googleapis.com/google.rpc.LocalizedMessage","locale":"en-US","message":"Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry."},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Google developers console API activation","url":"https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272"}]}]}},"response":{"statusCode":403}},"exit":1,"message":"Request to https://compute.googleapis.com/compute/v1/projects/597639946272 had HTTP Error: 403, Compute Engine API has not been used in project 597639946272 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=597639946272 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.","status":403}
+[debug] [2026-02-05T09:41:29.685Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:29.685Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:29.685Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/creator-os/versions [none]
+[debug] [2026-02-05T09:41:29.685Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/creator-os/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-02-05T09:41:38.796Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/creator-os/versions 200
+[debug] [2026-02-05T09:41:38.797Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/creator-os/versions {"name":"projects/597639946272/sites/creator-os/versions/675dcd1ccb0fa470","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase","firebase-web-framework":"next_ssr"}}
+[debug] [2026-02-05T09:41:38.797Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:38.797Z] Checked if tokens are valid: true, expires at: 1770287319244
+[debug] [2026-02-05T09:41:38.797Z] >>> [apiv2][query] GET https://cloudbilling.googleapis.com/v1/projects/yt-tool-1c8fe/billingInfo [none]
+[debug] [2026-02-05T09:41:54.663Z] <<< [apiv2][status] GET https://cloudbilling.googleapis.com/v1/projects/yt-tool-1c8fe/billingInfo 429
+[debug] [2026-02-05T09:41:54.663Z] <<< [apiv2][body] GET https://cloudbilling.googleapis.com/v1/projects/yt-tool-1c8fe/billingInfo {"error":{"code":429,"message":"Quota exceeded for quota metric 'All requests' and limit 'All requests per minute' of service 'cloudbilling.googleapis.com' for consumer 'project_number:563584335869'.","status":"RESOURCE_EXHAUSTED","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"RATE_LIMIT_EXCEEDED","domain":"googleapis.com","metadata":{"quota_limit":"StandardQuotaPerMinutePerProject","quota_metric":"cloudbilling.googleapis.com/standard_quota","consumer":"projects/563584335869","quota_location":"global","quota_limit_value":"400","quota_unit":"1/min/{project}","service":"cloudbilling.googleapis.com"}},{"@type":"type.googleapis.com/google.rpc.Help","links":[{"description":"Request a higher quota limit.","url":"https://cloud.google.com/docs/quotas/help/request_increase"}]}]}}
+[debug] [2026-02-05T09:41:59.698Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:308:49)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-02-08T18:32:44.431Z] ----------------------------------------------------------------------
+[debug] [2026-02-08T18:32:44.456Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js target:apply hosting hubsnap hubsnap
+[debug] [2026-02-08T18:32:44.457Z] CLI Version:   15.5.1
+[debug] [2026-02-08T18:32:44.457Z] Platform:      win32
+[debug] [2026-02-08T18:32:44.457Z] Node Version:  v22.17.1
+[debug] [2026-02-08T18:32:44.457Z] Time:          Mon Feb 09 2026 00:02:44 GMT+0530 (India Standard Time)
+[debug] [2026-02-08T18:32:44.458Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-02-08T18:32:44.461Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] +  Applied hosting target hubsnap to hubsnap 
+[info] 
+[info] Updated: hubsnap (hubsnap)
+[debug] [2026-02-08T18:32:44.897Z] ----------------------------------------------------------------------
+[debug] [2026-02-08T18:32:44.900Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js target:apply hosting creator-os creator-os
+[debug] [2026-02-08T18:32:44.901Z] CLI Version:   15.5.1
+[debug] [2026-02-08T18:32:44.901Z] Platform:      win32
+[debug] [2026-02-08T18:32:44.901Z] Node Version:  v22.17.1
+[debug] [2026-02-08T18:32:44.902Z] Time:          Mon Feb 09 2026 00:02:44 GMT+0530 (India Standard Time)
+[debug] [2026-02-08T18:32:44.902Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-02-08T18:32:44.905Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[info] +  Applied hosting target creator-os to creator-os 
+[info] 
+[info] Updated: creator-os (creator-os)
+[debug] [2026-02-08T18:32:54.954Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:308:49)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-02-08T18:32:55.353Z] Error: Timed out.
+    at Timeout._onTimeout (C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\utils.js:308:49)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2026-02-08T18:33:48.773Z] ----------------------------------------------------------------------
+[debug] [2026-02-08T18:33:48.779Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Windows-10\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-02-08T18:33:48.779Z] CLI Version:   15.5.1
+[debug] [2026-02-08T18:33:48.780Z] Platform:      win32
+[debug] [2026-02-08T18:33:48.780Z] Node Version:  v22.17.1
+[debug] [2026-02-08T18:33:48.781Z] Time:          Mon Feb 09 2026 00:03:48 GMT+0530 (India Standard Time)
+[debug] [2026-02-08T18:33:48.781Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-02-08T18:33:48.785Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-02-08T18:34:00.338Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-08T18:34:00.338Z] > authorizing via signed-in user (snapshiksha@gmail.com)
+[debug] [2026-02-08T18:34:00.338Z] [iam] checking project yt-tool-1c8fe for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-02-08T18:34:00.339Z] Checked if tokens are valid: false, expires at: 1770287319244
+[debug] [2026-02-08T18:34:00.340Z] Checked if tokens are valid: false, expires at: 1770287319244
+[debug] [2026-02-08T18:34:00.340Z] > refreshing access token with scopes: []
+[debug] [2026-02-08T18:34:00.347Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-02-08T18:34:00.347Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-08T18:34:01.334Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-02-08T18:34:01.334Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-02-08T18:34:01.353Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions [none]
+[debug] [2026-02-08T18:34:01.353Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions  x-goog-user-project=yt-tool-1c8fe
+[debug] [2026-02-08T18:34:01.353Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-02-08T18:34:02.253Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-02-08T18:34:02.253Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-02-08T18:34:04.370Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions 200
+[debug] [2026-02-08T18:34:04.370Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/yt-tool-1c8fe:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2026-02-08T18:34:04.371Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:04.371Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:04.371Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe [none]
+[debug] [2026-02-08T18:34:05.297Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe 200
+[debug] [2026-02-08T18:34:05.297Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/yt-tool-1c8fe {"projectId":"yt-tool-1c8fe","projectNumber":"597639946272","displayName":"yt-tool","name":"projects/yt-tool-1c8fe","resources":{"hostingSite":"yt-tool-1c8fe","realtimeDatabaseInstance":"yt-tool-1c8fe-default-rtdb"},"state":"ACTIVE","etag":"1_22e09a8d-72de-4f0c-89cb-63f06e46bec4"}
+[debug] [2026-02-08T18:34:12.830Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:12.830Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:12.831Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites pageToken=&pageSize=10
+[debug] [2026-02-08T18:34:15.215Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites 200
+[debug] [2026-02-08T18:34:15.216Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites {"sites":[{"name":"projects/yt-tool-1c8fe/sites/creator-os","defaultUrl":"https://creator-os.web.app","appId":"1:597639946272:web:4d545466c6f77e387edc45","type":"USER_SITE"},{"name":"projects/yt-tool-1c8fe/sites/hubsnap","defaultUrl":"https://hubsnap.web.app","appId":"1:597639946272:web:974763ad16d207487edc45","type":"USER_SITE"},{"name":"projects/yt-tool-1c8fe/sites/yt-tool-1c8fe","defaultUrl":"https://yt-tool-1c8fe.web.app","appId":"1:597639946272:web:ff1d2a3c6dc72a1b7edc45","type":"DEFAULT_SITE"}]}
+[debug] [2026-02-08T18:34:15.217Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:15.217Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:15.217Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:974763ad16d207487edc45/config [none]
+[debug] [2026-02-08T18:34:16.644Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:974763ad16d207487edc45/config 200
+[debug] [2026-02-08T18:34:16.644Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:597639946272:web:974763ad16d207487edc45/config {"projectId":"yt-tool-1c8fe","appId":"1:597639946272:web:974763ad16d207487edc45","databaseURL":"https://yt-tool-1c8fe-default-rtdb.firebaseio.com","storageBucket":"yt-tool-1c8fe.firebasestorage.app","apiKey":"AIzaSyArGnOC4ldVR3C161-6mvoruAF6WZHNptY","authDomain":"yt-tool-1c8fe.firebaseapp.com","messagingSenderId":"597639946272","measurementId":"G-TS3EKFV47B","projectNumber":"597639946272","version":"2"}
+[info] 
+   Thank you for trying our early preview of Next.js support on Firebase Hosting.
+   During the preview, support is best-effort and breaking changes can be expected. Proceed with caution.
+   The integration is known to work with Next.js version 12 - 15.0. You may encounter errors.
+
+   Documentation: https://firebase.google.com/docs/hosting/frameworks/nextjs
+   File a bug: https://github.com/firebase/firebase-tools/issues/new?template=bug_report.md
+   Submit a feature request: https://github.com/firebase/firebase-tools/issues/new?template=feature_request.md
+
+   We'd love to learn from you. Express your interest in helping us shape the future of Firebase Hosting: https://goo.gle/41enW5X
+
+[debug] [2026-02-08T18:34:27.458Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:27.458Z] Checked if tokens are valid: true, expires at: 1770579240334
+[debug] [2026-02-08T18:34:27.458Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe [none]
+[debug] [2026-02-08T18:34:29.439Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe 200
+[debug] [2026-02-08T18:34:29.439Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/yt-tool-1c8fe/sites/yt-tool-1c8fe {"name":"projects/yt-tool-1c8fe/sites/yt-tool-1c8fe","defaultUrl":"https://yt-tool-1c8fe.web.app","appId":"1:597639946272:web:ff1d2a3c6dc72a1b7edc45","type":"DEFAULT_SITE"}
+[info] ▲ Next.js 16.1.6 (Turbopack)
+
+[info] - Environments: .env.local
+
+
+[info] ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+[info]   Creating an optimized production build ...
+
+[info] ✓ Compiled successfully in 19.0s
+
+[info]   Running TypeScript ...
+
+[info] Failed to compile.
+
+
+[info] .next/dev/types/validator.ts:60:39
+Type error: Cannot find module '../../../src/app/about/page.js' or its corresponding type declarations.
+
+  58 | {
+  59 |   type __IsExpected<Specific extends AppPageConfig<"/about">> = Specific
+> 60 |   const handler = {} as typeof import("../../../src/app/about/page.js")
+     |                                       ^
+  61 |   type __Check = __IsExpected<typeof handler>
+  62 |   // @ts-ignore
+  63 |   type __Unused = __Check
+
+[info] Next.js build worker exited with code: 1 and signal: null
+
+[debug] [2026-02-08T18:35:09.297Z] Error: ENOENT: no such file or directory, open 'C:\Users\Windows-10\OneDrive\Desktop\creator os\creator-os-app\.next\export-marker.json'
+[error] 
+[error] Error: An unexpected error has occurred.

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore 650+ AI Tools by Use Case | HubSnap</title>
+    <meta name="description"
+        content="Discover AI tools organized by real-world use cases. Filter by category, company, pricing, and launch year. Find free AI tools for text, image, video, SEO, code, and more.">
+    <meta name="keywords"
+        content="AI tools directory, AI tools by use case, free AI tools, AI for creators, AI for developers, AI tools 2024">
+    <meta property="og:title" content="Explore 650+ AI Tools | HubSnap">
+    <meta property="og:description"
+        content="Find the right AI tool for your use case. Filter by category, pricing, and company.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HubSnap">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Explore 650+ AI Tools | HubSnap">
+    <meta name="twitter:description"
+        content="Find the right AI tool for your use case. Filter by category, pricing, and company.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header loaded via header.js -->
+
+    <main class="container" style="padding-top: 6rem;">
+        <header style="margin-bottom: 4rem; text-align: center;">
+            <h1 class="gradient-text">Explore AI Tools</h1>
+            <p style="color: var(--text-dim);">Finding your next competitive advantage among 650+ tools.</p>
+        </header>
+
+        <!-- Control Bar - Search Only -->
+        <div class="glass" style="padding: 1.5rem; display: flex; gap: 1rem; margin-bottom: 1rem; align-items: center;">
+            <div style="position: relative; flex: 1;">
+                <i class="fas fa-search"
+                    style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-dim);"></i>
+                <input type="text" id="searchQuery" placeholder="Search AI tools, categories, or keywords..."
+                    style="width: 100%; padding: 1rem 1rem 1rem 3rem; background: var(--bg-main); border: 1px solid var(--glass-border); border-radius: 8px; color: white; font-size: 1rem;" />
+            </div>
+
+            <button id="surpriseMeBtn" class="btn btn-glass" style="padding: 1rem 1.5rem; white-space: nowrap;">
+                <i class="fas fa-random"></i> Surprise Me
+            </button>
+            <button id="advancedFilterToggle" class="btn btn-glass" style="padding: 1rem 1.5rem; white-space: nowrap;">
+                <i class="fas fa-sliders-h"></i> Filters
+            </button>
+            <button id="themeToggle" class="btn btn-glass" style="padding: 1rem; width: 50px;">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
+        </div>
+
+        <!-- Popular Searches -->
+        <div id="popularSearches"
+            style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+            <!-- Chips injected via JS -->
+        </div>
+
+        <!-- View Controls & Count -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div id="resultsCount" style="color: var(--text-dim); font-size: 0.9rem;">
+                Loading...
+            </div>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <select id="sortFilter" class="filter-select" style="padding: 0.5rem; width: auto;">
+                    <option value="default">Relevance</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="newest">Newest</option>
+                </select>
+                <div class="view-toggle"
+                    style="background: var(--glass-bg); padding: 0.25rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+                    <button id="gridViewBtn" class="btn-icon active" style="padding: 0.5rem;"><i
+                            class="fas fa-th-large"></i></button>
+                    <button id="listViewBtn" class="btn-icon" style="padding: 0.5rem;"><i
+                            class="fas fa-list"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Filters Panel -->
+        <div id="advancedFiltersPanel" class="glass" style="display: none; padding: 2rem; margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 style="margin: 0;">Filter Options</h3>
+                <button id="clearFilters" class="btn btn-glass btn-sm">
+                    <i class="fas fa-times"></i> Clear All
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Category</label>
+                    <select id="categoryFilter" class="filter-select">
+                        <option value="All">All Categories</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Pricing</label>
+                    <select id="pricingFilter" class="filter-select">
+                        <option value="All">All Pricing</option>
+                        <option value="FREE">FREE</option>
+                        <option value="PAID">PAID</option>
+                        <option value="FREE_PAID">FREE + PAID</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Company</label>
+                    <select id="companyFilter" class="filter-select">
+                        <option value="All">All Companies</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Launch
+                        Year</label>
+                    <select id="yearFilter" class="filter-select">
+                        <option value="All">All Years</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Platform</label>
+                    <select id="platformFilter" class="filter-select">
+                        <option value="All">All Platforms</option>
+                        <option value="Web">Web</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="API">API</option>
+                        <option value="Desktop">Desktop</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label
+                        style="display: block; margin-bottom: 0.5rem; color: var(--text-dim); font-size: 0.9rem;">Year
+                        Range</label>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="number" id="yearFrom" placeholder="From" min="2000" max="2025"
+                            class="filter-select" style="width: 100%;">
+                        <input type="number" id="yearTo" placeholder="To" min="2000" max="2025" class="filter-select"
+                            style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="toolsGrid" class="grid grid-cols-3">
+            <!-- Tools will be injected here -->
+            <div style="grid-column: 1 / -1; text-align: center; padding: 4rem; opacity: 0.5;">
+                <i class="fas fa-circle-notch fa-spin fa-2x"></i>
+                <p style="margin-top: 1rem;">Loading AI tools dataset...</p>
+            </div>
+        </div>
+
+        <div id="noResults" style="display: none; textAlign: center; padding: 4rem; opacity: 0.5; text-align: center;">
+            <p>No tools found matching your criteria.</p>
+        </div>
+    </main>
+
+    <!-- Footer loaded via footer.js -->
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module">
+        import dataService from './js/data-service.js';
+        window.dataService = dataService;
+    </script>
+    <script src="js/header.js"></script>
+    <script src="js/footer.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/ai-features.js"></script>
+    <script src="js/ai-features-ui.js"></script>
+    <script type="module" src="js/chatbot.js"></script>
+    <script type="module" src="js/chatbot-ui.js"></script>
+
+    <script type="module" src="js/explore.js"></script>
+    <script>
+        // Initialize AI features on explore page
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.aiFeaturesManager.initialize();
+        });
+    </script>
+</body>
+
+</html>
