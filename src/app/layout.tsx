@@ -7,14 +7,14 @@ export const metadata: Metadata = {
     template: "%s | HubSnap"
   },
   description: "HubSnap is the all-in-one platform for digital creators. Manage your content, analyze performance, and grow your audience with AI-powered tools.",
-  keywords: ["creator tools", "content creation", "AI for creators", "YouTube analytics", "creator economy", "HubSnap", "Creator OS"],
+  keywords: ["creator tools", "content creation", "AI for creators", "YouTube analytics", "creator economy", "HubSnap", "Creator OS", "Digital Business Ideas", "YouTube Script Generator", "Viral Trend Detector"],
   authors: [{ name: "Prince Kumar", url: "https://hubsnap.com/founder/prince-kumar" }],
   creator: "Prince Kumar",
   publisher: "HubSnap",
   icons: {
-    icon: "/logo.gif",
-    shortcut: "/logo.gif",
-    apple: "/logo.gif",
+    icon: "/hubsnap_logo.jpeg",
+    shortcut: "/hubsnap_logo.jpeg",
+    apple: "/hubsnap_logo.jpeg",
   },
   openGraph: {
     type: "website",
@@ -52,6 +52,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "sonner";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -63,7 +66,10 @@ export default function RootLayout({
         className="antialiased"
         suppressHydrationWarning
       >
-        {children}
+        <AuthProvider>
+          {children}
+          <Toaster position="top-center" />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -7,18 +7,87 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { auth } from "@/lib/firebase";
+import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
+
 export default function LoginPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        // Simulate Auth - Replace with Real Firebase Auth later
-        setTimeout(() => {
+        setError("");
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            router.push("/creator_os_dashboard/home");
+        } catch (err: any) {
+            console.error(err);
+
+            // Provide specific, helpful error messages based on error code
+            switch (err.code) {
+                case 'auth/invalid-credential':
+                    setError("Invalid email or password. Please check your credentials and try again.");
+                    break;
+                case 'auth/user-not-found':
+                    setError("No account found with this email. Would you like to sign up instead?");
+                    break;
+                case 'auth/wrong-password':
+                    setError("Incorrect password. Try again or click 'Forgot password?' to reset it.");
+                    break;
+                case 'auth/invalid-email':
+                    setError("Please enter a valid email address.");
+                    break;
+                case 'auth/user-disabled':
+                    setError("This account has been disabled. Please contact support.");
+                    break;
+                case 'auth/too-many-requests':
+                    setError("Too many failed login attempts. Please try again later or reset your password.");
+                    break;
+                case 'auth/network-request-failed':
+                    setError("Network error. Please check your internet connection and try again.");
+                    break;
+                default:
+                    setError("Login failed. Please try again or contact support if the problem persists.");
+            }
+        } finally {
             setLoading(false);
-            router.push("/dashboard/home");
-        }, 1500);
+        }
+    };
+
+    const handleGoogleLogin = async () => {
+        setLoading(true);
+        setError("");
+        try {
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
+            router.push("/creator_os_dashboard/home");
+        } catch (err: any) {
+            console.error(err);
+
+            // Specific error messages for Google sign-in
+            switch (err.code) {
+                case 'auth/popup-closed-by-user':
+                    setError("Sign-in cancelled. Please try again.");
+                    break;
+                case 'auth/popup-blocked':
+                    setError("Pop-up blocked by browser. Please allow pop-ups and try again.");
+                    break;
+                case 'auth/account-exists-with-different-credential':
+                    setError("An account already exists with this email using a different sign-in method.");
+                    break;
+                case 'auth/network-request-failed':
+                    setError("Network error. Please check your internet connection.");
+                    break;
+                default:
+                    setError("Google sign-in failed. Please try again or use email/password.");
+            }
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -34,6 +103,8 @@ export default function LoginPage() {
                     <input
                         type="email"
                         required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="w-full px-3 py-2 border rounded-lg bg-white dark:bg-slate-950 dark:border-slate-800 focus:ring-2 focus:ring-primary outline-none transition-all"
                         placeholder="you@example.com"
                     />
@@ -41,15 +112,19 @@ export default function LoginPage() {
                 <div className="space-y-2">
                     <div className="flex justify-between items-center">
                         <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                        <Link href="#" className="text-xs text-primary hover:underline">Forgot password?</Link>
+                        <Link href="/forgot-password" className="text-xs text-primary hover:underline">Forgot password?</Link>
                     </div>
                     <input
                         type="password"
                         required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         className="w-full px-3 py-2 border rounded-lg bg-white dark:bg-slate-950 dark:border-slate-800 focus:ring-2 focus:ring-primary outline-none transition-all"
                         placeholder="••••••••"
                     />
                 </div>
+
+                {error && <p className="text-sm text-red-600 font-medium">{error}</p>}
 
                 <Button className="w-full py-6 text-base" disabled={loading}>
                     {loading ? <Loader2 className="animate-spin mr-2" /> : "Sign In"}
@@ -65,7 +140,7 @@ export default function LoginPage() {
                 </div>
             </div>
 
-            <Button variant="outline" className="w-full gap-2 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
+            <Button variant="outline" type="button" onClick={handleGoogleLogin} className="w-full gap-2 dark:bg-slate-800 dark:border-slate-700 dark:text-white">
                 <svg className="size-4" viewBox="0 0 24 24">
                     <path
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"

@@ -42,7 +42,7 @@ export default function LandingPage() {
                   Start For Free <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/dashboard/home">
+              <Link href="/creator_os_dashboard/home">
                 <Button variant="outline" className="h-14 px-8 rounded-full text-lg font-bold border-2">
                   Live Demo
                 </Button>
@@ -63,12 +63,19 @@ export default function LandingPage() {
             <Card className="relative border-slate-200 shadow-2xl overflow-hidden rounded-2xl">
               <div className="relative aspect-video w-full">
                 <Image
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
-                  alt="Dashboard Preview"
+                  src="/hero.png"
+                  alt="HubSnap Dashboard Preview - AI Tools for Creators"
                   fill
                   className="object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                   priority
                 />
+                <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg flex items-center gap-2">
+                  <div className="size-2 bg-green-500 rounded-full animate-pulse" />
+                  Live System
+                </div>
+                <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md border border-white/10 text-white px-4 py-2 rounded-lg text-xs font-medium shadow-lg">
+                  AI Trend Analysis Active
+                </div>
               </div>
               <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent" />
             </Card>
@@ -109,7 +116,7 @@ export default function LandingPage() {
               bg: "bg-purple-50"
             }
           ].map((f, i) => (
-            <Card key={i} className="p-8 border-slate-200 hover:border-primary transition-all group">
+            <Card key={i} className="p-8 border-slate-200 glow-card group">
               <div className={`size-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform ${f.bg}`}>
                 <f.icon className={`size-6 ${f.color}`} />
               </div>
@@ -131,24 +138,200 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* How It Works */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
+            <h2 className="text-4xl font-bold tracking-tight">From Idea to Published in Minutes</h2>
+            <p className="text-xl text-slate-500">
+              Stop juggling 10 different tools. HubSnap streamlines your entire creative workflow into one powerful system.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            {/* Connecting Line */}
+            <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200" />
+
+            {[
+              {
+                step: "01",
+                title: "Discover Trends",
+                desc: "Our AI scans millions of data points to find rising topics in your niche before they go viral.",
+                color: "bg-blue-600"
+              },
+              {
+                step: "02",
+                title: "Generate Content",
+                desc: "Create scripts, thumbnails, and descriptions instantly with fine-tuned AI models.",
+                color: "bg-purple-600"
+              },
+              {
+                step: "03",
+                title: "Optimize & Grow",
+                desc: "Track performance and get actionable insights to double your improved reach.",
+                color: "bg-pink-600"
+              }
+            ].map((s, i) => (
+              <div key={i} className="relative text-center space-y-6 group">
+                <div className={`size-24 rounded-3xl ${s.color} text-white text-3xl font-black flex items-center justify-center mx-auto shadow-xl group-hover:scale-110 transition-transform relative z-10`}>
+                  {s.step}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold mb-3">{s.title}</h3>
+                  <p className="text-slate-500 leading-relaxed">{s.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-24 bg-slate-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 text-center mb-16">
+          <h2 className="text-3xl font-bold mb-4">Trusted by 10,000+ Creators</h2>
+          <div className="flex justify-center gap-1 mb-2">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <svg key={i} className="size-6 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            ))}
+          </div>
+          <p className="text-slate-600">Rated 4.9/5 stars by the community</p>
+        </div>
+
+        {/* Scrolling Marquee */}
+        <div className="relative flex overflow-x-hidden group">
+          <div className="animate-marquee whitespace-nowrap flex gap-8 py-4">
+            {[
+              {
+                quote: "I've tried every tool out there. HubSnap is the only one that actually saves me time.",
+                author: "Sarah J.",
+                role: "Tech YouTuber (500K Subs)"
+              },
+              {
+                quote: "The script generation is scary good. It understands my tone perfectly.",
+                author: "Mike R.",
+                role: "Fitness Coach"
+              },
+              {
+                quote: "Finally, a dashboard that makes sense. Trend detection paid for itself 10x.",
+                author: "Jessica L.",
+                role: "Digital Marketer"
+              },
+              {
+                quote: "I doubled my upload consistency in two weeks. The daily prompts are a game changer.",
+                author: "David K.",
+                role: "Lifestyle Vlogger"
+              },
+              {
+                quote: "The best investment I've made for my channel this year. Highly recommended.",
+                author: "Amanda B.",
+                role: "DIY Creator"
+              },
+              {
+                quote: "From idea to script in minutes. I can finally focus on filming.",
+                author: "James T.",
+                role: "Edu-Tuber"
+              },
+              {
+                quote: "The analytics are way easier to understand than YouTube Studio.",
+                author: "Emily C.",
+                role: "Beauty Influencer"
+              },
+              {
+                quote: "HubSnap helped me find a niche that I actually enjoy and makes money.",
+                author: "Chris P.",
+                role: "Gaming Streamer"
+              },
+              // Duplicate for infinite scroll
+              {
+                quote: "I've tried every tool out there. HubSnap is the only one that actually saves me time.",
+                author: "Sarah J.",
+                role: "Tech YouTuber (500K Subs)"
+              },
+              {
+                quote: "The script generation is scary good. It understands my tone perfectly.",
+                author: "Mike R.",
+                role: "Fitness Coach"
+              },
+              {
+                quote: "Finally, a dashboard that makes sense. Trend detection paid for itself 10x.",
+                author: "Jessica L.",
+                role: "Digital Marketer"
+              },
+              {
+                quote: "I doubled my upload consistency in two weeks. The daily prompts are a game changer.",
+                author: "David K.",
+                role: "Lifestyle Vlogger"
+              },
+              {
+                quote: "The best investment I've made for my channel this year. Highly recommended.",
+                author: "Amanda B.",
+                role: "DIY Creator"
+              },
+              {
+                quote: "From idea to script in minutes. I can finally focus on filming.",
+                author: "James T.",
+                role: "Edu-Tuber"
+              },
+              {
+                quote: "The analytics are way easier to understand than YouTube Studio.",
+                author: "Emily C.",
+                role: "Beauty Influencer"
+              },
+              {
+                quote: "HubSnap helped me find a niche that I actually enjoy and makes money.",
+                author: "Chris P.",
+                role: "Gaming Streamer"
+              }
+            ].map((t, i) => (
+              <Card key={i} className="inline-block w-[350px] p-8 border-slate-200 bg-white hover:shadow-lg transition-shadow whitespace-normal">
+                <div className="mb-6 text-primary">
+                  <svg className="size-10 opacity-20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21L14.017 18C14.017 16.0547 14.456 14.5916 15.334 13.6108C16.909 11.8492 18.257 11.4883 18.257 9.5C18.257 8.11929 17.1377 7 15.757 7C14.3763 7 13.257 8.11929 13.257 9.5H10.257C10.257 6.46243 12.7194 4 15.757 4C18.7946 4 21.257 6.46243 21.257 9.5C21.257 13.5 18.257 15 18.257 18V21H14.017ZM6.76697 21L6.76697 18C6.76697 16.0547 7.20597 14.5916 8.08397 13.6108C9.65897 11.8492 11.007 11.4883 11.007 9.5C11.007 8.11929 9.88767 7 8.50697 7C7.12627 7 6.00697 8.11929 6.00697 9.5H3.00697C3.00697 6.46243 5.4694 4 8.50697 4C11.5445 4 14.007 6.46243 14.007 9.5C14.007 13.5 11.007 15 11.007 18V21H6.76697Z" />
+                  </svg>
+                </div>
+                <p className="text-slate-600 mb-6 leading-relaxed italic">"{t.quote}"</p>
+                <div>
+                  <div className="font-bold text-slate-900">{t.author}</div>
+                  <div className="text-sm text-slate-500">{t.role}</div>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-24 px-6 text-center">
-        <div className="max-w-3xl mx-auto space-y-8 bg-black text-white p-12 rounded-[2rem] relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 blur-[100px]" />
+        <div className="max-w-5xl mx-auto relative group">
+          {/* Glow underneath */}
+          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-[2.5rem] blur opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
 
-          <h2 className="text-4xl font-bold relative z-10 leading-tight">
-            Ready to join the top 1% of creators?
-          </h2>
-          <p className="text-slate-400 text-lg relative z-10 max-w-lg mx-auto">
-            Stop burning hours on manual research. Let Creator OS handle the data so you can handle the art.
-          </p>
-          <div className="pt-4 relative z-10">
-            <Link href="/signup">
-              <Button className="h-14 px-10 rounded-full text-lg font-bold bg-white text-black hover:bg-slate-100 shadow-2xl">
-                Join Now for Free
-              </Button>
-            </Link>
+          {/* Main Glass Container */}
+          <div className="relative p-12 md:p-20 rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-blue-600/90 to-cyan-500/90 backdrop-blur-3xl border border-white/20 shadow-2xl ring-1 ring-white/10">
+
+            {/* Frozen/Icy Accents */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+            <div className="relative z-10 space-y-8">
+              <h2 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
+                Ready to join the top 1% of creators?
+              </h2>
+              <p className="text-blue-50 text-xl max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md opacity-90">
+                Stop burning hours on manual research. Let Creator OS handle the data so you can handle the art.
+              </p>
+              <div className="pt-8 flex justify-center gap-4">
+                <Link href="/signup">
+                  <Button className="h-20 px-12 rounded-full text-2xl font-bold bg-white text-blue-600 hover:bg-blue-50 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.6)] hover:scale-105 border border-transparent">
+                    Start Creating Smarter
+                  </Button>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

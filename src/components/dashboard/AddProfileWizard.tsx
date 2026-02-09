@@ -152,7 +152,7 @@ export function AddProfileWizard() {
                 status: 'active'
             } as any);
 
-            router.push("/dashboard/home");
+            router.push("/creator_os_dashboard/home");
         } catch (e) {
             console.error(e);
         }

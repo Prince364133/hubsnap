@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Menu, X } from "lucide-react";
 
 export function PublicHeader() {
@@ -13,7 +14,7 @@ export function PublicHeader() {
         { href: "/features", label: "Features" },
         { href: "/products/creator-os", label: "Creator OS" },
         { href: "/explore", label: "Explore Tools" },
-        { href: "/guides", label: "Guides" },
+        { href: "/digital-business-ideas", label: "Digital Business Ideas" },
         { href: "/about", label: "About" },
         { href: "/contact", label: "Contact" }
     ];
@@ -23,15 +24,17 @@ export function PublicHeader() {
             <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
                 <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2">
-                        <Image
-                            src="/logo.gif"
-                            alt="HubSnap Logo"
-                            width={32}
-                            height={32}
-                            className="rounded-lg"
-                        />
-                        <span className="font-bold text-xl tracking-tight">HUBSNAP</span>
+                    <Link href="/" className="flex items-center gap-3 group">
+                        <div className="relative">
+                            <Image
+                                src="/hubsnap_logo.jpeg"
+                                alt="HubSnap Logo"
+                                width={56}
+                                height={56}
+                                className="rounded-xl group-hover:scale-105 transition-transform shadow-lg shadow-sky-500/20"
+                            />
+                            <div className="absolute inset-0 bg-sky-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}

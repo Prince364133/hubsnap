@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@layer utilities {
+  .glow-card {
+    @apply transition-all duration-300 hover:shadow-[0_0_30px_rgba(14_165_233/0.3)] hover:border-sky-500/50 hover:-translate-y-1;
+  }
+
+  .glass-panel {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+  }
+}
+
 :root {
   /* Sky Blue Theme - Standardized */
   --primary: #0EA5E9;
@@ -66,4 +76,80 @@ body {
 /* Base Styles for smoothness */
 html {
   scroll-behavior: smooth;
+}
+
+/* Custom Animations for CTA Sections */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-slow {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 3s ease-in-out infinite;
+}
+
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
 }

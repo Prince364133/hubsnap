@@ -5,14 +5,14 @@ import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 const TITLES: Record<string, string> = {
-    "/dashboard/home": "Dashboard",
-    "/dashboard/trends": "Trend Discovery",
-    "/dashboard/channel-ideas": "Channel Ideas",
-    "/dashboard/content": "Content Engine",
-    "/dashboard/saved": "Idea Vault",
-    "/dashboard/tools": "AI Tools",
-    "/dashboard/income-sources": "Income Streams",
-    "/dashboard/youtube-analytics": "Analytics",
+    "/creator_os_dashboard/home": "Dashboard",
+    "/creator_os_dashboard/trends": "Trend Discovery",
+    "/creator_os_dashboard/channel-ideas": "Channel Ideas",
+    "/creator_os_dashboard/content": "Content Engine",
+    "/creator_os_dashboard/saved": "Idea Vault",
+    "/creator_os_dashboard/tools": "AI Tools",
+    "/creator_os_dashboard/income-sources": "Income Streams",
+    "/creator_os_dashboard/youtube-analytics": "Analytics",
 };
 
 export function Header() {

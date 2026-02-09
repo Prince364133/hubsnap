@@ -47,7 +47,7 @@ export function ChannelCard({ channel }: ChannelCardProps) {
                     <Calendar className="size-3" />
                     <span>{channel.schedule.workingDays.length} days/week</span>
                 </div>
-                <Link href={`/dashboard/channel/${channel.id}`} className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                <Link href={`/creator_os_dashboard/channel/${channel.id}`} className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
                     Manage <ArrowRight className="size-3 transition-transform group-hover:translate-x-0.5" />
                 </Link>
             </div>

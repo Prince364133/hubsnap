@@ -1,3 +1,5 @@
+"use server";
+
 const NVIDIA_API_URL = process.env.NVIDIA_BASE_URL ? `${process.env.NVIDIA_BASE_URL}/chat/completions` : "https://integrate.api.nvidia.com/v1/chat/completions";
 const MODEL = process.env.NVIDIA_MODEL || "moonshotai/kimi-k2.5";
 

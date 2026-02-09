@@ -16,17 +16,17 @@ import {
     Compass,
     BookOpen,
 } from "lucide-react";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 const MENU_ITEMS = [
-    { name: "Home", icon: Home, href: "/dashboard/home" },
-    { name: "Channel Ideas", icon: Lightbulb, href: "/dashboard/channel-ideas" },
-    { name: "Trends", icon: TrendingUp, href: "/dashboard/trends" },
-    { name: "Content", icon: Video, href: "/dashboard/content" },
-    { name: "Saved", icon: Bookmark, href: "/dashboard/saved" },
-    { name: "Explore Tools", icon: Compass, href: "/dashboard/explore" },
-    { name: "Guides", icon: BookOpen, href: "/dashboard/guides" },
-    { name: "Tools", icon: Wrench, href: "/dashboard/tools" },
-    { name: "Income Sources", icon: DollarSign, href: "/dashboard/income-sources" },
+    { name: "Home", icon: Home, href: "/creator_os_dashboard/home" },
+    { name: "Channel Ideas", icon: Lightbulb, href: "/creator_os_dashboard/channel-ideas" },
+    { name: "Trends", icon: TrendingUp, href: "/creator_os_dashboard/trends" },
+    { name: "Content", icon: Video, href: "/creator_os_dashboard/content" },
+    { name: "Saved", icon: Bookmark, href: "/creator_os_dashboard/saved" },
+    { name: "Digital Business Ideas", icon: BookOpen, href: "/creator_os_dashboard/digital-business-ideas" },
+    { name: "Tools", icon: Wrench, href: "/creator_os_dashboard/tools" },
+    { name: "Income Sources", icon: DollarSign, href: "/creator_os_dashboard/income-sources" },
 ];
 
 export function Sidebar() {
@@ -37,8 +37,10 @@ export function Sidebar() {
             {/* Header */}
             <div className="h-16 flex items-center px-6 border-b border-border/50">
                 <div>
-                    {/* Placeholder for Logo - keeping it text for now as per prompt instructions regarding "CreatorOS logo" */}
-                    <h1 className="font-bold text-lg text-text-primary">CreatorOS</h1>
+                    {/* Logo */}
+                    <Link href="/creator_os_dashboard/home" className="flex items-center gap-2 mb-1">
+                        <BrandLogo size="md" />
+                    </Link>
                     <p className="text-xs text-text-secondary">Earn-First Creator System</p>
                 </div>
             </div>

@@ -7,6 +7,13 @@ import { Card } from "@/components/ui/Card";
 
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
+import { WhoIsThisFor } from "@/components/creator-os/WhoIsThisFor";
+import { ProblemSolution } from "@/components/creator-os/ProblemSolution";
+import { WhatMakesUsDifferent } from "@/components/creator-os/WhatMakesUsDifferent";
+import { IncomePaths } from "@/components/creator-os/IncomePaths";
+import { ToolsSection } from "@/components/creator-os/ToolsSection";
+import { SampleOutput } from "@/components/creator-os/SampleOutput";
+import { FAQ } from "@/components/creator-os/FAQ";
 import {
     Zap,
     TrendingUp,
@@ -139,7 +146,7 @@ export default function CreatorOSPage() {
                                     Start For Free <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
-                            <Link href="/dashboard/home">
+                            <Link href="/creator_os_dashboard/home">
                                 <Button variant="outline" className="h-14 px-8 rounded-full text-lg font-bold border-2">
                                     Live Demo
                                 </Button>
@@ -243,63 +250,51 @@ export default function CreatorOSPage() {
                 </div>
             </section>
 
-            {/* Pricing */}
+            {/* New Conversion-Focused Sections */}
+            <WhoIsThisFor />
+            <ProblemSolution />
+            <WhatMakesUsDifferent />
+            <SampleOutput />
+            <IncomePaths />
+            <ToolsSection />
+            <FAQ />
+
+            {/* Pricing CTA */}
             <section className="py-20 px-6">
-                <div className="max-w-4xl mx-auto">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold mb-3">Simple Pricing</h2>
-                        <p className="text-slate-500 text-lg">Start free, upgrade when you're ready</p>
-                    </div>
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <Card className="p-8 border-slate-200">
-                            <h3 className="text-2xl font-bold mb-2">Free</h3>
-                            <p className="text-slate-600 mb-6">Perfect for getting started</p>
-                            <div className="text-4xl font-bold mb-6">$0<span className="text-lg text-slate-500 font-normal">/month</span></div>
-                            <ul className="space-y-3 mb-8">
-                                {["5 Channel Ideas/month", "10 Content Packs/month", "Basic Analytics", "AI Tools Directory", "Community Support"].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2">
-                                        <CheckCircle2 className="size-5 text-green-500" />
-                                        <span>{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <Link href="/signup">
-                                <Button variant="outline" className="w-full">Get Started</Button>
-                            </Link>
-                        </Card>
-                        <Card className="p-8 border-primary shadow-xl relative overflow-hidden">
-                            <div className="absolute top-0 right-0 bg-primary text-white text-xs px-3 py-1 rounded-bl-lg font-bold">POPULAR</div>
-                            <h3 className="text-2xl font-bold mb-2">Premium</h3>
-                            <p className="text-slate-600 mb-6">For serious creators</p>
-                            <div className="text-4xl font-bold mb-6">$29<span className="text-lg text-slate-500 font-normal">/month</span></div>
-                            <ul className="space-y-3 mb-8">
-                                {["Unlimited Everything", "Advanced AI Models", "Priority Support", "Premium Guides", "YouTube Analytics", "Income Tracking"].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2">
-                                        <CheckCircle2 className="size-5 text-primary" />
-                                        <span className="font-medium">{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <Link href="/signup">
-                                <Button className="w-full">Upgrade Now</Button>
-                            </Link>
-                        </Card>
-                    </div>
+                <div className="max-w-3xl mx-auto text-center space-y-6">
+                    <h2 className="text-3xl font-bold mb-3">Simple, Transparent Pricing</h2>
+                    <p className="text-slate-500 text-lg mb-8">
+                        Start free, upgrade when you're ready. No hidden fees, cancel anytime.
+                    </p>
+                    <Link href="/pricing">
+                        <Button className="h-14 px-10 rounded-full text-lg font-bold gap-2 shadow-xl shadow-primary/25">
+                            View Detailed Pricing <ArrowRight className="size-5" />
+                        </Button>
+                    </Link>
                 </div>
             </section>
 
             {/* CTA */}
-            <section className="py-20 px-6 bg-black text-white">
-                <div className="max-w-3xl mx-auto text-center space-y-6">
-                    <h2 className="text-4xl font-bold">Ready to join the top 1%?</h2>
-                    <p className="text-slate-400 text-lg">
-                        Stop burning hours on manual research. Let Creator OS handle the data so you can handle the art.
-                    </p>
-                    <Link href="/signup">
-                        <Button className="h-14 px-10 rounded-full text-lg font-bold bg-white text-black hover:bg-slate-100 shadow-2xl">
-                            Start Creating Smarter
-                        </Button>
-                    </Link>
+            <section className="py-20 px-6 bg-white text-slate-900 relative overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse" />
+                    <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl animate-pulse delay-1000" />
+                </div>
+
+                <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
+                    {/* Frosted glass container */}
+                    <div className="backdrop-blur-xl bg-white border border-slate-200 rounded-3xl p-12 shadow-[0_10px_40px_rgba(0,0,0,0.15)] animate-fade-in">
+                        <h2 className="text-4xl font-bold mb-4 text-slate-900 animate-slide-up">Ready to join the top 1%?</h2>
+                        <p className="text-slate-600 text-lg mb-8 animate-slide-up animation-delay-200">
+                            Stop burning hours on manual research. Let Creator OS handle the data so you can handle the art.
+                        </p>
+                        <Link href="/signup">
+                            <Button className="h-14 px-10 rounded-full text-lg font-bold gap-2 shadow-xl shadow-primary/25 bg-primary hover:bg-primary-dark text-white transition-all duration-300 animate-slide-up animation-delay-400">
+                                Start Creating Smarter <ArrowRight className="size-5" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 

@@ -9,7 +9,7 @@ export function middleware(request: NextRequest) {
     // Rewrite root to dashboard
     if (hostname.includes("creator-os.web.app")) {
         if (pathname === "/") {
-            return NextResponse.rewrite(new URL("/dashboard", request.url));
+            return NextResponse.rewrite(new URL("/creator_os_dashboard", request.url));
         }
     }
 

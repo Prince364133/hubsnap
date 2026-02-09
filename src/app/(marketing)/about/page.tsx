@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -88,17 +89,24 @@ export default function AboutPage() {
                         <p className="text-slate-500 text-lg">Building the future of creator tools</p>
                     </div>
 
-                    <Link href="/founder/prince-kumar" className="block max-w-3xl mx-auto">
-                        <Card className="p-8 md:p-12 border-slate-200 hover:border-primary hover:shadow-xl transition-all cursor-pointer group">
+                    <div className="block max-w-3xl mx-auto">
+                        <Card className="p-8 md:p-12 border-slate-200 hover:border-primary hover:shadow-xl transition-all group relative">
                             <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                                {/* Profile Image Placeholder */}
-                                <div className="size-32 rounded-2xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white text-4xl font-bold shrink-0 group-hover:scale-105 transition-transform">
-                                    PK
-                                </div>
+                                {/* Profile Image */}
+                                <Link href="/founder/prince-kumar" className="relative size-32 rounded-2xl overflow-hidden shrink-0 group-hover:scale-105 transition-transform shadow-lg cursor-pointer">
+                                    <Image
+                                        src="/founder.png"
+                                        alt="Prince Kumar"
+                                        fill
+                                        className="object-cover"
+                                    />
+                                </Link>
 
                                 <div className="flex-1 text-center md:text-left">
-                                    <h3 className="text-2xl font-bold mb-1 group-hover:text-primary transition-colors">Prince Kumar</h3>
-                                    <p className="text-primary font-medium mb-4">Founder & CEO</p>
+                                    <Link href="/founder/prince-kumar" className="block hover:opacity-80 transition-opacity">
+                                        <h3 className="text-2xl font-bold mb-1 group-hover:text-primary transition-colors">Prince Kumar</h3>
+                                        <p className="text-primary font-medium mb-4">Founder & CEO</p>
+                                    </Link>
 
                                     <p className="text-slate-600 leading-relaxed mb-6">
                                         Prince is a developer and entrepreneur passionate about building tools that empower creators.
@@ -106,10 +114,10 @@ export default function AboutPage() {
                                         that makes AI accessible to creators of all skill levels.
                                     </p>
 
-                                    <div className="inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
+                                    <Link href="/founder/prince-kumar" className="inline-flex items-center gap-2 text-primary font-medium group-hover:gap-3 transition-all">
                                         <span>View Full Profile</span>
                                         <ArrowRight className="size-5" />
-                                    </div>
+                                    </Link>
 
                                     <div className="space-y-3 mb-6 mt-6">
                                         <p className="text-sm text-slate-600">
@@ -130,14 +138,14 @@ export default function AboutPage() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={(e) => e.stopPropagation()}
-                                            className="size-10 rounded-lg bg-blue-50 hover:bg-blue-100 flex items-center justify-center transition-colors"
+                                            className="size-10 rounded-lg bg-blue-50 hover:bg-blue-100 flex items-center justify-center transition-colors relative z-10"
                                         >
                                             <Linkedin className="size-5 text-blue-600" />
                                         </a>
                                         <a
                                             href="mailto:prince@hubsnap.com"
                                             onClick={(e) => e.stopPropagation()}
-                                            className="size-10 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
+                                            className="size-10 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors relative z-10"
                                         >
                                             <Mail className="size-5 text-slate-600" />
                                         </a>
@@ -146,7 +154,7 @@ export default function AboutPage() {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             onClick={(e) => e.stopPropagation()}
-                                            className="size-10 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 flex items-center justify-center transition-colors"
+                                            className="size-10 rounded-lg bg-gradient-to-r from-purple-50 to-pink-50 hover:from-purple-100 hover:to-pink-100 flex items-center justify-center transition-colors relative z-10"
                                         >
                                             <Instagram className="size-5 text-purple-600" />
                                         </a>
@@ -154,7 +162,7 @@ export default function AboutPage() {
                                 </div>
                             </div>
                         </Card>
-                    </Link>
+                    </div>
                 </div>
             </section>
 
@@ -269,18 +277,27 @@ export default function AboutPage() {
             </section>
 
             {/* Join Us CTA */}
-            <section className="py-20 px-6 bg-black text-white">
-                <div className="max-w-3xl mx-auto text-center space-y-6">
-                    <Users className="size-16 mx-auto text-primary" />
-                    <h2 className="text-4xl font-bold">Join Our Team</h2>
-                    <p className="text-slate-400 text-lg">
-                        We're always looking for talented people who share our passion for empowering creators.
-                    </p>
-                    <Link href="/contact">
-                        <Button className="h-14 px-10 rounded-full text-lg font-bold bg-white text-black hover:bg-slate-100 shadow-2xl gap-2">
-                            Get in Touch <ArrowRight className="size-5" />
-                        </Button>
-                    </Link>
+            <section className="py-20 px-6 bg-white text-slate-900 relative overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse" />
+                    <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl animate-pulse delay-1000" />
+                </div>
+
+                <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
+                    {/* Frosted glass container */}
+                    <div className="backdrop-blur-xl bg-white border border-slate-200 rounded-3xl p-12 shadow-[0_10px_40px_rgba(0,0,0,0.15)] animate-fade-in">
+                        <Users className="size-16 mx-auto text-primary mb-6 animate-bounce-slow" />
+                        <h2 className="text-4xl font-bold mb-4 text-slate-900 animate-slide-up">Join Our Team</h2>
+                        <p className="text-slate-600 text-lg mb-8 animate-slide-up animation-delay-200">
+                            We're always looking for talented people who share our passion for empowering creators.
+                        </p>
+                        <Link href="/contact">
+                            <Button className="h-14 px-10 rounded-full text-lg font-bold gap-2 shadow-xl shadow-primary/25 bg-primary hover:bg-primary-dark text-white transition-all duration-300 animate-slide-up animation-delay-400">
+                                Join Our Team <ArrowRight className="size-5" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 

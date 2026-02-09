@@ -198,17 +198,26 @@ export default function FeaturesPage() {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 px-6 bg-black text-white">
-                <div className="max-w-3xl mx-auto text-center space-y-6">
-                    <h2 className="text-4xl font-bold">Ready to Level Up?</h2>
-                    <p className="text-slate-400 text-lg">
-                        Join thousands of creators using HubSnap to build smarter, faster, and more profitably.
-                    </p>
-                    <Link href="/signup">
-                        <Button className="h-14 px-10 rounded-full text-lg font-bold bg-white text-black hover:bg-slate-100 shadow-2xl">
-                            Start Free Today
-                        </Button>
-                    </Link>
+            <section className="py-20 px-6 bg-white text-slate-900 relative overflow-hidden">
+                {/* Animated background elements */}
+                <div className="absolute inset-0 opacity-20">
+                    <div className="absolute top-10 left-10 w-72 h-72 bg-white rounded-full blur-3xl animate-pulse" />
+                    <div className="absolute bottom-10 right-10 w-96 h-96 bg-blue-300 rounded-full blur-3xl animate-pulse delay-1000" />
+                </div>
+
+                <div className="max-w-3xl mx-auto text-center space-y-6 relative z-10">
+                    {/* Frosted glass container */}
+                    <div className="backdrop-blur-xl bg-white border border-slate-200 rounded-3xl p-12 shadow-[0_10px_40px_rgba(0,0,0,0.15)] animate-fade-in">
+                        <h2 className="text-4xl font-bold mb-4 text-slate-900 animate-slide-up">Ready to Level Up?</h2>
+                        <p className="text-slate-600 text-lg mb-8 animate-slide-up animation-delay-200">
+                            Join thousands of creators using HubSnap to build smarter, faster, and more profitably.
+                        </p>
+                        <Link href="/signup">
+                            <Button className="h-14 px-10 rounded-full text-lg font-bold gap-2 shadow-xl shadow-primary/25 bg-primary hover:bg-primary-dark text-white animate-slide-up animation-delay-400">
+                                Start Free Today <ArrowRight className="size-5" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
 

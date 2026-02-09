@@ -10,7 +10,7 @@ export function AddChannelButton() {
 
     const handleAdd = () => {
         setIsLoading(true);
-        router.push("/dashboard/add-profile");
+        router.push("/creator_os_dashboard/add-profile");
         // setIsLoading(false); // Navigation unmounts it anyway
     };
 

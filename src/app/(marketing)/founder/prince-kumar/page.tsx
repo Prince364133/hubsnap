@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { PublicHeader } from "@/components/layout/PublicHeader";
@@ -42,8 +43,13 @@ export default function FounderProfilePage() {
 
                         <div className="relative flex flex-col md:flex-row gap-8 items-start">
                             {/* Profile Image */}
-                            <div className="size-32 md:size-40 rounded-2xl bg-gradient-to-br from-primary to-purple-500 flex items-center justify-center text-white text-5xl font-bold shrink-0 shadow-xl">
-                                PK
+                            <div className="relative size-32 md:size-40 rounded-2xl overflow-hidden shrink-0 shadow-xl border-4 border-white">
+                                <Image
+                                    src="/founder.png"
+                                    alt="Prince Kumar"
+                                    fill
+                                    className="object-cover"
+                                />
                             </div>
 
                             {/* Profile Info */}

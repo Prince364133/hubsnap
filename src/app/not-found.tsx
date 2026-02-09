@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Home, Search, ArrowLeft, Compass } from "lucide-react";
 
 export default function NotFound() {
@@ -10,7 +11,8 @@ export default function NotFound() {
         <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center px-6">
             <div className="max-w-2xl w-full text-center space-y-8">
                 {/* Logo */}
-                <Link href="/" className="inline-flex items-center gap-2 mb-8">
+                {/* Logo */}
+                <Link href="/" className="inline-flex items-center gap-3 mb-8">
                     <Image
                         src="/logo.gif"
                         alt="HubSnap Logo"
@@ -18,7 +20,7 @@ export default function NotFound() {
                         height={48}
                         className="rounded-lg"
                     />
-                    <span className="font-bold text-2xl tracking-tight">HUBSNAP</span>
+                    <BrandLogo size="lg" />
                 </Link>
 
                 {/* 404 Illustration */}
@@ -70,8 +72,8 @@ export default function NotFound() {
                             Creator OS
                         </Link>
                         <span className="text-slate-300">•</span>
-                        <Link href="/guides" className="text-sm text-primary hover:underline">
-                            Guides
+                        <Link href="/digital-business-ideas" className="text-sm text-primary hover:underline">
+                            Digital Business Ideas
                         </Link>
                         <span className="text-slate-300">•</span>
                         <Link href="/about" className="text-sm text-primary hover:underline">
