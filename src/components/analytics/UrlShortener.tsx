@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { app } from '@/lib/firebase';
+
 import { Link as LinkIcon, Copy, ExternalLink, BarChart3, Trash2, Power, PowerOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -35,8 +34,6 @@ export default function UrlShortener() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    const functions = getFunctions(app);
-
     useEffect(() => {
         fetchUrls();
     }, []);
@@ -44,9 +41,13 @@ export default function UrlShortener() {
     const fetchUrls = async () => {
         setLoading(true);
         try {
-            const listShortUrlsFn = httpsCallable(functions, 'listShortUrls');
-            const result = await listShortUrlsFn({});
-            const data = result.data as { urls: ShortUrl[] };
+            const response = await fetch('/api/analytics/short-urls');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch URLs');
+            }
+
             setUrls(data.urls);
         } catch (error) {
             console.error('Failed to fetch URLs:', error);
@@ -65,15 +66,22 @@ export default function UrlShortener() {
 
         setCreating(true);
         try {
-            const createShortUrlFn = httpsCallable(functions, 'createShortUrl');
-            const result = await createShortUrlFn({
-                originalUrl,
-                customAlias: customAlias || undefined,
-                title: title || undefined,
-                description: description || undefined
+            const response = await fetch('/api/analytics/short-urls', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    longUrl: originalUrl,
+                    customSlug: customAlias || undefined,
+                    title: title || undefined
+                })
             });
 
-            const data = result.data as { shortUrl: string };
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create short URL');
+            }
+
             toast.success('Short URL created!');
 
             // Reset form
@@ -99,8 +107,16 @@ export default function UrlShortener() {
 
     const toggleEnabled = async (urlId: string, enabled: boolean) => {
         try {
-            const updateShortUrlFn = httpsCallable(functions, 'updateShortUrl');
-            await updateShortUrlFn({ urlId, enabled: !enabled });
+            const response = await fetch('/api/analytics/short-urls', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: urlId, enabled: !enabled })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update');
+            }
+
             toast.success(enabled ? 'Short URL disabled' : 'Short URL enabled');
             fetchUrls();
         } catch (error) {
@@ -113,8 +129,14 @@ export default function UrlShortener() {
         if (!confirm('Are you sure you want to delete this short URL?')) return;
 
         try {
-            const deleteShortUrlFn = httpsCallable(functions, 'deleteShortUrl');
-            await deleteShortUrlFn({ urlId });
+            const response = await fetch(`/api/analytics/short-urls?id=${urlId}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete');
+            }
+
             toast.success('Short URL deleted');
             fetchUrls();
         } catch (error) {

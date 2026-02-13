@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Users, Activity, Clock, Eye } from 'lucide-react';
 import { analyticsClient } from '@/lib/analytics-client';
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { app } from '@/lib/firebase';
 
 interface ActiveUserData {
     totalActive: number;
@@ -51,10 +49,14 @@ export default function RealTimeMetrics() {
 
     const fetchActiveUsers = async () => {
         try {
-            const functions = getFunctions(app);
-            const getActiveUsersFn = httpsCallable(functions, 'getActiveUsers');
-            const result = await getActiveUsersFn({});
-            setActiveData(result.data as ActiveUserData);
+            const response = await fetch('/api/analytics/active-users');
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to fetch active users');
+            }
+
+            setActiveData(data);
             setLoading(false);
         } catch (error) {
             console.error('Failed to fetch active users:', error);
