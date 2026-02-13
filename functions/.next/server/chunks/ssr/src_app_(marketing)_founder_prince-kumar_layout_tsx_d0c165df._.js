@@ -1,0 +1,3 @@
+module.exports=[63462,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)(b.Fragment,{children:a})}a.s(["default",()=>c,"metadata",0,{title:"Prince Kumar | Founder & CEO",description:"Meet Prince Kumar, Founder & CEO of HubSnap. A developer and entrepreneur passionate about democratization of AI tools for creators.",alternates:{canonical:"https://hubsnap.com/founder/prince-kumar"},openGraph:{title:"Prince Kumar | Founder & CEO of HubSnap",description:"Building the operating system for digital creators. Connect with Prince Kumar on LinkedIn and Instagram.",images:["/logo.jpeg"]}}])}];
+
+//# sourceMappingURL=src_app_%28marketing%29_founder_prince-kumar_layout_tsx_d0c165df._.js.map

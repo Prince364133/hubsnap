@@ -1,0 +1,3 @@
+module.exports=[61814,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)(b.Fragment,{children:a})}a.s(["default",()=>c,"metadata",0,{title:"Features",description:"Explore the powerful features of HubSnap. From AI content generation to advanced analytics, we have everything you need to grow.",alternates:{canonical:"https://hubsnap.com/features"}}])}];
+
+//# sourceMappingURL=src_app_%28marketing%29_features_layout_tsx_8753b028._.js.map

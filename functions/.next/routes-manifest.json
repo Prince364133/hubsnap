@@ -1,0 +1,398 @@
+{
+  "version": 3,
+  "pages404": true,
+  "appType": "app",
+  "caseSensitive": false,
+  "basePath": "",
+  "redirects": [
+    {
+      "source": "/:path+/",
+      "destination": "/:path+",
+      "internal": true,
+      "priority": true,
+      "statusCode": 308,
+      "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://integrate.api.nvidia.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;"
+        }
+      ],
+      "regex": "^(?:/(.*))(?:/)?$"
+    }
+  ],
+  "rewrites": {
+    "beforeFiles": [],
+    "afterFiles": [],
+    "fallback": []
+  },
+  "dynamicRoutes": [
+    {
+      "page": "/blog/[slug]",
+      "regex": "^/blog/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPslug": "nxtPslug"
+      },
+      "namedRegex": "^/blog/(?<nxtPslug>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/channel/[id]",
+      "regex": "^/creator_os_dashboard/channel/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/creator_os_dashboard/channel/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/income-sources/[id]",
+      "regex": "^/creator_os_dashboard/income\\-sources/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/creator_os_dashboard/income\\-sources/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/digital-business-ideas/[id]",
+      "regex": "^/digital\\-business\\-ideas/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/digital\\-business\\-ideas/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/blogs/[id]",
+      "regex": "^/website_admin_pannel/blogs/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/website_admin_pannel/blogs/(?<nxtPid>[^/]+?)(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/help-center/[id]",
+      "regex": "^/website_admin_pannel/help\\-center/([^/]+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/website_admin_pannel/help\\-center/(?<nxtPid>[^/]+?)(?:/)?$"
+    }
+  ],
+  "staticRoutes": [
+    {
+      "page": "/",
+      "regex": "^/(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/(?:/)?$"
+    },
+    {
+      "page": "/_global-error",
+      "regex": "^/_global\\-error(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_global\\-error(?:/)?$"
+    },
+    {
+      "page": "/_not-found",
+      "regex": "^/_not\\-found(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/_not\\-found(?:/)?$"
+    },
+    {
+      "page": "/about",
+      "regex": "^/about(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/about(?:/)?$"
+    },
+    {
+      "page": "/api/create-order",
+      "regex": "^/api/create\\-order(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/create\\-order(?:/)?$"
+    },
+    {
+      "page": "/blog",
+      "regex": "^/blog(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/blog(?:/)?$"
+    },
+    {
+      "page": "/contact",
+      "regex": "^/contact(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/contact(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard",
+      "regex": "^/creator_os_dashboard(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/add-profile",
+      "regex": "^/creator_os_dashboard/add\\-profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/add\\-profile(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/channel-ideas",
+      "regex": "^/creator_os_dashboard/channel\\-ideas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/channel\\-ideas(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/channel-name",
+      "regex": "^/creator_os_dashboard/channel\\-name(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/channel\\-name(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/content/day-1",
+      "regex": "^/creator_os_dashboard/content/day\\-1(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/content/day\\-1(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/content/generate",
+      "regex": "^/creator_os_dashboard/content/generate(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/content/generate(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/content-mode",
+      "regex": "^/creator_os_dashboard/content\\-mode(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/content\\-mode(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/digital-business-ideas",
+      "regex": "^/creator_os_dashboard/digital\\-business\\-ideas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/digital\\-business\\-ideas(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/explore",
+      "regex": "^/creator_os_dashboard/explore(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/explore(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/home",
+      "regex": "^/creator_os_dashboard/home(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/home(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/income-sources",
+      "regex": "^/creator_os_dashboard/income\\-sources(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/income\\-sources(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/logo-selection",
+      "regex": "^/creator_os_dashboard/logo\\-selection(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/logo\\-selection(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/profile",
+      "regex": "^/creator_os_dashboard/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/profile(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/saved",
+      "regex": "^/creator_os_dashboard/saved(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/saved(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/setup-pack",
+      "regex": "^/creator_os_dashboard/setup\\-pack(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/setup\\-pack(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/subscription",
+      "regex": "^/creator_os_dashboard/subscription(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/subscription(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/tools",
+      "regex": "^/creator_os_dashboard/tools(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/tools(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/trends",
+      "regex": "^/creator_os_dashboard/trends(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/trends(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/youtube-analytics",
+      "regex": "^/creator_os_dashboard/youtube\\-analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/youtube\\-analytics(?:/)?$"
+    },
+    {
+      "page": "/digital-business-ideas",
+      "regex": "^/digital\\-business\\-ideas(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/digital\\-business\\-ideas(?:/)?$"
+    },
+    {
+      "page": "/explore",
+      "regex": "^/explore(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/explore(?:/)?$"
+    },
+    {
+      "page": "/favicon.ico",
+      "regex": "^/favicon\\.ico(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/features",
+      "regex": "^/features(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/features(?:/)?$"
+    },
+    {
+      "page": "/forgot-password",
+      "regex": "^/forgot\\-password(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/forgot\\-password(?:/)?$"
+    },
+    {
+      "page": "/founder/prince-kumar",
+      "regex": "^/founder/prince\\-kumar(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/founder/prince\\-kumar(?:/)?$"
+    },
+    {
+      "page": "/help",
+      "regex": "^/help(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/help(?:/)?$"
+    },
+    {
+      "page": "/login",
+      "regex": "^/login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/login(?:/)?$"
+    },
+    {
+      "page": "/make-me-admin",
+      "regex": "^/make\\-me\\-admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/make\\-me\\-admin(?:/)?$"
+    },
+    {
+      "page": "/pricing",
+      "regex": "^/pricing(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/pricing(?:/)?$"
+    },
+    {
+      "page": "/privacy",
+      "regex": "^/privacy(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/privacy(?:/)?$"
+    },
+    {
+      "page": "/products/creator-os",
+      "regex": "^/products/creator\\-os(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/products/creator\\-os(?:/)?$"
+    },
+    {
+      "page": "/profile",
+      "regex": "^/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/profile(?:/)?$"
+    },
+    {
+      "page": "/signup",
+      "regex": "^/signup(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/signup(?:/)?$"
+    },
+    {
+      "page": "/terms",
+      "regex": "^/terms(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/terms(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel",
+      "regex": "^/website_admin_pannel(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/blogs",
+      "regex": "^/website_admin_pannel/blogs(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/blogs(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/coupons",
+      "regex": "^/website_admin_pannel/coupons(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/coupons(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/guides",
+      "regex": "^/website_admin_pannel/guides(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/guides(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/help-center",
+      "regex": "^/website_admin_pannel/help\\-center(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/help\\-center(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/seed",
+      "regex": "^/website_admin_pannel/seed(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/seed(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/tools",
+      "regex": "^/website_admin_pannel/tools(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/tools(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/users",
+      "regex": "^/website_admin_pannel/users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/users(?:/)?$"
+    }
+  ],
+  "dataRoutes": [],
+  "rsc": {
+    "header": "rsc",
+    "varyHeader": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch",
+    "prefetchHeader": "next-router-prefetch",
+    "didPostponeHeader": "x-nextjs-postponed",
+    "contentTypeHeader": "text/x-component",
+    "suffix": ".rsc",
+    "prefetchSegmentHeader": "next-router-segment-prefetch",
+    "prefetchSegmentSuffix": ".segment.rsc",
+    "prefetchSegmentDirSuffix": ".segments",
+    "clientParamParsing": false,
+    "dynamicRSCPrerender": false
+  },
+  "rewriteHeaders": {
+    "pathHeader": "x-nextjs-rewritten-path",
+    "queryHeader": "x-nextjs-rewritten-query"
+  }
+}

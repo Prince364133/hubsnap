@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { generateDailyContentAction } from "@/app/actions";
-import { ai, DailyContent } from "@/lib/ai-logic";
+import { DailyContent } from "@/lib/ai-types";
 import { dbService } from "@/lib/firestore";
-import { Loader2, Play, FileText, CheckCircle, Check, Music, Video, Image as ImageIcon, Mic, RefreshCw, Bookmark, Clock, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
+import { Loader2, Play, FileText, CheckCircle, Check, Music, Video, Image as ImageIcon, Mic, RefreshCw, Bookmark, Clock, ArrowRight, Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface DailyContentWidgetProps {
@@ -57,12 +58,12 @@ export function DailyContentWidget({ userNiche }: DailyContentWidgetProps) {
         if (action === "save") {
             setSavedContent(prev => [...prev, content]);
             setIdeas(prev => prev.filter(i => i.id !== content.id));
-            alert("Content Saved for Later!");
+            toast.success("Content Saved for Later!");
         } else {
             setHistory(prev => [...prev, content]);
             setIdeas(prev => prev.filter(i => i.id !== content.id));
-            await dbService.logEarnings("demo_user", 10, `Posted: ${content.topic}`);
-            alert("Content Marked Complete! +$10 Earnings");
+            await dbService.logEarnings("demo_user", 10, "Posted: " + content.topic);
+            toast.success("Content Marked Complete! +$10 Earnings");
         }
         setSelectedIdea(null);
     };
@@ -257,8 +258,8 @@ export function DailyContentWidget({ userNiche }: DailyContentWidgetProps) {
                                         </li>
                                     ))}
                                 </ul>
-                                <Button variant="outline" className="w-full mt-4" onClick={() => alert("SOP Downloaded (Mock)")}>
-                                    Download SOP PDF
+                                <Button variant="outline" className="w-full mt-4" onClick={() => toast.success("SOP Downloaded (Mock)")}>
+                                    <Download className="size-4 mr-2" /> Download SOP
                                 </Button>
                             </Card>
 

@@ -24,9 +24,8 @@ const MENU_ITEMS = [
     { name: "Trends", icon: TrendingUp, href: "/creator_os_dashboard/trends" },
     { name: "Content", icon: Video, href: "/creator_os_dashboard/content" },
     { name: "Saved", icon: Bookmark, href: "/creator_os_dashboard/saved" },
-    { name: "Digital Business Ideas", icon: BookOpen, href: "/creator_os_dashboard/digital-business-ideas" },
-    { name: "Tools", icon: Wrench, href: "/creator_os_dashboard/tools" },
     { name: "Income Sources", icon: DollarSign, href: "/creator_os_dashboard/income-sources" },
+    { name: "Settings", icon: Settings, href: "/creator_os_dashboard/settings" },
 ];
 
 export function Sidebar() {

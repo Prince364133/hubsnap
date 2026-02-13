@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
@@ -31,9 +32,11 @@ export function Header() {
                 <Button variant="ghost" size="icon" className="text-text-secondary hover:text-primary transition-colors">
                     <Bell className="size-5" />
                 </Button>
-                <div className="size-9 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-sm font-bold shadow-md ring-2 ring-white cursor-pointer hover:ring-primary/20 transition-all">
-                    DU
-                </div>
+                <Link href="/creator_os_dashboard/profile">
+                    <div className="size-9 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white text-sm font-bold shadow-md ring-2 ring-white cursor-pointer hover:ring-primary/20 transition-all">
+                        DU
+                    </div>
+                </Link>
             </div>
         </header>
     );

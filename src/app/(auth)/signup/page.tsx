@@ -6,52 +6,29 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { dbService } from "@/lib/firestore";
+import { useAuth } from "@/context/AuthContext";
 import { nanoid } from 'nanoid';
 
 export default function SignupPage() {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const { signInWithGoogle } = useAuth();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [referralInput, setReferralInput] = useState("");
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [referralInput, setReferralInput] = useState("");
 
     const handleGoogleSignup = async () => {
         setLoading(true);
         setError("");
 
         try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
-
-            // Check if user already exists
-            const existingProfile = await dbService.getUserProfile(user.uid);
-            if (existingProfile) {
-                router.push("/dashboard/home");
-                return;
-            }
-
-            // Generate Referral Code
-            const referralCode = (user.displayName?.slice(0, 4) || "USER").toUpperCase() + nanoid(4).toUpperCase();
-
-            // Create Profile in Firestore
-            const profileData: any = {
-                name: user.displayName || "User",
-                email: user.email || "",
-                plan: 'free',
-                role: 'user',
-                walletBalance: 0,
-                referralCode: referralCode,
-                createdAt: new Date().toISOString()
-            };
-
-            await dbService.saveUserProfile(user.uid, profileData);
-            router.push("/dashboard/home");
+            await signInWithGoogle();
+            router.push("/creator_os_dashboard/home");
         } catch (err: any) {
             console.error(err);
             if (err.code === 'auth/popup-closed-by-user') {

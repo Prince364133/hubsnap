@@ -3,51 +3,8 @@
 const NVIDIA_API_URL = process.env.NVIDIA_BASE_URL ? `${process.env.NVIDIA_BASE_URL}/chat/completions` : "https://integrate.api.nvidia.com/v1/chat/completions";
 const MODEL = process.env.NVIDIA_MODEL || "moonshotai/kimi-k2.5";
 
-export interface NicheSuggestion {
-    id: string;
-    title: string;
-    description: string;
-    whoWatches: string;
-    whyTheyPay: string;
-    monetizationPath: "Affiliate" | "Lead Gen" | "Services";
-    competition: "Low" | "Medium" | "High";
-}
+import { NicheSuggestion, DailyContent } from "@/lib/ai-types";
 
-export interface DailyContent {
-    id: string;
-    topic: string;
-    script: {
-        hook: string;
-        body: string;
-        cta: string;
-    };
-    sop: {
-        shots: string[];
-        textOverlays: string[];
-    };
-    seo: {
-        title: string;
-        description: string;
-        hashtags: string[];
-        keywords: string[];
-    };
-    tools: {
-        voiceover: string;
-        imageGen: string;
-        stockVideo: string;
-        music: string[];
-    };
-    research?: {
-        videoKeywords: string[];
-        stockTerms: string[];
-    };
-    imagePrompts: string[];
-    monetization: {
-        type: string;
-        instruction: string;
-        ethicalWarning: string;
-    };
-}
 
 /**
  * Common helper to fetch from NVIDIA API

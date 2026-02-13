@@ -1,19 +1,23 @@
 import { db } from "./firebase";
 import {
-    doc,
-    getDoc,
-    setDoc,
     collection,
-    addDoc,
+    doc,
     getDocs,
+    getDoc,
+    addDoc,
+    updateDoc,
+    setDoc,
+    deleteDoc,
     query,
     where,
-    Timestamp,
-    updateDoc,
-    deleteDoc,
-    increment,
+    orderBy,
     limit,
-    arrayUnion
+    Timestamp,
+    serverTimestamp,
+    increment,
+    arrayUnion,
+    writeBatch,
+    collectionGroup
 } from "firebase/firestore";
 
 // --- Interfaces ---
@@ -31,6 +35,7 @@ export interface UserProfile {
     location?: string;
     pageName?: string;
     workingStatus?: string; // 'Full-time', 'Student', 'Freelancer'
+    bio?: string;
 
     // Onboarding Data
     onboarding?: {
@@ -64,7 +69,36 @@ export interface UserProfile {
     earnings?: {
         total: number;
         history: { date: string; amount: number; source: string }[];
-    }
+    };
+
+    // ============================================
+    // USER INTELLIGENCE & ACTIVITY TRACKING
+    // ============================================
+
+    // Activity Summary (Aggregated from analytics)
+    activitySummary?: {
+        lastActive: any; // Timestamp
+        totalSessions: number;
+        avgSessionDuration: number; // seconds
+        totalPageViews: number;
+        mostVisitedPage: string;
+        deviceType: 'mobile' | 'desktop' | 'tablet' | 'mixed';
+        location?: { country: string; state?: string };
+        engagementScore: number; // 0-100
+    };
+
+    // Status Classification
+    status?: 'highly_active' | 'active' | 'at_risk' | 'inactive';
+    statusUpdatedAt?: any; // Timestamp
+
+    // Growth Metrics
+    metrics?: {
+        firstSessionAt: any; // Timestamp
+        lastSessionAt: any; // Timestamp
+        sessionCount7d: number;
+        sessionCount30d: number;
+        activityTrend: 'growing' | 'stable' | 'declining';
+    };
 }
 
 export interface TrendItem {
@@ -85,6 +119,77 @@ export interface YouTubeStats {
         views: number;
     }[];
     monetized: boolean;
+}
+
+// ============================================
+// USER ACTIVITY & INTELLIGENCE INTERFACES
+// ============================================
+
+export interface UserActivityAggregate {
+    userId: string;
+    lastUpdated: any; // Timestamp
+
+    // Session metrics
+    totalSessions: number;
+    avgSessionDuration: number;
+    longestSession: number;
+
+    // Page view metrics
+    totalPageViews: number;
+    pagesVisited: { [page: string]: number };
+    mostVisitedPage: string;
+
+    // Device & location
+    deviceBreakdown: { mobile: number; desktop: number; tablet: number };
+    primaryDevice: 'mobile' | 'desktop' | 'tablet';
+    locations: { country: string; count: number }[];
+
+    // Time-based metrics
+    sessionCount7d: number;
+    sessionCount30d: number;
+    sessionCount90d: number;
+
+    // Engagement
+    engagementScore: number; // 0-100
+    activityTrend: 'growing' | 'stable' | 'declining';
+}
+
+export interface AdminDashboardStats {
+    // User growth
+    usersJoinedToday: number;
+    usersJoinedThisWeek: number;
+    usersJoinedThisMonth: number;
+    totalUsers: number;
+
+    // Activity
+    activeUsersToday: number;
+    activeUsersThisWeek: number;
+    activeUsersThisMonth: number;
+
+    // Status distribution
+    statusDistribution: {
+        highly_active: number;
+        active: number;
+        at_risk: number;
+        inactive: number;
+    };
+
+    // Retention & churn
+    retentionRate7d: number; // percentage
+    retentionRate30d: number;
+    churnWarnings: number; // users at risk
+
+    // Last updated
+    lastUpdated: any; // Timestamp
+}
+
+export interface SavedItem {
+    id: string;
+    userId: string;
+    type: 'tool' | 'guide' | 'rated_guide' | 'blog'; // Added 'blog'
+    data: any; // Tool, Guide, or Blog data
+    rating?: number; // Only for rated_guide
+    savedAt: any;
 }
 
 export interface Channel {
@@ -127,6 +232,8 @@ export interface Channel {
 
 export interface ChannelStats {
     totalChannels: number;
+    youtubeChannels: number;
+    instagramPages: number;
     totalFollowers: number;
     totalPosts: number;
     // Add more global stats here
@@ -169,8 +276,15 @@ export interface Guide {
     isPublic: boolean; // Visibility toggle
     accessType: 'FREE' | 'SUBSCRIPTION' | 'ONE_TIME_PURCHASE';
     tags?: string[];
+    whatYouWillLearn?: string[];
+    includes?: string[];
     createdAt: any;
     updatedAt: any;
+    deleted?: boolean;
+    externalUrl?: string; // Link to the actual resource/tool
+    ratingSum?: number;
+    ratingCount?: number;
+    averageRating?: number;
 }
 
 export interface Coupon {
@@ -181,6 +295,76 @@ export interface Coupon {
     active: boolean;
     usageCount: number;
     createdAt: any;
+}
+
+export interface ContentHistoryItem {
+    id: string;
+    userId: string;
+    title: string;
+    type: 'script' | 'idea' | 'outline' | 'image_prompt' | 'mixed' | 'trend';
+    content: any;
+    platform: 'youtube' | 'instagram' | 'linkedin' | 'twitter' | 'blog' | 'other';
+    metadata?: {
+        mode?: string;
+        lang?: string;
+        tone?: string;
+    };
+    createdAt: any;
+}
+
+export interface Blog {
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    content: string; // HTML/Rich Text
+    coverImage?: string;
+    category: string;
+    tags: string[];
+    author: {
+        id: string;
+        name: string;
+        avatar?: string;
+    };
+    published: boolean;
+    featured?: boolean;
+    views: number;
+    readTime: number; // in minutes
+    resources?: { label: string; url: string }[];
+
+    // SEO
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+
+    // Engagement
+    likes: number;
+    commentsCount: number;
+
+    createdAt: any;
+    updatedAt: any;
+    publishedAt?: any;
+}
+
+export interface Comment {
+    id: string;
+    blogId: string;
+    userId: string;
+    userName: string;
+    userAvatar?: string;
+    content: string;
+    createdAt: any;
+}
+
+export interface BlogComment {
+    id: string;
+    blogId: string;
+    userId: string;
+    userName: string;
+    userAvatar?: string;
+    content: string;
+    createdAt: any;
+    likes: number; // Likes on comment
 }
 
 export const dbService = {
@@ -379,11 +563,11 @@ export const dbService = {
         }
     },
 
-    getSavedItems: async (userId: string) => {
+    getSavedItems: async (userId: string): Promise<SavedItem[]> => {
         try {
             const q = query(collection(db, "users", userId, "savedItems"));
             const snap = await getDocs(q);
-            return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            return snap.docs.map(d => ({ id: d.id, ...d.data() } as SavedItem));
         } catch (e) {
             console.error("Error fetching saved items:", e);
             return [];
@@ -482,7 +666,10 @@ export const dbService = {
                 q = query(collection(db, "tools"));
             }
             const toolsSnap = await getDocs(q);
-            return toolsSnap.docs.map(doc => ({ id: doc.id, ...doc.data() } as Tool));
+            // Filter out deleted in JS to handle documents missing the field
+            return toolsSnap.docs
+                .map(doc => ({ id: doc.id, ...doc.data() } as Tool))
+                .filter(tool => (tool as any).deleted !== true);
         } catch (e) {
             console.error("Error getting tools:", e);
             return [];
@@ -507,6 +694,7 @@ export const dbService = {
         try {
             const docRef = await addDoc(collection(db, "tools"), {
                 ...tool,
+                deleted: false,
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now()
             });
@@ -560,6 +748,24 @@ export const dbService = {
         }
     },
 
+    batchDeleteTools: async (ids: string[]): Promise<boolean> => {
+        try {
+            const batch = writeBatch(db);
+            ids.forEach(id => {
+                const docRef = doc(db, "tools", id);
+                batch.update(docRef, {
+                    deleted: true,
+                    deletedAt: Timestamp.now()
+                });
+            });
+            await batch.commit();
+            return true;
+        } catch (e) {
+            console.error("Error batch deleting tools:", e);
+            return false;
+        }
+    },
+
     // --- Guides (Knowledge Base) ---
     getGuides: async (onlyPublic: boolean = false): Promise<Guide[]> => {
         try {
@@ -570,7 +776,10 @@ export const dbService = {
                 q = query(collection(db, "guides"));
             }
             const snap = await getDocs(q);
-            return snap.docs.map(d => ({ id: d.id, ...d.data() } as Guide));
+            // Filter out deleted in JS to handle documents missing the field
+            return snap.docs
+                .map(d => ({ id: d.id, ...d.data() } as Guide))
+                .filter(guide => (guide as any).deleted !== true);
         } catch (e) {
             console.error("Error fetching guides:", e);
             return [];
@@ -595,6 +804,7 @@ export const dbService = {
         try {
             const docRef = await addDoc(collection(db, "guides"), {
                 ...guide,
+                deleted: false,
                 createdAt: Timestamp.now(),
                 updatedAt: Timestamp.now()
             });
@@ -633,6 +843,40 @@ export const dbService = {
         }
     },
 
+    rateGuide: async (guideId: string, rating: number, userId?: string, guideData?: any): Promise<boolean> => {
+        try {
+            const guideRef = doc(db, "guides", guideId);
+            const guideSnap = await getDoc(guideRef);
+            if (!guideSnap.exists()) return false;
+
+            const data = guideSnap.data();
+            const newSum = (data.ratingSum || 0) + rating;
+            const newCount = (data.ratingCount || 0) + 1;
+
+            await updateDoc(guideRef, {
+                ratingSum: newSum,
+                ratingCount: newCount,
+                averageRating: Number((newSum / newCount).toFixed(1)),
+                updatedAt: Timestamp.now()
+            });
+
+            // If userId is provided, also save this as an interaction
+            if (userId && guideData) {
+                await addDoc(collection(db, "users", userId, "savedItems"), {
+                    type: 'rated_guide',
+                    rating,
+                    data: guideData,
+                    savedAt: Timestamp.now()
+                });
+            }
+
+            return true;
+        } catch (e) {
+            console.error("Error rating guide:", e);
+            return false;
+        }
+    },
+
     toggleGuidePremium: async (id: string, premium: boolean): Promise<boolean> => {
         try {
             const docRef = doc(db, "guides", id);
@@ -643,6 +887,24 @@ export const dbService = {
             return true;
         } catch (e) {
             console.error("Error toggling guide premium:", e);
+            return false;
+        }
+    },
+
+    batchDeleteGuides: async (ids: string[]): Promise<boolean> => {
+        try {
+            const batch = writeBatch(db);
+            ids.forEach(id => {
+                const docRef = doc(db, "guides", id);
+                batch.update(docRef, {
+                    deleted: true,
+                    deletedAt: Timestamp.now()
+                });
+            });
+            await batch.commit();
+            return true;
+        } catch (e) {
+            console.error("Error batch deleting guides:", e);
             return false;
         }
     },
@@ -923,6 +1185,20 @@ export const dbService = {
         }
     },
 
+    batchDeleteBlogs: async (ids: string[]): Promise<boolean> => {
+        try {
+            const batch = writeBatch(db);
+            ids.forEach(id => {
+                batch.delete(doc(db, "blogs", id));
+            });
+            await batch.commit();
+            return true;
+        } catch (e) {
+            console.error("Error batch deleting blogs:", e);
+            return false;
+        }
+    },
+
     incrementBlogViews: async (blogId: string): Promise<boolean> => {
         try {
             const blogRef = doc(db, "blogs", blogId);
@@ -957,5 +1233,244 @@ export const dbService = {
         }
 
         return { success, failed };
+    },
+
+    // --- Content History & Analytics ---
+    saveContentHistory: async (userId: string, item: Omit<ContentHistoryItem, 'id' | 'createdAt'>): Promise<string | null> => {
+        try {
+            const docRef = await addDoc(collection(db, "users", userId, "content_history"), {
+                ...item,
+                createdAt: Timestamp.now()
+            });
+            return docRef.id;
+        } catch (e) {
+            console.error("Error saving content history:", e);
+            return null;
+        }
+    },
+
+    getContentHistory: async (userId: string, filters?: { type?: string; platform?: string; startDate?: Date; endDate?: Date }): Promise<ContentHistoryItem[]> => {
+        try {
+            const q = query(collection(db, "users", userId, "content_history"));
+            const snap = await getDocs(q);
+            let items = snap.docs.map(d => ({ id: d.id, ...d.data() } as ContentHistoryItem));
+
+            // Sort by date desc (newest first)
+            items.sort((a, b) => {
+                // Handle both Firestore Timestamp and JS Date if needed, though usually Timestamp in DB
+                const tA = (a.createdAt && typeof a.createdAt.toMillis === 'function') ? a.createdAt.toMillis() : 0;
+                const tB = (b.createdAt && typeof b.createdAt.toMillis === 'function') ? b.createdAt.toMillis() : 0;
+                return tB - tA;
+            });
+
+            if (filters) {
+                if (filters.type && filters.type !== 'all') {
+                    items = items.filter(i => i.type === filters.type);
+                }
+                if (filters.platform && filters.platform !== 'all') {
+                    items = items.filter(i => i.platform === filters.platform);
+                }
+                if (filters.startDate) {
+                    items = items.filter(i => {
+                        const d = (i.createdAt && typeof i.createdAt.toDate === 'function') ? i.createdAt.toDate() : new Date();
+                        return d >= filters.startDate!;
+                    });
+                }
+                if (filters.endDate) {
+                    items = items.filter(i => {
+                        const d = (i.createdAt && typeof i.createdAt.toDate === 'function') ? i.createdAt.toDate() : new Date();
+                        return d <= filters.endDate!;
+                    });
+                }
+            }
+
+            return items;
+        } catch (e) {
+            console.error("Error fetching content history:", e);
+            return [];
+        }
+    },
+
+    // --- Blog Interactions ---
+    trackBlogView: async (blogId: string) => {
+        try {
+            const blogRef = doc(db, "blogs", blogId);
+            await updateDoc(blogRef, { views: increment(1) });
+        } catch (e) {
+            console.error("Error tracking view:", e);
+        }
+    },
+
+    toggleBlogLike: async (blogId: string, userId: string) => {
+        try {
+            const blogRef = doc(db, "blogs", blogId);
+            const userLikeRef = doc(db, "users", userId, "liked_blogs", blogId);
+
+            const userLikeSnap = await getDoc(userLikeRef);
+
+            if (userLikeSnap.exists()) {
+                // Unlike
+                await deleteDoc(userLikeRef);
+                await updateDoc(blogRef, { likes: increment(-1) });
+                return false; // Not liked
+            } else {
+                // Like
+                await setDoc(userLikeRef, { likedAt: serverTimestamp() });
+                await updateDoc(blogRef, { likes: increment(1) });
+                return true; // Liked
+            }
+        } catch (e) {
+            console.error("Error toggling like:", e);
+            return false;
+        }
+    },
+
+    toggleSaveBlog: async (blogId: string, userId: string) => {
+        try {
+            // Check if already saved
+            const q = query(
+                collection(db, "users", userId, "savedItems"),
+                where("type", "==", "blog"),
+                where("data.id", "==", blogId)
+            );
+            const snap = await getDocs(q);
+
+            if (!snap.empty) {
+                // Unsave
+                await deleteDoc(doc(db, "users", userId, "savedItems", snap.docs[0].id));
+                return false;
+            } else {
+                // Save
+                // First get blog data to store a snapshot
+                const blogRef = doc(db, "blogs", blogId);
+                const blogSnap = await getDoc(blogRef);
+                if (!blogSnap.exists()) return false;
+
+                await addDoc(collection(db, "users", userId, "savedItems"), {
+                    userId,
+                    type: 'blog',
+                    data: { id: blogSnap.id, ...blogSnap.data() },
+                    savedAt: serverTimestamp()
+                });
+                return true;
+            }
+        } catch (e) {
+            console.error("Error toggling save:", e);
+            return false;
+        }
+    },
+
+    getUsedBlogs: async (userId: string): Promise<{ liked: Blog[], commented: Blog[] }> => {
+        try {
+            const likedBlogs: Blog[] = [];
+            const commentedBlogs: Blog[] = [];
+
+            // Fetch Liked Blogs
+            const likedSnap = await getDocs(collection(db, "users", userId, "liked_blogs"));
+            const likedIds = likedSnap.docs.map(d => d.id);
+
+            for (const id of likedIds) {
+                const docSnap = await getDoc(doc(db, "blogs", id));
+                if (docSnap.exists()) {
+                    likedBlogs.push({ id: docSnap.id, ...docSnap.data() } as Blog);
+                }
+            }
+
+            // Fetch Commented Blogs (This is expensive without a separate index, but functional for now)
+            // Ideally, we store "commented_blogs" in user profile similar to liked_blogs to avoid query scans
+            // For now, we will skip implementation or do a client-side filter if needed, 
+            // BUT a better way is to query all comments by userId if we had a collection group query.
+            // Since we structure comments as subcollections, collection group query is needed.
+
+            const commentsQ = query(collectionGroup(db, 'comments'), where('userId', '==', userId));
+            const commentsSnap = await getDocs(commentsQ);
+            const commentedBlogIds = new Set<string>();
+            commentsSnap.forEach(d => commentedBlogIds.add((d.data() as any).blogId));
+
+            for (const id of Array.from(commentedBlogIds)) {
+                const docSnap = await getDoc(doc(db, "blogs", id));
+                if (docSnap.exists()) {
+                    commentedBlogs.push({ id: docSnap.id, ...docSnap.data() } as Blog);
+                }
+            }
+
+            return { liked: likedBlogs, commented: commentedBlogs };
+        } catch (e) {
+            console.error("Error fetching used blogs:", e);
+            return { liked: [], commented: [] };
+        }
+    },
+
+    isBlogLiked: async (blogId: string, userId: string) => {
+        try {
+            const userLikeRef = doc(db, "users", userId, "liked_blogs", blogId);
+            const snap = await getDoc(userLikeRef);
+            return snap.exists();
+        } catch (e) {
+            return false;
+        }
+    },
+
+    isBlogSaved: async (blogId: string, userId: string) => {
+        try {
+            const q = query(
+                collection(db, "users", userId, "savedItems"),
+                where("type", "==", "blog"),
+                where("data.id", "==", blogId)
+            );
+            const snap = await getDocs(q);
+            return !snap.empty;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    // --- Comments ---
+    addComment: async (blogId: string, userId: string, content: string, userInfo: { name: string; avatar?: string }) => {
+        try {
+            const commentData = {
+                blogId,
+                userId,
+                userName: userInfo.name,
+                userAvatar: userInfo.avatar || null,
+                content,
+                createdAt: serverTimestamp()
+            };
+
+            await addDoc(collection(db, "blogs", blogId, "comments"), commentData);
+
+            // Update local comment count
+            const blogRef = doc(db, "blogs", blogId);
+            await updateDoc(blogRef, { commentsCount: increment(1) });
+
+            return true;
+        } catch (e) {
+            console.error("Error adding comment:", e);
+            return false;
+        }
+    },
+
+    getComments: async (blogId: string): Promise<Comment[]> => {
+        try {
+            const q = query(collection(db, "blogs", blogId, "comments"), orderBy("createdAt", "desc"));
+            const snap = await getDocs(q);
+            return snap.docs.map(d => ({ id: d.id, ...d.data() } as Comment));
+        } catch (e) {
+            console.error("Error getting comments:", e);
+            return [];
+        }
+    },
+
+    deleteComment: async (blogId: string, commentId: string) => {
+        try {
+            await deleteDoc(doc(db, "blogs", blogId, "comments", commentId));
+            // Update local comment count
+            const blogRef = doc(db, "blogs", blogId);
+            await updateDoc(blogRef, { commentsCount: increment(-1) });
+            return true;
+        } catch (e) {
+            console.error("Error deleting comment:", e);
+            return false;
+        }
     }
 };

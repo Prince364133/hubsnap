@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Loader2, Youtube, Instagram, Check, ArrowRight, ArrowLeft, Search, ChevronDown, ChevronUp, Calendar, Zap, Video, Film, Edit, Brain } from "lucide-react";
-import { ai } from "@/lib/ai-logic";
+import { generateChannelNames, generateChannelBranding } from "@/lib/ai-logic";
+import { toast } from "sonner";
 import { dbService } from "@/lib/firestore";
 import { NICHE_CATEGORIES } from "@/lib/data";
+import { useAuth } from "@/context/AuthContext";
 
 type Step = "platform" | "categories" | "topics" | "language" | "format" | "frequency" | "working-days" | "editing-style" | "curation" | "generating-names" | "name-selection" | "generating-branding" | "review";
 
@@ -27,6 +29,7 @@ const CURATION_STYLES = [
 
 export function AddProfileWizard() {
     const router = useRouter();
+    const { user } = useAuth();
     const [step, setStep] = useState<Step>("platform");
     const [loading, setLoading] = useState(false);
 
@@ -97,13 +100,14 @@ export function AddProfileWizard() {
         setStep("generating-names");
         try {
             const contextStr = selectedNiches.join(", ") + " focusing on " + selectedTopics.join(", ");
-            const names = await ai.generateChannelNames(contextStr, platform);
+            const names = await generateChannelNames(contextStr, platform);
             setGeneratedNames(names);
             setStep("name-selection");
         } catch (e) {
             console.error(e);
-            alert("Failed to generate names.");
-            setStep("curation");
+            toast.error("Failed to generate names.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -112,7 +116,7 @@ export function AddProfileWizard() {
         setStep("generating-branding");
         try {
             const contextStr = selectedNiches.join(", ");
-            const pack = await ai.generateChannelBranding(name, contextStr, platform, {
+            const pack = await generateChannelBranding(name, contextStr, platform, {
                 language,
                 style: editingStyle // Pass editing style to AI for SOP generation context
             });
@@ -120,17 +124,18 @@ export function AddProfileWizard() {
             setStep("review");
         } catch (e) {
             console.error(e);
-            alert("Failed to create branding pack.");
-            setStep("name-selection");
+            toast.error("Failed to create branding pack.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleFinalSave = async () => {
-        if (!brandingPack || !selectedName) return;
+        if (!brandingPack || !selectedName || !user) return;
         setLoading(true);
         try {
-            await dbService.addChannel("demo_user", {
-                userId: "demo_user",
+            await dbService.addChannel(user.uid, {
+                userId: user.uid,
                 platform: platform,
                 name: selectedName,
                 handle: "@" + selectedName.replace(/\\s/g, "").toLowerCase(),

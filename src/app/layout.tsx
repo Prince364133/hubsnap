@@ -53,6 +53,7 @@ export const metadata: Metadata = {
 };
 
 import { AuthProvider } from "@/context/AuthContext";
+import { HeaderTitleProvider } from "@/context/HeaderTitleContext";
 import { Toaster } from "sonner";
 
 export default function RootLayout({
@@ -67,8 +68,10 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <AuthProvider>
-          {children}
-          <Toaster position="top-center" />
+          <HeaderTitleProvider>
+            {children}
+            <Toaster position="top-center" />
+          </HeaderTitleProvider>
         </AuthProvider>
       </body>
     </html>

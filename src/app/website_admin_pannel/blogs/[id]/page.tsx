@@ -8,6 +8,11 @@ import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "sonner";
+import { Label } from "@/components/ui/Label";
+import { Trash2 } from "lucide-react";
 
 export default function BlogEditorPage() {
     const router = useRouter();
@@ -17,6 +22,8 @@ export default function BlogEditorPage() {
 
     const [loading, setLoading] = useState(!isNew);
     const [saving, setSaving] = useState(false);
+    const [uploadMode, setUploadMode] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [formData, setFormData] = useState({
         title: "",
         slug: "",
@@ -61,6 +68,26 @@ export default function BlogEditorPage() {
             });
         }
         setLoading(false);
+    };
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploadingImage(true);
+        try {
+            const storageRef = ref(storage, `blog-covers/${Date.now()}-${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+
+            setFormData(prev => ({ ...prev, coverImage: downloadURL }));
+            toast.success("Image uploaded successfully!");
+        } catch (error) {
+            console.error("Upload failed:", error);
+            toast.error("Failed to upload image");
+        } finally {
+            setUploadingImage(false);
+        }
     };
 
     const handleSave = async () => {
@@ -248,11 +275,58 @@ export default function BlogEditorPage() {
 
                         <Card className="p-6">
                             <h2 className="font-semibold mb-4">Cover Image</h2>
-                            <Input
-                                value={formData.coverImage}
-                                onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
-                                placeholder="Image URL"
-                            />
+                            <div className="space-y-4">
+                                <div className="flex gap-4 border-b">
+                                    <button
+                                        className={`pb-2 text-sm font-medium ${!uploadMode ? 'border-b-2 border-primary text-primary' : 'text-slate-500'}`}
+                                        onClick={() => setUploadMode(false)}
+                                    >
+                                        Image URL
+                                    </button>
+                                    <button
+                                        className={`pb-2 text-sm font-medium ${uploadMode ? 'border-b-2 border-primary text-primary' : 'text-slate-500'}`}
+                                        onClick={() => setUploadMode(true)}
+                                    >
+                                        Upload Image
+                                    </button>
+                                </div>
+
+                                {uploadMode ? (
+                                    <div className="space-y-2">
+                                        <Label>Upload Image</Label>
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleImageUpload}
+                                            disabled={uploadingImage}
+                                        />
+                                        {uploadingImage && <p className="text-xs text-slate-500 animate-pulse">Uploading...</p>}
+                                    </div>
+                                ) : (
+                                    <div className="space-y-2">
+                                        <Label>Cover Image URL</Label>
+                                        <Input
+                                            value={formData.coverImage || ""}
+                                            onChange={e => setFormData({ ...formData, coverImage: e.target.value })}
+                                            placeholder="https://..."
+                                        />
+                                    </div>
+                                )}
+
+                                {formData.coverImage && (
+                                    <div className="mt-2 rounded-lg overflow-hidden border aspect-video relative group bg-slate-100">
+                                        <img src={formData.coverImage} alt="Cover" className="object-cover w-full h-full" />
+                                        <Button
+                                            size="icon"
+                                            variant="destructive"
+                                            className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            onClick={() => setFormData({ ...formData, coverImage: "" })}
+                                        >
+                                            <Trash2 className="size-4" />
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
                         </Card>
 
                         <Card className="p-6">

@@ -1,0 +1,20 @@
+{
+  "node": {
+    "408366827c32d98ca6426d0b033054a5823ddb5674": {
+      "workers": {
+        "app/(app)/creator_os_dashboard/content/generate/page": {
+          "moduleId": 27401,
+          "async": false,
+          "exportedName": "generateDailyContentAction",
+          "filename": "src/app/actions.ts"
+        }
+      },
+      "layer": {
+        "app/(app)/creator_os_dashboard/content/generate/page": "action-browser"
+      },
+      "exportedName": "generateDailyContentAction",
+      "filename": "src/app/actions.ts"
+    }
+  },
+  "edge": {}
+}

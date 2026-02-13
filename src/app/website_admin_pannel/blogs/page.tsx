@@ -10,30 +10,123 @@ import { Plus, Search, Upload, Edit, Trash2, Eye, EyeOff, Download } from "lucid
 import Link from "next/link";
 import * as XLSX from "xlsx";
 
-import { runBlogSeed } from "@/app/actions/seed-actions";
+// import { runBlogSeed } from "@/app/actions/seed-actions";
+import { downloadBlogTemplate, parseBlogExcelFile } from "@/lib/excel-utils";
 import { toast } from "sonner";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogDescription,
+    DialogFooter
+} from "@/components/ui/Dialog";
 
 export default function AdminBlogsPage() {
     const [blogs, setBlogs] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
     const [filterCategory, setFilterCategory] = useState<string>("all");
-    const [seeding, setSeeding] = useState(false);
+
+
+    const [selectedBlogs, setSelectedBlogs] = useState<string[]>([]);
+    const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean; type: 'single' | 'bulk'; id?: string }>({ isOpen: false, type: 'single' });
 
     useEffect(() => {
         loadBlogs();
     }, []);
 
-    const handleSeed = async () => {
-        setSeeding(true);
-        const result = await runBlogSeed();
-        setSeeding(false);
-        if (result.success) {
-            toast.success(result.message);
-            loadBlogs();
-        } else {
-            toast.error(result.message);
+    const handleDownloadTemplate = () => {
+        downloadBlogTemplate();
+        toast.success("Template downloaded!");
+    };
+
+    const handleExcelImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setLoading(true);
+        try {
+            const parsedBlogs = await parseBlogExcelFile(file);
+
+            if (parsedBlogs.length === 0) {
+                toast.warning("No valid blogs found in file");
+                return;
+            }
+
+            let successCount = 0;
+            let failCount = 0;
+
+            for (const blog of parsedBlogs) {
+                try {
+                    if (!blog.title || !blog.content) {
+                        failCount++;
+                        continue;
+                    }
+                    await dbService.createBlog(blog as any);
+                    successCount++;
+                } catch (err) {
+                    console.error("Error importing blog:", blog.title, err);
+                    failCount++;
+                }
+            }
+
+            if (successCount > 0) {
+                toast.success(`Successfully imported ${successCount} blogs!`);
+                loadBlogs();
+            }
+            if (failCount > 0) {
+                toast.warning(`Failed to import ${failCount} rows.`);
+            }
+        } catch (error) {
+            console.error("Import error:", error);
+            toast.error("Failed to parse Excel file");
+        } finally {
+            setLoading(false);
+            e.target.value = "";
         }
+    };
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedBlogs(filteredBlogs.map(b => b.id));
+        } else {
+            setSelectedBlogs([]);
+        }
+    };
+
+    const handleSelectBlog = (id: string, checked: boolean) => {
+        if (checked) {
+            setSelectedBlogs(prev => [...prev, id]);
+        } else {
+            setSelectedBlogs(prev => prev.filter(blogId => blogId !== id));
+        }
+    };
+
+    const confirmDelete = async () => {
+        if (deleteConfirmation.type === 'bulk') {
+            const success = await dbService.batchDeleteBlogs(selectedBlogs);
+            if (success) {
+                toast.success(`${selectedBlogs.length} blogs deleted successfully`);
+                setSelectedBlogs([]);
+                loadBlogs();
+            } else {
+                toast.error("Failed to delete blogs");
+            }
+        } else if (deleteConfirmation.id) {
+            const success = await dbService.deleteBlog(deleteConfirmation.id);
+            if (success) {
+                toast.success("Blog post deleted successfully");
+                setBlogs(blogs.filter(b => b.id !== deleteConfirmation.id));
+            } else {
+                toast.error("Failed to delete blog post");
+            }
+        }
+        setDeleteConfirmation({ isOpen: false, type: 'single' });
+    };
+
+    const handleBulkDelete = () => {
+        setDeleteConfirmation({ isOpen: true, type: 'bulk' });
     };
 
 
@@ -44,106 +137,56 @@ export default function AdminBlogsPage() {
         setLoading(false);
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm("Are you sure you want to delete this blog?")) return;
-        const success = await dbService.deleteBlog(id);
-        if (success) {
-            setBlogs(blogs.filter(b => b.id !== id));
-        }
+    const handleDelete = (id: string) => {
+        setDeleteConfirmation({ isOpen: true, type: 'single', id });
     };
 
-    const handleTogglePublish = async (blog: any) => {
-        const success = await dbService.updateBlog(blog.id, { published: !blog.published });
-        if (success) {
-            loadBlogs();
-        }
-    };
 
-    const handleExcelImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            const data = new Uint8Array(event.target?.result as ArrayBuffer);
-            const workbook = XLSX.read(data, { type: "array" });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet);
-
-            const blogsToImport = jsonData.map((row: any) => ({
-                title: row.Title || "",
-                slug: row.Slug || row.Title?.toLowerCase().replace(/\s+/g, "-") || "",
-                excerpt: row.Excerpt || "",
-                content: row.Content || "",
-                coverImage: row.CoverImage || "/blog-placeholder.jpg",
-                author: {
-                    name: row.Author || "HubSnap Team",
-                    avatar: row.AuthorAvatar || ""
-                },
-                category: row.Category || "General",
-                tags: row.Tags ? row.Tags.split(",").map((t: string) => t.trim()) : [],
-                seo: {
-                    metaTitle: row.MetaTitle || row.Title || "",
-                    metaDescription: row.MetaDescription || row.Excerpt || "",
-                    keywords: row.Keywords ? row.Keywords.split(",").map((k: string) => k.trim()) : [],
-                    ogImage: row.OGImage || row.CoverImage || ""
-                },
-                readTime: parseInt(row.ReadTime) || 5,
-                published: row.Published === "TRUE" || row.Published === true,
-                featured: row.Featured === "TRUE" || row.Featured === true
-            }));
-
-            const result = await dbService.bulkImportBlogs(blogsToImport);
-            alert(`Import complete! Success: ${result.success}, Failed: ${result.failed}`);
-            loadBlogs();
-        };
-        reader.readAsArrayBuffer(file);
-    };
-
-    const handleExcelExport = () => {
-        const exportData = blogs.map(blog => ({
-            Title: blog.title,
-            Slug: blog.slug,
-            Excerpt: blog.excerpt,
-            Content: blog.content,
-            Category: blog.category,
-            Tags: blog.tags?.join(", ") || "",
-            Author: blog.author?.name || "",
-            MetaTitle: blog.seo?.metaTitle || "",
-            MetaDescription: blog.seo?.metaDescription || "",
-            Keywords: blog.seo?.keywords?.join(", ") || "",
-            ReadTime: blog.readTime,
-            Published: blog.published ? "TRUE" : "FALSE",
-            Featured: blog.featured ? "TRUE" : "FALSE",
-            Views: blog.views || 0,
-            CoverImage: blog.coverImage || ""
-        }));
-
-        const worksheet = XLSX.utils.json_to_sheet(exportData);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Blogs");
-        XLSX.writeFile(workbook, "blogs-export.xlsx");
-    };
-
+    // Derived State
+    const categories = Array.from(new Set(blogs.map(b => b.category || "Uncategorized")));
     const filteredBlogs = blogs.filter(blog => {
-        const matchesSearch = blog.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            blog.excerpt?.toLowerCase().includes(searchQuery.toLowerCase());
+        const matchesSearch = blog.title.toLowerCase().includes(searchQuery.toLowerCase());
         const matchesCategory = filterCategory === "all" || blog.category === filterCategory;
         return matchesSearch && matchesCategory;
     });
 
-    const categories = ["all", ...new Set(blogs.map(b => b.category).filter(Boolean))];
+    const handleTogglePublish = async (blog: any) => {
+        const newStatus = !blog.published;
+        // In a real app, update via dbService
+        // For now, optimistic update
+        const updatedBlogs = blogs.map(b => b.id === blog.id ? { ...b, published: newStatus } : b);
+        setBlogs(updatedBlogs);
+        await dbService.updateBlog(blog.id, { published: newStatus });
+        toast.success(newStatus ? "Blog published" : "Blog unpublished");
+    };
+
+    const handleExcelExport = () => {
+        const worksheet = XLSX.utils.json_to_sheet(blogs);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Blogs");
+        XLSX.writeFile(workbook, "blogs_export.xlsx");
+    };
 
     return (
-        <div className="min-h-screen bg-slate-50 p-6">
+        <div className="space-y-8">
             <div className="max-w-7xl mx-auto">
-                {/* Header */}
+                {/* Header and other UI elements remain the same */}
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900">Blog Management</h1>
                         <p className="text-slate-500 mt-1">Manage your blog posts and content</p>
                     </div>
                     <div className="flex gap-3">
+                        {selectedBlogs.length > 0 && (
+                            <Button
+                                variant="destructive"
+                                onClick={handleBulkDelete}
+                                className="animate-in fade-in slide-in-from-right-4"
+                            >
+                                <Trash2 className="size-4 mr-2" />
+                                Delete ({selectedBlogs.length})
+                            </Button>
+                        )}
                         <Button variant="outline" onClick={handleExcelExport}>
                             <Download className="size-4 mr-2" />
                             Export Excel
@@ -162,10 +205,7 @@ export default function AdminBlogsPage() {
                                 onChange={handleExcelImport}
                             />
                         </label>
-                        <Button variant="outline" onClick={handleSeed} disabled={seeding}>
-                            <Upload className="size-4 mr-2" />
-                            {seeding ? "Seeding..." : "Seed Samples"}
-                        </Button>
+
                         <Link href="/website_admin_pannel/blogs/new">
                             <Button>
                                 <Plus className="size-4 mr-2" />
@@ -187,17 +227,31 @@ export default function AdminBlogsPage() {
                                 className="pl-10"
                             />
                         </div>
-                        <div className="flex gap-2">
-                            {categories.map(cat => (
-                                <Button
-                                    key={cat}
-                                    variant={filterCategory === cat ? "default" : "outline"}
-                                    size="sm"
-                                    onClick={() => setFilterCategory(cat)}
-                                >
-                                    {cat === "all" ? "All" : cat}
-                                </Button>
-                            ))}
+                        <div className="flex gap-4 items-center">
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    id="selectAll"
+                                    checked={selectedBlogs.length === filteredBlogs.length && filteredBlogs.length > 0}
+                                    onChange={(e) => handleSelectAll(e.target.checked)}
+                                    className="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4"
+                                />
+                                <label htmlFor="selectAll" className="text-sm font-medium text-slate-700 cursor-pointer">
+                                    Select All
+                                </label>
+                            </div>
+                            <div className="flex gap-2">
+                                {categories.map(cat => (
+                                    <Button
+                                        key={cat}
+                                        variant={filterCategory === cat ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => setFilterCategory(cat)}
+                                    >
+                                        {cat === "all" ? "All" : cat}
+                                    </Button>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </Card>
@@ -238,8 +292,14 @@ export default function AdminBlogsPage() {
                 ) : (
                     <div className="space-y-3">
                         {filteredBlogs.map(blog => (
-                            <Card key={blog.id} className="p-4 hover:shadow-md transition-shadow">
+                            <Card key={blog.id} className={`p-4 hover:shadow-md transition-shadow ${selectedBlogs.includes(blog.id) ? 'border-primary ring-1 ring-primary' : ''}`}>
                                 <div className="flex items-center gap-4">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedBlogs.includes(blog.id)}
+                                        onChange={(e) => handleSelectBlog(blog.id, e.target.checked)}
+                                        className="rounded border-slate-300 text-primary focus:ring-primary h-5 w-5"
+                                    />
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2">
                                             <h3 className="font-semibold text-lg">{blog.title}</h3>
@@ -291,6 +351,22 @@ export default function AdminBlogsPage() {
                     </div>
                 )}
             </div>
+
+            <Dialog open={deleteConfirmation.isOpen} onOpenChange={(open) => setDeleteConfirmation(prev => ({ ...prev, isOpen: open }))}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Confirm Deletion</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete {deleteConfirmation.type === 'bulk' ? `${selectedBlogs.length} blogs` : 'this blog post'}?
+                            This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setDeleteConfirmation(prev => ({ ...prev, isOpen: false }))}>Cancel</Button>
+                        <Button variant="destructive" onClick={confirmDelete}>Delete</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

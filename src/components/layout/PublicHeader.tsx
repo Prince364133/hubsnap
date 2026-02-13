@@ -5,9 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
+import { useHeaderTitle } from "@/context/HeaderTitleContext";
 
 export function PublicHeader() {
+    const { user, profile, logout } = useAuth();
+    const { title } = useHeaderTitle();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     const navLinks = [
@@ -15,6 +19,7 @@ export function PublicHeader() {
         { href: "/products/creator-os", label: "Creator OS" },
         { href: "/explore", label: "Explore Tools" },
         { href: "/digital-business-ideas", label: "Digital Business Ideas" },
+        { href: "/blog", label: "Blogs" },
         { href: "/about", label: "About" },
         { href: "/contact", label: "Contact" }
     ];
@@ -39,29 +44,51 @@ export function PublicHeader() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.href}
-                                href={link.href}
-                                className="hover:text-black transition-colors"
-                            >
-                                {link.label}
-                            </Link>
-                        ))}
+                        {title ? (
+                            <span className="text-xl font-bold text-slate-900 truncate max-w-xl">{title}</span>
+                        ) : (
+                            navLinks.map((link) => (
+                                <Link
+                                    key={link.href}
+                                    href={link.href}
+                                    className="hover:text-black transition-colors"
+                                >
+                                    {link.label}
+                                </Link>
+                            ))
+                        )}
                     </div>
 
                     {/* Desktop Auth Buttons */}
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href="/login">
-                            <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
-                                Sign In
-                            </span>
-                        </Link>
-                        <Link href="/signup">
-                            <Button className="rounded-full px-6 shadow-lg shadow-primary/20">
-                                Get Started
-                            </Button>
-                        </Link>
+                        {user ? (
+                            <div className="flex items-center gap-4">
+                                <Link href="/profile">
+                                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 hover:bg-slate-100 transition-colors border border-slate-200">
+                                        <div className="size-7 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold">
+                                            {profile?.name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || "U"}
+                                        </div>
+                                        <span className="text-sm font-semibold text-slate-700">Account</span>
+                                    </div>
+                                </Link>
+                                <Button variant="ghost" size="sm" onClick={logout} className="text-slate-500 hover:text-red-500">
+                                    <LogOut className="size-4" />
+                                </Button>
+                            </div>
+                        ) : (
+                            <>
+                                <Link href="/login">
+                                    <span className="text-sm font-medium hover:text-primary transition-colors cursor-pointer">
+                                        Sign In
+                                    </span>
+                                </Link>
+                                <Link href="/signup">
+                                    <Button className="rounded-full px-6 shadow-lg shadow-primary/20">
+                                        Get Started
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -111,19 +138,41 @@ export function PublicHeader() {
 
                     {/* Mobile Auth Buttons */}
                     <div className="border-t border-slate-100 p-4 space-y-3">
-                        <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                            <Button
-                                variant="outline"
-                                className="w-full rounded-full font-medium"
-                            >
-                                Sign In
-                            </Button>
-                        </Link>
-                        <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                            <Button className="w-full rounded-full font-medium shadow-lg shadow-primary/20">
-                                Get Started
-                            </Button>
-                        </Link>
+                        {user ? (
+                            <>
+                                <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button variant="outline" className="w-full rounded-full font-medium gap-2">
+                                        <UserIcon className="size-4" /> Profile
+                                    </Button>
+                                </Link>
+                                <Button
+                                    variant="ghost"
+                                    className="w-full rounded-full font-medium text-red-500 hover:text-red-600 hover:bg-red-50"
+                                    onClick={() => {
+                                        logout();
+                                        setMobileMenuOpen(false);
+                                    }}
+                                >
+                                    Log Out
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button
+                                        variant="outline"
+                                        className="w-full rounded-full font-medium"
+                                    >
+                                        Sign In
+                                    </Button>
+                                </Link>
+                                <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button className="w-full rounded-full font-medium shadow-lg shadow-primary/20">
+                                        Get Started
+                                    </Button>
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

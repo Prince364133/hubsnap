@@ -10,11 +10,14 @@ import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from "firebase/auth";
 
+import { useAuth } from "@/context/AuthContext";
+
 export default function LoginPage() {
     const router = useRouter();
-    const [loading, setLoading] = useState(false);
+    const { signInWithGoogle } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -62,8 +65,7 @@ export default function LoginPage() {
         setLoading(true);
         setError("");
         try {
-            const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
+            await signInWithGoogle();
             router.push("/creator_os_dashboard/home");
         } catch (err: any) {
             console.error(err);

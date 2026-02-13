@@ -1,0 +1,15 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/make-me-admin/layout,_N_T_/make-me-admin/page,_N_T_/make-me-admin"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/make-me-admin/__PAGE__",
+    "/make-me-admin",
+    "/_index",
+    "/_head"
+  ]
+}

@@ -11,6 +11,7 @@ import {
 import { auth, db } from "@/lib/firebase";
 import { UserProfile, dbService } from "@/lib/firestore";
 import { doc, onSnapshot } from "firebase/firestore";
+import { nanoid } from "nanoid";
 
 interface AuthContextType {
     user: User | null;
@@ -76,7 +77,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const signInWithGoogle = async () => {
         try {
             const provider = new GoogleAuthProvider();
-            await signInWithPopup(auth, provider);
+            const result = await signInWithPopup(auth, provider);
+            const firebaseUser = result.user;
+
+            // Check if profile exists, if not create it
+            const existingProfile = await dbService.getUserProfile(firebaseUser.uid);
+            if (!existingProfile) {
+                const referralCode = (firebaseUser.displayName?.slice(0, 4) || "USER").toUpperCase() + nanoid(4).toUpperCase();
+                const newProfile: Partial<UserProfile> = {
+                    email: firebaseUser.email || "",
+                    name: firebaseUser.displayName || "Creator",
+                    plan: "free",
+                    role: "user",
+                    walletBalance: 0,
+                    referralCode: referralCode,
+                    createdAt: new Date().toISOString()
+                };
+                await dbService.saveUserProfile(firebaseUser.uid, newProfile);
+            }
         } catch (error) {
             console.error("Error signing in with Google:", error);
             throw error;

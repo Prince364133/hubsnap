@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fcreator_os_dashboard\u002Fincome-sources\u002F[id]"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()

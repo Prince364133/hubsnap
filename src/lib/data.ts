@@ -5,6 +5,7 @@ export type ChannelIdea = {
     skillLevel: "Low" | "Medium" | "High";
     growthPattern: "Slow" | "Medium" | "Fast";
     description: string;
+    niche?: string;
 };
 
 export const CHANNEL_IDEAS: ChannelIdea[] = [

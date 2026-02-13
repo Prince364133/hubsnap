@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog";
 import type { Tool } from "@/lib/firestore";
 import { dbService } from "@/lib/firestore";
+import { toast } from "sonner";
 
 interface ToolFormProps {
     open: boolean;
@@ -93,26 +94,26 @@ export function ToolForm({ open, onOpenChange, tool, onSuccess }: ToolFormProps)
                 // Update existing tool
                 const success = await dbService.updateTool(tool.id, toolData);
                 if (success) {
-                    alert("Tool updated successfully!");
+                    toast.success("Tool updated successfully!");
                     onSuccess();
                     onOpenChange(false);
                 } else {
-                    alert("Failed to update tool");
+                    toast.error("Failed to update tool");
                 }
             } else {
                 // Create new tool
                 const id = await dbService.createTool(toolData as any);
                 if (id) {
-                    alert("Tool created successfully!");
+                    toast.success("Tool created successfully!");
                     onSuccess();
                     onOpenChange(false);
                 } else {
-                    alert("Failed to create tool");
+                    toast.error("Failed to create tool");
                 }
             }
         } catch (error) {
             console.error("Error saving tool:", error);
-            alert("An error occurred while saving the tool");
+            toast.error("An error occurred while saving the tool");
         } finally {
             setSaving(false);
         }

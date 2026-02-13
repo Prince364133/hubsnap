@@ -50,7 +50,7 @@ export default function AdminHelpCenterPage() {
     const categories = ["all", "Getting Started", "Features", "Billing", "Technical"];
 
     return (
-        <div className="min-h-screen bg-slate-50 p-6">
+        <div className="space-y-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <div className="flex items-center justify-between mb-8">

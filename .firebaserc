@@ -1,15 +1,19 @@
 {
   "projects": {
-    "default": "yt-tool-1c8fe"
+    "default": "start-ups-64204"
   },
   "targets": {
-    "yt-tool-1c8fe": {
+    "teste-erhij8": {
       "hosting": {
-        "creator-os": [
-          "creator-os"
-        ],
-        "hubsnap": [
-          "hubsnap"
+        "hubsnap-os": [
+          "hubsnap-os"
+        ]
+      }
+    },
+    "start-ups-64204": {
+      "hosting": {
+        "hub-snap": [
+          "hub-snap"
         ]
       }
     }

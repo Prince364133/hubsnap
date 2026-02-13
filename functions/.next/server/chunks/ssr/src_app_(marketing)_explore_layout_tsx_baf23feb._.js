@@ -1,0 +1,3 @@
+module.exports=[39093,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)(b.Fragment,{children:a})}a.s(["default",()=>c,"metadata",0,{title:"Explore Tools",description:"Discover our curated directory of 650+ AI tools for creators. Filter by category, price, and use case to find the perfect tool for your workflow.",alternates:{canonical:"https://hubsnap.com/explore"}}])}];
+
+//# sourceMappingURL=src_app_%28marketing%29_explore_layout_tsx_baf23feb._.js.map

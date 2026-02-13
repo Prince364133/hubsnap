@@ -8,6 +8,8 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog";
 import { dbService } from "@/lib/firestore";
 import type { Guide } from "@/lib/firestore";
+import { Trash2, Plus } from "lucide-react";
+import { toast } from "sonner";
 
 interface GuideFormProps {
     open: boolean;
@@ -26,7 +28,10 @@ export function GuideForm({ open, onOpenChange, guide, onSuccess }: GuideFormPro
         premium: false,
         isPublic: true,
         accessType: "FREE" as "FREE" | "SUBSCRIPTION" | "ONE_TIME_PURCHASE",
-        tags: ""
+        tags: "",
+        externalUrl: "",
+        whatYouWillLearn: [] as string[],
+        includes: [] as string[]
     });
     const [saving, setSaving] = useState(false);
 
@@ -41,7 +46,10 @@ export function GuideForm({ open, onOpenChange, guide, onSuccess }: GuideFormPro
                 premium: guide.premium || false,
                 isPublic: guide.isPublic ?? true,
                 accessType: guide.accessType || "FREE",
-                tags: guide.tags?.join(", ") || ""
+                tags: guide.tags?.join(", ") || "",
+                externalUrl: guide.externalUrl || "",
+                whatYouWillLearn: guide.whatYouWillLearn || [],
+                includes: guide.includes || []
             });
         } else {
             // Reset form
@@ -54,7 +62,10 @@ export function GuideForm({ open, onOpenChange, guide, onSuccess }: GuideFormPro
                 premium: false,
                 isPublic: true,
                 accessType: "FREE",
-                tags: ""
+                tags: "",
+                externalUrl: "",
+                whatYouWillLearn: [],
+                includes: []
             });
         }
     }, [guide, open]);
@@ -73,34 +84,62 @@ export function GuideForm({ open, onOpenChange, guide, onSuccess }: GuideFormPro
                 premium: formData.premium,
                 isPublic: formData.isPublic,
                 accessType: formData.accessType,
-                tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean)
+                tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
+                externalUrl: formData.externalUrl.trim(),
+                whatYouWillLearn: formData.whatYouWillLearn.filter(item => item.trim()),
+                includes: formData.includes.filter(item => item.trim())
             };
 
             if (guide) {
                 const success = await dbService.updateGuide(guide.id, guideData);
                 if (success) {
-                    alert("Guide updated successfully!");
+                    toast.success("Guide updated successfully!");
                     onSuccess();
                     onOpenChange(false);
                 } else {
-                    alert("Failed to update guide");
+                    toast.error("Failed to update guide");
                 }
             } else {
                 const id = await dbService.createGuide(guideData as any);
                 if (id) {
-                    alert("Guide created successfully!");
+                    toast.success("Guide created successfully!");
                     onSuccess();
                     onOpenChange(false);
                 } else {
-                    alert("Failed to create guide");
+                    toast.error("Failed to create guide");
                 }
             }
         } catch (error) {
             console.error("Error saving guide:", error);
-            alert("An error occurred while saving the guide");
+            toast.error("An error occurred while saving the guide");
         } finally {
             setSaving(false);
         }
+    };
+
+    const handleAddItem = (field: 'whatYouWillLearn' | 'includes') => {
+        setFormData({
+            ...formData,
+            [field]: [...formData[field], ""]
+        });
+    };
+
+    const handleRemoveItem = (field: 'whatYouWillLearn' | 'includes', index: number) => {
+        const newItems = [...formData[field]];
+        newItems.splice(index, 1);
+        setFormData({
+            ...formData,
+            [field]: newItems
+        });
+    };
+
+    const handleItemChange = (field: 'whatYouWillLearn' | 'includes', index: number, value: string) => {
+        const newItems = [...formData[field]];
+        newItems[index] = value;
+        setFormData({
+            ...formData,
+            [field]: newItems
+        });
     };
 
     return (
@@ -163,11 +202,94 @@ export function GuideForm({ open, onOpenChange, guide, onSuccess }: GuideFormPro
                                 placeholder="notion, productivity, freelance"
                             />
                         </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="externalUrl">External Resource URL (Start Reading Link)</Label>
+                            <Input
+                                id="externalUrl"
+                                value={formData.externalUrl}
+                                onChange={(e) => setFormData({ ...formData, externalUrl: e.target.value })}
+                                placeholder="https://notion.so/..."
+                            />
+                        </div>
                     </div>
 
-                    {/* Content */}
+                    {/* Content Section */}
                     <div className="space-y-4">
-                        <h3 className="font-semibold text-sm text-slate-700">Content</h3>
+                        <h3 className="font-semibold text-sm text-slate-700">Content Details</h3>
+
+                        {/* What You'll Learn */}
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <Label>What You'll Learn</Label>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleAddItem('whatYouWillLearn')}
+                                    className="text-primary hover:text-primary-dark"
+                                >
+                                    <Plus className="size-4 mr-1" /> Add Item
+                                </Button>
+                            </div>
+                            {formData.whatYouWillLearn.map((item, index) => (
+                                <div key={index} className="flex gap-2">
+                                    <Input
+                                        value={item}
+                                        onChange={(e) => handleItemChange('whatYouWillLearn', index, e.target.value)}
+                                        placeholder="e.g. How to structure your portfolio"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => handleRemoveItem('whatYouWillLearn', index)}
+                                        className="text-slate-400 hover:text-red-500"
+                                    >
+                                        <Trash2 className="size-4" />
+                                    </Button>
+                                </div>
+                            ))}
+                            {formData.whatYouWillLearn.length === 0 && (
+                                <p className="text-xs text-slate-400 italic">No learning points added yet.</p>
+                            )}
+                        </div>
+
+                        {/* Includes */}
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <Label>Includes</Label>
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleAddItem('includes')}
+                                    className="text-primary hover:text-primary-dark"
+                                >
+                                    <Plus className="size-4 mr-1" /> Add Item
+                                </Button>
+                            </div>
+                            {formData.includes.map((item, index) => (
+                                <div key={index} className="flex gap-2">
+                                    <Input
+                                        value={item}
+                                        onChange={(e) => handleItemChange('includes', index, e.target.value)}
+                                        placeholder="e.g. 5 Email Templates"
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={() => handleRemoveItem('includes', index)}
+                                        className="text-slate-400 hover:text-red-500"
+                                    >
+                                        <Trash2 className="size-4" />
+                                    </Button>
+                                </div>
+                            ))}
+                            {formData.includes.length === 0 && (
+                                <p className="text-xs text-slate-400 italic">No inclusions added yet.</p>
+                            )}
+                        </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="content">Markdown Content *</Label>

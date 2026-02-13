@@ -1,0 +1,3 @@
+module.exports=[33990,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)(b.Fragment,{children:a})}a.s(["default",()=>c,"metadata",0,{title:"About Us",description:"Learn about HubSnap's mission to empower creators. Meet our founder, Prince Kumar, and discover why we're building the operating system for the creator economy.",alternates:{canonical:"https://hubsnap.com/about"}}])}];
+
+//# sourceMappingURL=src_app_%28marketing%29_about_layout_tsx_6335c9e0._.js.map

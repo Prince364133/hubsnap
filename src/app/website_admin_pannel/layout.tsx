@@ -3,9 +3,10 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Loader2, LayoutDashboard, Ticket, Users, FileText, BookOpen, HelpCircle, Wrench, Lightbulb } from "lucide-react";
+import { Loader2, LayoutDashboard, Ticket, Users, FileText, BookOpen, HelpCircle, Wrench, Lightbulb, BarChart, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import ProfileDropdown from "@/components/admin/ProfileDropdown";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const { user, profile, loading } = useAuth();
@@ -50,6 +51,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             Dashboard
                         </Button>
                     </Link>
+                    <Link href="/website_admin_pannel/analytics">
+                        <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
+                            <BarChart className="size-4 mr-2" />
+                            Analytics
+                        </Button>
+                    </Link>
                     <Link href="/website_admin_pannel/coupons">
                         <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
                             <Ticket className="size-4 mr-2" />
@@ -74,12 +81,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             Business Ideas
                         </Button>
                     </Link>
-                    <Link href="/website_admin_pannel/content">
-                        <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
-                            <FileText className="size-4 mr-2" />
-                            Content
-                        </Button>
-                    </Link>
+
                     <Link href="/website_admin_pannel/blogs">
                         <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
                             <BookOpen className="size-4 mr-2" />
@@ -92,6 +94,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                             Help Center
                         </Button>
                     </Link>
+                    <Link href="/website_admin_pannel/email">
+                        <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
+                            <Mail className="size-4 mr-2" />
+                            Email System
+                        </Button>
+                    </Link>
                 </nav>
             </aside>
 
@@ -99,14 +107,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <main className="flex-1 overflow-y-auto">
                 <header className="bg-white border-b border-slate-200 h-16 flex items-center px-8 justify-between">
                     <h2 className="font-semibold text-slate-700">Admin Panel</h2>
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm font-medium text-slate-600">
-                            {profile?.name}
-                        </span>
-                        <div className="size-8 rounded-full bg-sky-500 flex items-center justify-center text-white font-bold text-xs">
-                            {profile?.name?.[0]}
-                        </div>
-                    </div>
+                    <ProfileDropdown
+                        userName={profile?.name || profile?.email}
+                        userEmail={profile?.email}
+                    />
                 </header>
                 <div className="p-8">
                     {children}

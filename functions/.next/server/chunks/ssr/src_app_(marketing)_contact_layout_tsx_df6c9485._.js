@@ -1,0 +1,3 @@
+module.exports=[70306,a=>{"use strict";var b=a.i(7997);function c({children:a}){return(0,b.jsx)(b.Fragment,{children:a})}a.s(["default",()=>c,"metadata",0,{title:"Contact Us",description:"Get in touch with the HubSnap team. We're here to help you succeed with our AI tools and platform.",alternates:{canonical:"https://hubsnap.com/contact"}}])}];
+
+//# sourceMappingURL=src_app_%28marketing%29_contact_layout_tsx_df6c9485._.js.map

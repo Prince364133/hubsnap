@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Download, Upload, Pencil, Trash2, Search, Filter } from "lucide-react";
+import { Plus, Download, Upload, Pencil, Trash2, Search, Filter, Lock, Unlock, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
@@ -11,6 +11,7 @@ import type { Tool } from "@/lib/firestore";
 import { downloadTemplate, exportToolsToExcel, parseExcelFile, validateToolsBatch } from "@/lib/excel-utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/Dialog";
 import { ToolForm } from "@/components/admin/ToolForm";
+import { toast } from "sonner"; // Add import
 
 export default function AdminToolsPage() {
     const [tools, setTools] = useState<Tool[]>([]);
@@ -22,6 +23,8 @@ export default function AdminToolsPage() {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [importing, setImporting] = useState(false);
+    const [selectedTools, setSelectedTools] = useState<string[]>([]);
+    const [filterCategory, setFilterCategory] = useState<string>("all");
 
     useEffect(() => {
         loadTools();
@@ -35,28 +38,65 @@ export default function AdminToolsPage() {
         setLoading(true);
         try {
             const data = await dbService.getTools();
-            setTools(data);
+            setTools(data.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0))); // Added sort
         } catch (error) {
             console.error("Error loading tools:", error);
-            alert("Failed to load tools");
+            toast.error("Failed to load tools");
         } finally {
             setLoading(false);
         }
     };
 
     const filterTools = () => {
-        if (!searchQuery.trim()) {
-            setFilteredTools(tools);
-            return;
+        let currentFiltered = tools;
+
+        if (searchQuery.trim()) {
+            const query = searchQuery.toLowerCase();
+            currentFiltered = currentFiltered.filter(tool =>
+                tool.name.toLowerCase().includes(query) ||
+                tool.shortDesc?.toLowerCase().includes(query) ||
+                tool.categories?.some(c => c.toLowerCase().includes(query))
+            );
         }
 
-        const query = searchQuery.toLowerCase();
-        const filtered = tools.filter(tool =>
-            tool.name.toLowerCase().includes(query) ||
-            tool.shortDesc?.toLowerCase().includes(query) ||
-            tool.categories?.some(c => c.toLowerCase().includes(query))
-        );
-        setFilteredTools(filtered);
+        if (filterCategory !== "all") {
+            currentFiltered = currentFiltered.filter(tool =>
+                tool.categories?.includes(filterCategory)
+            );
+        }
+        setFilteredTools(currentFiltered);
+    };
+
+    const categories = ["all", ...new Set(tools.flatMap(t => t.categories).filter(Boolean))];
+
+    const handleSelectAll = (checked: boolean) => {
+        if (checked) {
+            setSelectedTools(filteredTools.map(t => t.id));
+        } else {
+            setSelectedTools([]);
+        }
+    };
+
+    const handleSelectTool = (id: string, checked: boolean) => {
+        if (checked) {
+            setSelectedTools(prev => [...prev, id]);
+        } else {
+            setSelectedTools(prev => prev.filter(toolId => toolId !== id));
+        }
+    };
+
+    const handleBulkDelete = async () => {
+        if (!confirm(`Are you sure you want to delete ${selectedTools.length} tools? This action cannot be undone.`)) return;
+
+        try {
+            await dbService.batchDeleteTools(selectedTools); // Assuming dbService has batchDeleteTools
+            toast.success(`${selectedTools.length} tools deleted successfully`);
+            setSelectedTools([]);
+            loadTools();
+        } catch (error) {
+            console.error("Batch delete error:", error);
+            toast.error("Failed to delete tools");
+        }
     };
 
     const handleExport = () => {
@@ -77,26 +117,33 @@ export default function AdminToolsPage() {
             const { valid, invalid } = validateToolsBatch(parsedTools);
 
             if (invalid.length > 0) {
-                alert(`Found ${invalid.length} invalid rows:\n${invalid.map((item, i) =>
-                    `Row ${i + 2}: ${item.errors.join(', ')}`
-                ).join('\n')}`);
+                console.warn("Invalid rows found:", invalid);
+                toast.warning(`Skipping ${invalid.length} invalid rows. Check console for details.`);
             }
 
             if (valid.length === 0) {
-                alert("No valid tools to import");
+                toast.error("No valid tools found to import");
                 return;
             }
 
             // Import valid tools
+            let successCount = 0;
             for (const tool of valid) {
-                await dbService.createTool(tool as Omit<Tool, 'id' | 'createdAt' | 'updatedAt'>);
+                try {
+                    await dbService.createTool(tool as any); // Type assertion for now
+                    successCount++;
+                } catch (e) {
+                    console.error("Failed to create tool:", tool.name, e);
+                }
             }
 
-            alert(`Successfully imported ${valid.length} tools!`);
-            loadTools();
+            if (successCount > 0) {
+                toast.success(`Successfully imported ${successCount} tools!`);
+                loadTools();
+            }
         } catch (error) {
             console.error("Import error:", error);
-            alert("Failed to import tools: " + (error as Error).message);
+            toast.error("Failed to import tools: " + (error as Error).message);
         } finally {
             setImporting(false);
             // Reset file input
@@ -104,23 +151,32 @@ export default function AdminToolsPage() {
         }
     };
 
-    const handleDelete = async () => {
-        if (!selectedTool) return;
-
+    const handleDelete = async (id: string) => { // Modified handleDelete to take id directly
         try {
-            await dbService.deleteTool(selectedTool.id);
-            alert("Tool deleted successfully!");
-            setIsDeleteModalOpen(false);
+            await dbService.deleteTool(id);
+            toast.success("Tool deleted successfully!");
+            setIsDeleteModalOpen(false); // Close modal if it was opened for a single tool
             setSelectedTool(null);
             loadTools();
         } catch (error) {
             console.error("Delete error:", error);
-            alert("Failed to delete tool");
+            toast.error("Failed to delete tool");
+        }
+    };
+
+    const handleTogglePublic = async (tool: Tool) => {
+        try {
+            await dbService.updateTool(tool.id, { isPublic: !tool.isPublic });
+            toast.success(`Tool visibility updated to ${!tool.isPublic ? 'Public' : 'Private'}`);
+            loadTools();
+        } catch (error) {
+            console.error("Toggle public error:", error);
+            toast.error("Failed to update tool visibility");
         }
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 p-6">
+        <div className="space-y-6">
             <div className="max-w-7xl mx-auto space-y-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
@@ -129,6 +185,16 @@ export default function AdminToolsPage() {
                         <p className="text-slate-500 mt-1">Manage AI tools database</p>
                     </div>
                     <div className="flex gap-2">
+                        {selectedTools.length > 0 && (
+                            <Button
+                                variant="destructive"
+                                onClick={handleBulkDelete}
+                                className="gap-2 animate-in fade-in slide-in-from-right-4"
+                            >
+                                <Trash2 className="size-4" />
+                                Delete ({selectedTools.length})
+                            </Button>
+                        )}
                         <Button
                             variant="outline"
                             onClick={handleDownloadTemplate}
@@ -172,7 +238,7 @@ export default function AdminToolsPage() {
                     </div>
                 </div>
 
-                {/* Search and Stats */}
+                {/* Search and Filters */}
                 <Card className="p-6">
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex-1 relative">
@@ -184,7 +250,31 @@ export default function AdminToolsPage() {
                                 className="pl-10"
                             />
                         </div>
-                        <div className="flex gap-4 text-sm">
+                        <div className="flex gap-4 text-sm items-center">
+                            <div className="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    id="selectAll"
+                                    checked={selectedTools.length === filteredTools.length && filteredTools.length > 0}
+                                    onChange={(e) => handleSelectAll(e.target.checked)}
+                                    className="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4"
+                                />
+                                <label htmlFor="selectAll" className="text-sm font-medium text-slate-700 cursor-pointer">
+                                    Select All
+                                </label>
+                            </div>
+                            <div className="flex gap-2">
+                                {categories.map(cat => (
+                                    <Button
+                                        key={cat}
+                                        variant={filterCategory === cat ? "default" : "outline"}
+                                        size="sm"
+                                        onClick={() => setFilterCategory(cat)}
+                                    >
+                                        {cat === "all" ? "All" : cat}
+                                    </Button>
+                                ))}
+                            </div>
                             <div className="text-slate-600">
                                 Total: <span className="font-bold text-slate-900">{tools.length}</span>
                             </div>
@@ -212,6 +302,14 @@ export default function AdminToolsPage() {
                                 <thead className="bg-slate-50 border-b border-slate-200">
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedTools.length === filteredTools.length && filteredTools.length > 0}
+                                                onChange={(e) => handleSelectAll(e.target.checked)}
+                                                className="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4"
+                                            />
+                                        </th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
                                             Name
                                         </th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">
@@ -233,7 +331,15 @@ export default function AdminToolsPage() {
                                 </thead>
                                 <tbody className="bg-white divide-y divide-slate-200">
                                     {filteredTools.map((tool) => (
-                                        <tr key={tool.id} className="hover:bg-slate-50">
+                                        <tr key={tool.id} className={`hover:bg-slate-50 ${selectedTools.includes(tool.id) ? 'bg-blue-50' : ''}`}>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedTools.includes(tool.id)}
+                                                    onChange={(e) => handleSelectTool(tool.id, e.target.checked)}
+                                                    className="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4"
+                                                />
+                                            </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <div className="font-medium text-slate-900">{tool.name}</div>
                                                 <div className="text-sm text-slate-500 truncate max-w-xs">
@@ -256,11 +362,7 @@ export default function AdminToolsPage() {
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <button
-                                                    onClick={async () => {
-                                                        const newStatus = !tool.isPublic;
-                                                        await dbService.updateTool(tool.id, { isPublic: newStatus });
-                                                        loadTools();
-                                                    }}
+                                                    onClick={() => handleTogglePublic(tool)}
                                                     className={`px-2 py-1 rounded-full text-xs font-medium ${tool.isPublic
                                                         ? "bg-green-100 text-green-700 hover:bg-green-200"
                                                         : "bg-slate-100 text-slate-700 hover:bg-slate-200"
@@ -340,7 +442,7 @@ export default function AdminToolsPage() {
                         <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)}>
                             Cancel
                         </Button>
-                        <Button variant="destructive" onClick={handleDelete}>
+                        <Button variant="destructive" onClick={() => selectedTool && handleDelete(selectedTool.id)}>
                             Delete
                         </Button>
                     </DialogFooter>

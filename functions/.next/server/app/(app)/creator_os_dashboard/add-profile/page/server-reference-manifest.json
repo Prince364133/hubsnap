@@ -1,0 +1,20 @@
+{
+  "node": {
+    "7fa3dd3c530f65bd0b98558a23427e4fd3901df779": {
+      "workers": {
+        "app/(app)/creator_os_dashboard/add-profile/page": {
+          "moduleId": 77008,
+          "async": false,
+          "exportedName": "ai",
+          "filename": "src/lib/ai-logic.ts"
+        }
+      },
+      "layer": {
+        "app/(app)/creator_os_dashboard/add-profile/page": "action-browser"
+      },
+      "exportedName": "ai",
+      "filename": "src/lib/ai-logic.ts"
+    }
+  },
+  "edge": {}
+}

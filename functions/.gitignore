@@ -1,0 +1,4 @@
+node_modules
+.firebase
+.git
+.env.local

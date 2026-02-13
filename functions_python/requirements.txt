@@ -1,0 +1,34 @@
+firebase-functions
+firebase-admin
+# A. Topic & Idea Intelligence
+bertopic
+keybert
+yake
+rapidfuzz
+scikit-learn
+
+# B. Text Processing
+unstructured
+beautifulsoup4
+newspaper3k
+sumy
+spacy
+
+# C. SEO & Quality
+languagetool-python
+textstat
+rake-nltk
+
+# D. Video & Asset
+ffmpeg-python
+Pillow
+moviepy
+
+# E. Audio
+openai-whisper
+pyannote.audio
+
+# F. System & Cost
+tiktoken
+joblib
+diskcache
