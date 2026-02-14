@@ -495,6 +495,12 @@
       "regex": "^/website_admin_pannel/waitlist(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/website_admin_pannel/waitlist(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/website-management",
+      "regex": "^/website_admin_pannel/website\\-management(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/website\\-management(?:/)?$"
     }
   ],
   "dataRoutes": [],

@@ -73,5 +73,6 @@
   "/website_admin_pannel/seed/page": "/website_admin_pannel/seed",
   "/website_admin_pannel/tools/page": "/website_admin_pannel/tools",
   "/website_admin_pannel/users/page": "/website_admin_pannel/users",
-  "/website_admin_pannel/waitlist/page": "/website_admin_pannel/waitlist"
+  "/website_admin_pannel/waitlist/page": "/website_admin_pannel/waitlist",
+  "/website_admin_pannel/website-management/page": "/website_admin_pannel/website-management"
 }

@@ -1,4 +1,10 @@
+"use client";
+
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Twitter, Instagram, Linkedin, Github } from "lucide-react";
+import { BackToTop } from "../ui/BackToTop";
 import { websiteConfigService, WebsiteConfig, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
 
 export function PublicFooter() {

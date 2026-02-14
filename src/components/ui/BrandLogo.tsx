@@ -1,3 +1,6 @@
+"use client";
+
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { websiteConfigService, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
 

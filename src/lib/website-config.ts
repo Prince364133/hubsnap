@@ -14,6 +14,11 @@ export interface WebsiteConfig {
         footerLogoUrl: string;
         faviconUrl: string;
     };
+    seo: {
+        title: string;
+        description: string;
+        ogImage: string;
+    };
     // Add more sections as needed
 }
 
@@ -28,6 +33,11 @@ export const DEFAULT_WEBSITE_CONFIG: WebsiteConfig = {
         headerLogoUrl: "/logo.gif",
         footerLogoUrl: "/logo.jpeg",
         faviconUrl: "/hubsnap_logo.jpeg"
+    },
+    seo: {
+        title: "HubSnap | AI-Powered Operating System for Creators",
+        description: "Scale your creative business with AI-powered tools and data-driven insights.",
+        ogImage: "/hero.png"
     }
 };
 
@@ -41,7 +51,8 @@ export const websiteConfigService = {
                 const data = docSnap.data() as Partial<WebsiteConfig>;
                 return {
                     hero: { ...DEFAULT_WEBSITE_CONFIG.hero, ...data.hero },
-                    branding: { ...DEFAULT_WEBSITE_CONFIG.branding, ...data.branding }
+                    branding: { ...DEFAULT_WEBSITE_CONFIG.branding, ...data.branding },
+                    seo: { ...DEFAULT_WEBSITE_CONFIG.seo, ...data.seo }
                 };
             }
             return DEFAULT_WEBSITE_CONFIG;

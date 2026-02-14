@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
+import { Menu, X, User as UserIcon, LogOut, ChevronDown } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useHeaderTitle } from "@/context/HeaderTitleContext";
 import { websiteConfigService, WebsiteConfig, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
@@ -28,9 +28,15 @@ export function PublicHeader() {
     const navLinks = [
         { href: "/", label: "Home" },
         { href: "/features", label: "Features" },
-        { href: "/products/creator-os", label: "Creator OS" },
+        {
+            href: "/products/creator-os",
+            label: "Creator OS",
+            submenu: [
+                { href: "/products/creator-os", label: "Overview" },
+                { href: "/waitlist", label: "Join Waitlist" },
+            ]
+        },
         { href: "/explore", label: "Explore Tools" },
-        { href: "/waitlist", label: "Join Waitlist" },
         { href: "/digital-business-ideas", label: "Digital Business Ideas" },
         { href: "/blog", label: "Blogs" },
         { href: "/about", label: "About" }
@@ -61,13 +67,29 @@ export function PublicHeader() {
                             <span className="text-xl font-bold text-slate-900 truncate max-w-xl">{title}</span>
                         ) : (
                             navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className="hover:text-black transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
+                                <div key={link.href} className="relative group/menu py-4">
+                                    <Link
+                                        href={link.href}
+                                        className="flex items-center gap-1 hover:text-black transition-colors"
+                                    >
+                                        {link.label}
+                                        {"submenu" in link && <ChevronDown className="size-3 opacity-50 group-hover/menu:rotate-180 transition-transform" />}
+                                    </Link>
+
+                                    {"submenu" in link && link.submenu && (
+                                        <div className="absolute top-full left-0 w-48 bg-white border border-slate-100 rounded-xl shadow-xl py-2 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-200 z-50">
+                                            {link.submenu.map((sub) => (
+                                                <Link
+                                                    key={sub.href}
+                                                    href={sub.href}
+                                                    className="block px-4 py-2 text-sm text-slate-600 hover:text-primary hover:bg-slate-50 transition-colors"
+                                                >
+                                                    {sub.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ))
                         )}
                     </div>
@@ -137,14 +159,29 @@ export function PublicHeader() {
                     <div className="flex-1 overflow-y-auto py-6 px-4">
                         <div className="space-y-1">
                             {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="block px-4 py-3 text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
+                                <div key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block px-4 py-3 text-slate-900 hover:bg-slate-50 rounded-lg font-medium transition-colors"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                    {"submenu" in link && link.submenu && (
+                                        <div className="pl-6 space-y-1 mt-1 pb-2">
+                                            {link.submenu.map((sub) => (
+                                                <Link
+                                                    key={sub.href}
+                                                    href={sub.href}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className="block px-4 py-2 text-sm text-slate-500 hover:text-primary transition-colors border-l border-slate-100"
+                                                >
+                                                    {sub.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </div>

@@ -20,16 +20,20 @@ import {
 import { Metadata } from "next";
 import { websiteConfigService } from "@/lib/website-config";
 
-export const metadata: Metadata = {
-  title: "HubSnap - AI Tools & Analytics for Modern Creators",
-  description: "Scale your creative business with HubSnap. AI-powered trend detection, script generation, and advanced analytics for YouTube, Instagram, and TikTok creators.",
-  keywords: ["creator tools", "AI for creators", "YouTube analytics", "trend detector", "content generation", "influencer marketing"],
-  openGraph: {
-    title: "HubSnap - AI Tools for Creators",
-    description: "Everything you need to scale your content business. Stop guessing, start growing.",
-    images: ["/og-home.png"],
-  }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await websiteConfigService.getConfig();
+
+  return {
+    title: config.seo.title || "HubSnap - AI Tools & Analytics for Modern Creators",
+    description: config.seo.description || "Scale your creative business with HubSnap. AI-powered trend detection, script generation, and advanced analytics for YouTube, Instagram, and TikTok creators.",
+    keywords: ["creator tools", "AI for creators", "YouTube analytics", "trend detector", "content generation", "influencer marketing"],
+    openGraph: {
+      title: config.seo.title,
+      description: config.seo.description,
+      images: [config.seo.ogImage || config.hero.imageUrl || "/og-home.png"],
+    }
+  };
+}
 
 export default async function LandingPage() {
   const config = await websiteConfigService.getConfig();
@@ -57,9 +61,9 @@ export default async function LandingPage() {
                   {config.hero.ctaText} <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Link href="/creator_os_dashboard/home">
+              <Link href="/waitlist">
                 <Button variant="outline" className="h-14 px-8 rounded-full text-lg font-bold border-2">
-                  Live Demo
+                  Join Waitlist
                 </Button>
               </Link>
             </div>
@@ -71,12 +75,31 @@ export default async function LandingPage() {
                 <CheckCircle2 className="size-4 text-green-500" /> Start in 60s
               </div>
             </div>
+
+            {/* Mobile Only Content */}
+            <div className="lg:hidden mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100 space-y-4">
+              <h3 className="font-bold text-slate-900">Why HubSnap Mobile?</h3>
+              <ul className="space-y-3 text-sm text-slate-600">
+                <li className="flex items-center gap-2">
+                  <div className="size-1.5 bg-primary rounded-full" />
+                  Track trends on the go
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="size-1.5 bg-primary rounded-full" />
+                  Quick AI script ideas anywhere
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="size-1.5 bg-primary rounded-full" />
+                  Join 10,000+ creators today
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div className="relative">
             <div className="absolute -inset-4 bg-gradient-to-tr from-primary/10 to-purple-500/10 blur-3xl rounded-full" />
             <Card className="relative border-slate-200 shadow-2xl overflow-hidden rounded-2xl">
-              <div className="relative aspect-video w-full">
+              <div className="relative aspect-square w-full">
                 <Image
                   src={config.hero.imageUrl || "/hero.png"}
                   alt={config.hero.headline}
