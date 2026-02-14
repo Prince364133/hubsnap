@@ -41,7 +41,12 @@ export function RecentSignupsList({ users }: RecentSignupsProps) {
                             {user.plan || 'Free'}
                         </Badge>
                         <p className="text-[10px] text-slate-400 mt-1">
-                            {user.createdAt ? formatDistanceToNow(user.createdAt.toDate(), { addSuffix: true }) : 'Just now'}
+                            {user.createdAt ? formatDistanceToNow(
+                                typeof user.createdAt.toDate === 'function'
+                                    ? user.createdAt.toDate()
+                                    : new Date(user.createdAt.seconds * 1000),
+                                { addSuffix: true }
+                            ) : 'Just now'}
                         </p>
                     </div>
                 </div>

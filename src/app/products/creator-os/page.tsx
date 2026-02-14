@@ -1,4 +1,4 @@
-"use client";
+
 
 import Link from "next/link";
 import Image from "next/image";
@@ -13,7 +13,10 @@ import { WhatMakesUsDifferent } from "@/components/creator-os/WhatMakesUsDiffere
 import { IncomePaths } from "@/components/creator-os/IncomePaths";
 import { ToolsSection } from "@/components/creator-os/ToolsSection";
 import { SampleOutput } from "@/components/creator-os/SampleOutput";
+import { EarningPotentialCalculator } from "@/components/creator-os/EarningPotentialCalculator";
+import { SuccessStories } from "@/components/creator-os/SuccessStories";
 import { FAQ } from "@/components/creator-os/FAQ";
+import CountdownTimer from "@/components/CountdownTimer";
 import {
     Zap,
     TrendingUp,
@@ -30,8 +33,29 @@ import {
     Rocket,
     Brain,
     Target,
-    Wrench
+    Wrench,
+    MessageSquare,
+    Mic,
+    Type,
+    Scissors,
+    RefreshCw,
+    TestTube,
+    Calendar
 } from "lucide-react";
+
+import { Metadata } from "next";
+import { AdvancedDashboardPreview } from "@/components/creator-os/AdvancedDashboardPreview";
+
+export const metadata: Metadata = {
+    title: "Creator OS - The Operating System for Top 1% Creators",
+    description: "All-in-one dashboard research, content generation, and monetization. Analyze trends, generate scripts, and track income in one place.",
+    keywords: ["creator os", "content management system", "creator dashboard", "youtube automation", "content repurposing"],
+    openGraph: {
+        title: "Creator OS - Scale Your Content Business",
+        description: "The ultimate workflow tool for serious creators. Join the waitlist for early access.",
+        images: ["/og-creator-os.png"],
+    }
+};
 
 export default function CreatorOSPage() {
     const coreFeatures = [
@@ -70,6 +94,49 @@ export default function CreatorOSPage() {
             title: "Saved Ideas Library",
             description: "Organize and save your best ideas. Never lose a great content concept again.",
             status: "Live"
+        },
+        // New Creator OS Features
+        {
+            icon: MessageSquare,
+            title: "Audience Insight Engine",
+            description: "Analyze real audience comments to discover what your audience actually wants. Evidence-based content ideas from Instagram, YouTube, and competitor channels.",
+            status: "Coming Soon"
+        },
+        {
+            icon: Mic,
+            title: "AI Audiobook Studio",
+            description: "Convert written content into professional audiobook videos automatically. Background rendering with preset editing styles.",
+            status: "Coming Soon"
+        },
+        {
+            icon: Type,
+            title: "Textography Reels Generator",
+            description: "Create engaging text-based Instagram Reels in under 2 minutes. No face, no voice, just viral content with animated text and music.",
+            status: "Coming Soon"
+        },
+        {
+            icon: Scissors,
+            title: "Snap Clipper",
+            description: "Extract best moments from long videos into viral short clips automatically. AI-powered moment detection with vertical format conversion.",
+            status: "Coming Soon"
+        },
+        {
+            icon: RefreshCw,
+            title: "Content Lifespan Optimizer",
+            description: "Transform one content idea into multiple platform-specific formats. Maximize reach by repurposing across all platforms.",
+            status: "Coming Soon"
+        },
+        {
+            icon: TestTube,
+            title: "Hook Effectiveness Tester",
+            description: "Score your content hooks before posting. Get AI-powered improvement suggestions based on curiosity, clarity, and emotional pull.",
+            status: "Coming Soon"
+        },
+        {
+            icon: Calendar,
+            title: "Creator Consistency Tracker",
+            description: "Track creative momentum and prevent burnout. Monitor streaks, active days, and consistency scores with gentle, supportive insights.",
+            status: "Coming Soon"
         }
     ];
 
@@ -161,22 +228,19 @@ export default function CreatorOSPage() {
                             </div>
                         </div>
                     </div>
+
+
                     <div className="relative">
                         <div className="absolute -inset-4 bg-gradient-to-tr from-primary/10 to-purple-500/10 blur-3xl rounded-full" />
-                        <Card className="relative border-slate-200 shadow-2xl overflow-hidden rounded-2xl">
-                            <div className="relative aspect-video w-full">
-                                <Image
-                                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"
-                                    alt="Creator OS Dashboard"
-                                    fill
-                                    className="object-cover opacity-90 hover:scale-105 transition-transform duration-700"
-                                    priority
-                                />
-                            </div>
-                        </Card>
+                        <div className="relative transform hover:scale-[1.02] transition-transform duration-500">
+                            <AdvancedDashboardPreview variant="product" />
+                        </div>
                     </div>
                 </div>
             </section>
+
+            {/* Launch Countdown Timer */}
+            <CountdownTimer />
 
             {/* Core Features */}
             <section className="py-20 px-6 bg-slate-50">
@@ -252,7 +316,9 @@ export default function CreatorOSPage() {
 
             {/* New Conversion-Focused Sections */}
             <WhoIsThisFor />
+            <EarningPotentialCalculator />
             <ProblemSolution />
+            <SuccessStories />
             <WhatMakesUsDifferent />
             <SampleOutput />
             <IncomePaths />

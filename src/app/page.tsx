@@ -1,9 +1,11 @@
-"use client";
+
 
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { CreatorOSHighlight } from "@/components/home/CreatorOSHighlight";
+import { AdvancedRevenueCalculator } from "@/components/home/AdvancedRevenueCalculator";
 
 import { PublicHeader } from "@/components/layout/PublicHeader";
 import { PublicFooter } from "@/components/layout/PublicFooter";
@@ -17,6 +19,19 @@ import {
   ShieldCheck,
   Globe
 } from "lucide-react";
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "HubSnap - AI Tools & Analytics for Modern Creators",
+  description: "Scale your creative business with HubSnap. AI-powered trend detection, script generation, and advanced analytics for YouTube, Instagram, and TikTok creators.",
+  keywords: ["creator tools", "AI for creators", "YouTube analytics", "trend detector", "content generation", "influencer marketing"],
+  openGraph: {
+    title: "HubSnap - AI Tools for Creators",
+    description: "Everything you need to scale your content business. Stop guessing, start growing.",
+    images: ["/og-home.png"],
+  }
+};
 
 export default function LandingPage() {
   return (
@@ -82,6 +97,12 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Creator OS Highlight */}
+      <CreatorOSHighlight />
+
+      {/* Advanced Revenue Calculator */}
+      <AdvancedRevenueCalculator />
 
       {/* Feature Grid */}
       <section id="features" className="py-24 bg-slate-50">

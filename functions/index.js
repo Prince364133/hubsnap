@@ -90,4 +90,5 @@ const emailCampaigns = require('./lib/email-campaigns');
 
 exports.processEmailQueueWorker = emailWorker.processEmailQueueWorker;
 exports.onUserCreated = emailAutomation.onUserCreated;
+exports.onContactMessageCreated = emailAutomation.onContactMessageCreated;
 exports.createCampaign = emailCampaigns.createCampaign;

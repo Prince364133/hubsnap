@@ -11,7 +11,19 @@ if (!admin.apps.length) {
 }
 
 const db = admin.firestore();
-const rtdb = admin.database();
+
+// Lazy initialization for RTDB to prevent crashes if not configured
+let rtdbInstance: admin.database.Database | null = null;
+function getRtdb() {
+    if (rtdbInstance) return rtdbInstance;
+    try {
+        rtdbInstance = admin.database();
+        return rtdbInstance;
+    } catch (e) {
+        console.warn('RTDB not configured, skipping realtime features.');
+        return null;
+    }
+}
 
 // ============================================
 // ANALYTICS EVENT TRACKING
@@ -127,21 +139,24 @@ export const startSession = onCall(async (request) => {
     await db.collection('analytics_sessions').doc(sessionId).set(session);
 
     // Update Realtime Database for presence
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).set({
-            online: true,
-            lastSeen: Date.now(),
+    const rtdb = getRtdb();
+    if (rtdb) {
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).set({
+                online: true,
+                lastSeen: Date.now(),
+                currentPage: '/',
+                sessionId
+            });
+        }
+
+        await rtdb.ref(`active_sessions/${sessionId}`).set({
+            userId: userId || null,
+            startTime: Date.now(),
             currentPage: '/',
-            sessionId
+            lastActivity: Date.now()
         });
     }
-
-    await rtdb.ref(`active_sessions/${sessionId}`).set({
-        userId: userId || null,
-        startTime: Date.now(),
-        currentPage: '/',
-        lastActivity: Date.now()
-    });
 
     return { sessionId };
 });
@@ -175,14 +190,17 @@ export const endSession = onCall(async (request) => {
     });
 
     // Update presence in RTDB
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).update({
-            online: false,
-            lastSeen: Date.now()
-        });
-    }
+    const rtdb = getRtdb();
+    if (rtdb) {
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).update({
+                online: false,
+                lastSeen: Date.now()
+            });
+        }
 
-    await rtdb.ref(`active_sessions/${sessionId}`).remove();
+        await rtdb.ref(`active_sessions/${sessionId}`).remove();
+    }
 
     // Update user profile with activity stats
     if (userId) {
@@ -229,16 +247,19 @@ export const trackPageView = onCall(async (request) => {
     });
 
     // Update RTDB presence
-    await rtdb.ref(`active_sessions/${sessionId}`).update({
-        currentPage: page,
-        lastActivity: Date.now()
-    });
-
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).update({
+    const rtdb = getRtdb();
+    if (rtdb) {
+        await rtdb.ref(`active_sessions/${sessionId}`).update({
             currentPage: page,
-            lastSeen: Date.now()
+            lastActivity: Date.now()
         });
+
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).update({
+                currentPage: page,
+                lastSeen: Date.now()
+            });
+        }
     }
 
     return { success: true };
@@ -264,8 +285,9 @@ export const getActiveUsers = onCall(async (request) => {
     }
 
     // Get active sessions from RTDB
-    const sessionsSnapshot = await rtdb.ref('active_sessions').once('value');
-    const sessions = sessionsSnapshot.val() || {};
+    const rtdb = getRtdb();
+    const sessionsSnapshot = rtdb ? await rtdb.ref('active_sessions').once('value') : null;
+    const sessions = sessionsSnapshot?.val() || {};
 
     const activeSessions = Object.entries(sessions).map(([sessionId, data]: [string, any]) => ({
         sessionId,
@@ -276,8 +298,8 @@ export const getActiveUsers = onCall(async (request) => {
     }));
 
     // Get presence data
-    const presenceSnapshot = await rtdb.ref('presence').once('value');
-    const presence = presenceSnapshot.val() || {};
+    const presenceSnapshot = rtdb ? await rtdb.ref('presence').once('value') : null;
+    const presence = presenceSnapshot?.val() || {};
 
     const onlineUsers = Object.entries(presence)
         .filter(([_, data]: [string, any]) => data.online)

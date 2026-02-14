@@ -1,4 +1,4 @@
-"use client";
+
 
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
@@ -20,8 +20,23 @@ import {
     CheckCircle2,
     Rocket,
     Brain,
-    Target
+    Target,
+    MessageSquare,
+    Mic,
+    Type,
+    Scissors,
+    RefreshCw,
+    TestTube,
+    Calendar
 } from "lucide-react";
+
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Features - HubSnap Creator Tools",
+    description: "Explore our suite of AI-powered tools including Trend Detector, Script Engine, Audience Insight Miner, and more.",
+    keywords: ["content creation tools", "AI video tools", "audience insights", "social media analytics", "creator economy"],
+};
 
 export default function FeaturesPage() {
     const features = [
@@ -80,6 +95,56 @@ export default function FeaturesPage() {
             description: "Manage content for YouTube, TikTok, Instagram, and more from a single dashboard. Cross-platform analytics included.",
             color: "text-red-500",
             bg: "bg-red-50"
+        },
+        // New Creator OS Features
+        {
+            icon: MessageSquare,
+            title: "Audience Insight Engine",
+            description: "Analyze real audience comments from Instagram, YouTube, and competitor channels. Discover what your audience actually wants based on evidence, not guesswork.",
+            color: "text-cyan-500",
+            bg: "bg-cyan-50"
+        },
+        {
+            icon: Mic,
+            title: "AI Audiobook Studio",
+            description: "Convert written content into professional audiobook videos automatically. Choose from preset editing styles and let AI handle the rendering in the background.",
+            color: "text-violet-500",
+            bg: "bg-violet-50"
+        },
+        {
+            icon: Type,
+            title: "Textography Reels Generator",
+            description: "Create engaging text-based Instagram Reels without showing your face or using your voice. Generate viral content in under 2 minutes with animated text and music.",
+            color: "text-fuchsia-500",
+            bg: "bg-fuchsia-50"
+        },
+        {
+            icon: Scissors,
+            title: "Snap Clipper (Auto Clip Generator)",
+            description: "Extract the best moments from long-form videos into viral short clips automatically. AI detects engaging moments and converts them to vertical format with auto-subtitles.",
+            color: "text-orange-500",
+            bg: "bg-orange-50"
+        },
+        {
+            icon: RefreshCw,
+            title: "Content Lifespan Optimizer",
+            description: "Transform one content idea into multiple platform-specific formats. Maximize reach and consistency by repurposing content across YouTube, Instagram, LinkedIn, and more.",
+            color: "text-teal-500",
+            bg: "bg-teal-50"
+        },
+        {
+            icon: TestTube,
+            title: "Hook Effectiveness Tester",
+            description: "Score your content hooks before posting to predict performance. Get AI-powered improvement suggestions based on curiosity, clarity, and emotional pull metrics.",
+            color: "text-rose-500",
+            bg: "bg-rose-50"
+        },
+        {
+            icon: Calendar,
+            title: "Creator Consistency Tracker",
+            description: "Track your creative momentum and prevent burnout with intelligent insights. Monitor active days, streaks, and consistency scores with gentle, supportive feedback.",
+            color: "text-sky-500",
+            bg: "bg-sky-50"
         }
     ];
 

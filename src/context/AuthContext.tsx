@@ -54,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                             plan: "free",
                             role: "user",
                             walletBalance: 0,
+                            referralCode: (firebaseUser.displayName?.slice(0, 4) || "USER").toUpperCase() + nanoid(4).toUpperCase(),
                             createdAt: new Date().toISOString()
                         };
                         dbService.saveUserProfile(firebaseUser.uid, newProfile);

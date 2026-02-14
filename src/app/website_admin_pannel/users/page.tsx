@@ -71,6 +71,7 @@ export default function AdminUsersPage() {
         try {
             const constraints: QueryConstraint[] = [];
 
+            // 1. Base Filters (Server-side)
             if (statusFilter !== 'all') {
                 constraints.push(where('status', '==', statusFilter));
             }
@@ -79,6 +80,7 @@ export default function AdminUsersPage() {
                 constraints.push(where('plan', '==', planFilter));
             }
 
+            // 2. Sorting
             switch (sortBy) {
                 case 'last_active':
                     constraints.push(orderBy('activitySummary.lastActive', 'desc'));
@@ -95,11 +97,16 @@ export default function AdminUsersPage() {
                     break;
             }
 
-            if (loadMore && lastDoc) {
+            // 3. Search & Pagination Handling
+            // If searching, we fetch a larger batch to allow client-side filtering to find the user
+            const isSearching = !!searchQuery || showAdvancedFilters; // Fetch more if advanced filters are on
+            const effectiveLimit = isSearching ? 100 : pageSize;
+
+            if (loadMore && lastDoc && !isSearching) {
                 constraints.push(startAfter(lastDoc));
             }
 
-            constraints.push(limit(pageSize));
+            constraints.push(limit(effectiveLimit));
 
             const usersQuery = query(collection(db, 'users'), ...constraints);
             const snapshot = await getDocs(usersQuery);
@@ -116,7 +123,7 @@ export default function AdminUsersPage() {
             }
 
             setLastDoc(snapshot.docs[snapshot.docs.length - 1] || null);
-            setHasMore(snapshot.docs.length === pageSize);
+            setHasMore(snapshot.docs.length === effectiveLimit); // Only show 'Load More' if we hit the limit
         } catch (error) {
             console.error('Error fetching users:', error);
         }
@@ -477,100 +484,102 @@ export default function AdminUsersPage() {
 
             {/* User Table */}
             <div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
-                <table className="w-full text-left text-sm">
-                    <thead className="bg-slate-50 border-b border-slate-200">
-                        <tr>
-                            <th className="px-4 py-3">
-                                <input
-                                    type="checkbox"
-                                    checked={selectedUsers.size === filteredUsers.length && filteredUsers.length > 0}
-                                    onChange={toggleSelectAll}
-                                    className="rounded border-slate-300"
-                                />
-                            </th>
-                            <th className="px-4 py-3 font-medium text-slate-600">User</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Status</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Plan</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Last Active</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Sessions (7d)</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Engagement</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Wallet</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Referral Code</th>
-                            <th className="px-4 py-3 font-medium text-slate-600">Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                        {loading && users.length === 0 ? (
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left text-sm whitespace-nowrap">
+                        <thead className="bg-slate-50 border-b border-slate-200">
                             <tr>
-                                <td colSpan={10} className="px-4 py-8 text-center text-slate-500">
-                                    Loading users...
-                                </td>
+                                <th className="px-4 py-3">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedUsers.size === filteredUsers.length && filteredUsers.length > 0}
+                                        onChange={toggleSelectAll}
+                                        className="rounded border-slate-300"
+                                    />
+                                </th>
+                                <th className="px-4 py-3 font-medium text-slate-600">User</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Status</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Plan</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Last Active</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Sessions (7d)</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Engagement</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Wallet</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Referral Code</th>
+                                <th className="px-4 py-3 font-medium text-slate-600">Joined</th>
                             </tr>
-                        ) : filteredUsers.length === 0 ? (
-                            <tr>
-                                <td colSpan={10} className="px-4 py-8 text-center text-slate-500">
-                                    No users found
-                                </td>
-                            </tr>
-                        ) : (
-                            filteredUsers.map((user) => (
-                                <tr
-                                    key={user.id}
-                                    className="hover:bg-slate-50 cursor-pointer"
-                                >
-                                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectedUsers.has(user.id!)}
-                                            onChange={() => toggleUserSelection(user.id!)}
-                                            className="rounded border-slate-300"
-                                        />
-                                    </td>
-                                    <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
-                                        <div>
-                                            <div className="font-medium text-slate-900">{user.name || 'Unknown'}</div>
-                                            <div className="text-xs text-slate-500">{user.email}</div>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
-                                        {getStatusBadge(user.status)}
-                                    </td>
-                                    <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
-                                        {getPlanBadge(user.plan)}
-                                    </td>
-
-
-                                    <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
-                                        {formatDate(user.activitySummary?.lastActive) === '-' ? 'Never' : formatDate(user.activitySummary?.lastActive)}
-                                    </td>
-                                    <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
-                                        {user.metrics?.sessionCount7d || 0}
-                                    </td>
-                                    <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex-1 bg-slate-200 rounded-full h-2">
-                                                <div
-                                                    className="bg-indigo-600 h-2 rounded-full"
-                                                    style={{ width: `${Math.min(100, (user.activitySummary?.engagementScore || 0) * 10)}%` }}
-                                                />
-                                            </div>
-                                            <span className="text-xs text-slate-600">{user.activitySummary?.engagementScore || 0}</span>
-                                        </div>
-                                    </td>
-                                    <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
-                                        ₹{user.walletBalance || 0}
-                                    </td>
-                                    <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
-                                        {user.referralCode || '-'}
-                                    </td>
-                                    <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
-                                        {formatDate(user.createdAt)}
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                            {loading && users.length === 0 ? (
+                                <tr>
+                                    <td colSpan={10} className="px-4 py-8 text-center text-slate-500">
+                                        Loading users...
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ) : filteredUsers.length === 0 ? (
+                                <tr>
+                                    <td colSpan={10} className="px-4 py-8 text-center text-slate-500">
+                                        No users found
+                                    </td>
+                                </tr>
+                            ) : (
+                                filteredUsers.map((user) => (
+                                    <tr
+                                        key={user.id}
+                                        className="hover:bg-slate-50 cursor-pointer"
+                                    >
+                                        <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedUsers.has(user.id!)}
+                                                onChange={() => toggleUserSelection(user.id!)}
+                                                className="rounded border-slate-300"
+                                            />
+                                        </td>
+                                        <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
+                                            <div>
+                                                <div className="font-medium text-slate-900">{user.name || 'Unknown'}</div>
+                                                <div className="text-xs text-slate-500">{user.email}</div>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
+                                            {getStatusBadge(user.status)}
+                                        </td>
+                                        <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
+                                            {getPlanBadge(user.plan)}
+                                        </td>
+
+
+                                        <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
+                                            {formatDate(user.activitySummary?.lastActive) === '-' ? 'Never' : formatDate(user.activitySummary?.lastActive)}
+                                        </td>
+                                        <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
+                                            {user.metrics?.sessionCount7d || 0}
+                                        </td>
+                                        <td className="px-4 py-3" onClick={() => setSelectedUser(user)}>
+                                            <div className="flex items-center gap-2">
+                                                <div className="flex-1 bg-slate-200 rounded-full h-2 w-16">
+                                                    <div
+                                                        className="bg-indigo-600 h-2 rounded-full"
+                                                        style={{ width: `${Math.min(100, (user.activitySummary?.engagementScore || 0) * 10)}%` }}
+                                                    />
+                                                </div>
+                                                <span className="text-xs text-slate-600">{user.activitySummary?.engagementScore || 0}</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
+                                            ₹{user.walletBalance || 0}
+                                        </td>
+                                        <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
+                                            {user.referralCode || '-'}
+                                        </td>
+                                        <td className="px-4 py-3 text-slate-600" onClick={() => setSelectedUser(user)}>
+                                            {formatDate(user.createdAt)}
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
                 {/* Pagination */}
                 {hasMore && filteredUsers.length > 0 && (

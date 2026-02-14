@@ -82,9 +82,9 @@ export function PublicHeader() {
                                         Sign In
                                     </span>
                                 </Link>
-                                <Link href="/signup">
+                                <Link href="/waitlist">
                                     <Button className="rounded-full px-6 shadow-lg shadow-primary/20">
-                                        Get Started
+                                        Join Waitlist
                                     </Button>
                                 </Link>
                             </>
@@ -166,9 +166,9 @@ export function PublicHeader() {
                                         Sign In
                                     </Button>
                                 </Link>
-                                <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
+                                <Link href="/waitlist" onClick={() => setMobileMenuOpen(false)}>
                                     <Button className="w-full rounded-full font-medium shadow-lg shadow-primary/20">
-                                        Get Started
+                                        Join Waitlist
                                     </Button>
                                 </Link>
                             </>

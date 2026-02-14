@@ -800,6 +800,21 @@ export const dbService = {
         }
     },
 
+    // --- Contact Form ---
+    submitContactMessage: async (data: { name: string; email: string; subject: string; message: string }) => {
+        try {
+            await addDoc(collection(db, "contact_messages"), {
+                ...data,
+                createdAt: Timestamp.now(),
+                status: 'new'
+            });
+            return true;
+        } catch (e) {
+            console.error("Error submitting contact message:", e);
+            return false;
+        }
+    },
+
     createGuide: async (guide: Omit<Guide, 'id' | 'createdAt' | 'updatedAt'>): Promise<string> => {
         try {
             const docRef = await addDoc(collection(db, "guides"), {

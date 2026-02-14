@@ -80,6 +80,12 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
     
+    // Contact messages - public write
+    match /contact_messages/{messageId} {
+      allow create: if true; // Public contact form
+      allow read: if isAdmin();
+    }
+
     // Export history - admin only
     match /exportHistory/{exportId} {
       allow read: if isAdmin();

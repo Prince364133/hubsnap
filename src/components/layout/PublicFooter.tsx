@@ -47,6 +47,7 @@ export function PublicFooter() {
                                 <ul className="space-y-4 text-slate-500 font-medium">
                                     <li><Link href="/features" className="hover:text-primary transition-colors">Features</Link></li>
                                     <li><Link href="/products/creator-os" className="hover:text-primary transition-colors">Creator OS</Link></li>
+                                    <li><Link href="/waitlist" className="hover:text-primary transition-colors font-bold text-purple-600">Join Waitlist</Link></li>
                                     <li><Link href="/digital-business-ideas" className="hover:text-primary transition-colors">Digital Business Ideas</Link></li>
                                     <li><Link href="/pricing" className="hover:text-primary transition-colors">Pricing</Link></li>
                                 </ul>

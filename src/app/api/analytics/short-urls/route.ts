@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
             slug,
             title: title || '',
             clicks: 0,
+            enabled: true, // Default to enabled
             createdAt: Timestamp.now(),
             lastClicked: null
         };

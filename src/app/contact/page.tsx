@@ -17,6 +17,8 @@ import {
     CheckCircle2
 } from "lucide-react";
 
+import { dbService } from "@/lib/firestore";
+
 export default function ContactPage() {
     const [formData, setFormData] = useState({
         name: "",
@@ -25,13 +27,27 @@ export default function ContactPage() {
         message: ""
     });
     const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // TODO: Implement actual form submission
-        console.log("Form submitted:", formData);
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 3000);
+        setIsSubmitting(true);
+
+        const success = await dbService.submitContactMessage(formData);
+
+        if (success) {
+            setSubmitted(true);
+            setFormData({
+                name: "",
+                email: "",
+                subject: "General Inquiry",
+                message: ""
+            });
+            setTimeout(() => setSubmitted(false), 5000);
+        } else {
+            alert("Failed to send message. Please try again later.");
+        }
+        setIsSubmitting(false);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -138,9 +154,18 @@ export default function ContactPage() {
                                     />
                                 </div>
 
-                                <Button type="submit" className="w-full h-12 gap-2">
-                                    <Send className="size-4" />
-                                    Send Message
+                                <Button type="submit" className="w-full h-12 gap-2" disabled={isSubmitting}>
+                                    {isSubmitting ? (
+                                        <>
+                                            <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></span>
+                                            Sending...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Send className="size-4" />
+                                            Send Message
+                                        </>
+                                    )}
                                 </Button>
                             </form>
                         </Card>
