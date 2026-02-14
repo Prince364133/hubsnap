@@ -1,6 +1,32 @@
+"use client";
+
+import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import Image from "next/image";
-import { Star, TrendingUp, Quote } from "lucide-react";
+import { Star, TrendingUp, Quote, User } from "lucide-react";
+
+function TestimonialImage({ src, alt }: { src: string; alt: string }) {
+    const [error, setError] = useState(false);
+
+    if (error) {
+        return (
+            <div className="size-full bg-slate-100 flex items-center justify-center text-slate-400">
+                <User className="size-8" />
+            </div>
+        );
+    }
+
+    return (
+        <Image
+            src={src}
+            alt={alt}
+            fill
+            className="object-cover"
+            unoptimized
+            onError={() => setError(true)}
+        />
+    );
+}
 
 const stories = [
     {
@@ -53,14 +79,8 @@ export function SuccessStories() {
                             <Quote className="absolute top-6 right-6 size-12 text-slate-100 group-hover:text-primary/10 transition-colors" />
 
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="relative size-16 rounded-full overflow-hidden border-2 border-white shadow-md">
-                                    <Image
-                                        src={story.image}
-                                        alt={story.name}
-                                        fill
-                                        className="object-cover"
-                                        unoptimized
-                                    />
+                                <div className="relative size-16 rounded-full overflow-hidden border-2 border-white shadow-md bg-slate-100">
+                                    <TestimonialImage src={story.image} alt={story.name} />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-lg text-slate-900">{story.name}</h3>

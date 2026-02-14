@@ -6,6 +6,8 @@ import {
     onAuthStateChanged,
     GoogleAuthProvider,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     signOut as firebaseSignOut
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
@@ -35,8 +37,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
+    const [adminEmails, setAdminEmails] = useState<string[]>([]);
 
     useEffect(() => {
+        // Subscribe to admin emails list
+        const adminSettingsRef = doc(db, "settings", "admin-auth");
+        const unsubscribeAdmin = onSnapshot(adminSettingsRef, (doc) => {
+            if (doc.exists()) {
+                setAdminEmails(doc.data().allowedEmails || []);
+            }
+        });
+
+        return () => unsubscribeAdmin();
+    }, []);
+
+    useEffect(() => {
+        // Handle redirect result
+        const handleRedirect = async () => {
+            try {
+                const result = await getRedirectResult(auth);
+                if (result) {
+                    await handleUserSignIn(result.user);
+                }
+            } catch (error) {
+                console.error("Error with redirect result:", error);
+            }
+        };
+        handleRedirect();
+
         const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
             setUser(firebaseUser);
 
@@ -80,25 +108,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
             const firebaseUser = result.user;
-
-            // Check if profile exists, if not create it
-            const existingProfile = await dbService.getUserProfile(firebaseUser.uid);
-            if (!existingProfile) {
-                const referralCode = (firebaseUser.displayName?.slice(0, 4) || "USER").toUpperCase() + nanoid(4).toUpperCase();
-                const newProfile: Partial<UserProfile> = {
-                    email: firebaseUser.email || "",
-                    name: firebaseUser.displayName || "Creator",
-                    plan: "free",
-                    role: "user",
-                    walletBalance: 0,
-                    referralCode: referralCode,
-                    createdAt: new Date().toISOString()
-                };
-                await dbService.saveUserProfile(firebaseUser.uid, newProfile);
-            }
+            await handleUserSignIn(firebaseUser);
         } catch (error) {
             console.error("Error signing in with Google:", error);
-            throw error;
+            // Fallback to redirect if popup fails
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithRedirect(auth, provider);
+            } catch (redirectError) {
+                console.error("Error with Google Redirect:", redirectError);
+                throw redirectError;
+            }
+        }
+    };
+
+    const handleUserSignIn = async (firebaseUser: User) => {
+        // Double check if profile exists, if not create it
+        const existingProfile = await dbService.getUserProfile(firebaseUser.uid);
+        if (!existingProfile) {
+            const referralCode = (firebaseUser.displayName?.slice(0, 4) || "USER").toUpperCase() + nanoid(4).toUpperCase();
+            const newProfile: Partial<UserProfile> = {
+                email: firebaseUser.email || "",
+                name: firebaseUser.displayName || "Creator",
+                plan: "free",
+                role: "user",
+                walletBalance: 0,
+                referralCode: referralCode,
+                createdAt: new Date().toISOString()
+            };
+            await dbService.saveUserProfile(firebaseUser.uid, newProfile);
         }
     };
 
@@ -111,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const isAdmin = profile?.role === "admin";
+    const isAdmin = profile?.role === "admin" || (user?.email ? adminEmails.includes(user.email) : false);
 
     return (
         <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, isAdmin }}>

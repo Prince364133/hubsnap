@@ -3,14 +3,14 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Loader2, LayoutDashboard, Ticket, Users, FileText, BookOpen, HelpCircle, Wrench, Lightbulb, BarChart, Mail, ListChecks, Menu } from "lucide-react";
+import { Loader2, LayoutDashboard, Ticket, Users, FileText, BookOpen, HelpCircle, Wrench, Lightbulb, BarChart, Mail, ListChecks, Menu, ShieldAlert } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/Sheet";
 import ProfileDropdown from "@/components/admin/ProfileDropdown";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-    const { user, profile, loading } = useAuth();
+    const { user, profile, loading, isAdmin } = useAuth();
     const router = useRouter();
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -19,13 +19,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (!loading) {
             if (!user) {
                 router.push("/login");
-            } else if (profile?.role !== "admin") {
+            } else if (!isAdmin) {
                 router.push("/creator_os_dashboard/home");
             } else {
                 setIsAuthorized(true);
             }
         }
-    }, [user, profile, loading, router]);
+    }, [user, profile, loading, router, isAdmin]);
 
     if (loading || !isAuthorized) {
         return (
@@ -102,6 +102,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
                     <LayoutDashboard className="size-4 mr-2" />
                     Website Content
+                </Button>
+            </Link>
+            <Link href="/website_admin_pannel/website-management/admin-access" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
+                    <ShieldAlert className="size-4 mr-2" />
+                    Admin Access
                 </Button>
             </Link>
         </nav>

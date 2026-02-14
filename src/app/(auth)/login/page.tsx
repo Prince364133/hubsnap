@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { auth } from "@/lib/firebase";
@@ -14,11 +14,17 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
     const router = useRouter();
-    const { signInWithGoogle } = useAuth();
+    const { signInWithGoogle, isAdmin, user, loading: authLoading } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        if (!authLoading && user && isAdmin) {
+            router.push("/website_admin_pannel");
+        }
+    }, [user, isAdmin, authLoading, router]);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
