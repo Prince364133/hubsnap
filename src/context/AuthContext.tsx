@@ -12,7 +12,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { UserProfile, dbService } from "@/lib/firestore";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import { nanoid } from "nanoid";
 
 interface AuthContextType {
@@ -21,7 +21,11 @@ interface AuthContextType {
     loading: boolean;
     signInWithGoogle: () => Promise<void>;
     logout: () => Promise<void>;
-    isAdmin: boolean;
+    isAdmin: boolean; // Now based on password session
+    adminAuthenticated: boolean;
+    loginAdmin: (password: string) => Promise<boolean>;
+    updateAdminPassword: (oldPass: string, newPass: string) => Promise<void>;
+    adminEmails: string[];
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -30,7 +34,11 @@ const AuthContext = createContext<AuthContextType>({
     loading: true,
     signInWithGoogle: async () => { },
     logout: async () => { },
-    isAdmin: false
+    isAdmin: false,
+    adminAuthenticated: false,
+    loginAdmin: async () => false,
+    updateAdminPassword: async () => { },
+    adminEmails: []
 });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -38,15 +46,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [profile, setProfile] = useState<UserProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [adminEmails, setAdminEmails] = useState<string[]>([]);
+    const [adminAuthenticated, setAdminAuthenticated] = useState(false);
+    const [storedAdminPassword, setStoredAdminPassword] = useState("");
 
     useEffect(() => {
-        // Subscribe to admin emails list
+        // Subscribe to admin auth settings
         const adminSettingsRef = doc(db, "settings", "admin-auth");
         const unsubscribeAdmin = onSnapshot(adminSettingsRef, (doc) => {
             if (doc.exists()) {
-                setAdminEmails(doc.data().allowedEmails || []);
+                const data = doc.data();
+                setAdminEmails(data.allowedEmails || []);
+                setStoredAdminPassword(data.adminPassword || "Prince364133");
             }
         });
+
+        // Check for existing session
+        const session = sessionStorage.getItem("admin_session");
+        if (session === "true") {
+            setAdminAuthenticated(true);
+        }
 
         return () => unsubscribeAdmin();
     }, []);
@@ -143,16 +161,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const logout = async () => {
         try {
             await firebaseSignOut(auth);
+            // Also clear admin session on logout
+            logoutAdmin();
         } catch (error) {
             console.error("Error signing out:", error);
             throw error;
         }
     };
 
-    const isAdmin = profile?.role === "admin" || (user?.email ? adminEmails.includes(user.email) : false);
+    const loginAdmin = async (password: string) => {
+        if (password === storedAdminPassword) {
+            setAdminAuthenticated(true);
+            sessionStorage.setItem("admin_session", "true");
+            return true;
+        }
+        return false;
+    };
+
+    const logoutAdmin = () => {
+        setAdminAuthenticated(false);
+        sessionStorage.removeItem("admin_session");
+    };
+
+    const updateAdminPassword = async (oldPass: string, newPass: string) => {
+        if (oldPass !== storedAdminPassword) {
+            throw new Error("Incorrect old password");
+        }
+        const adminSettingsRef = doc(db, "settings", "admin-auth");
+        await updateDoc(adminSettingsRef, { adminPassword: newPass });
+    };
+
+    const isAdmin = adminAuthenticated;
 
     return (
-        <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, logout, isAdmin }}>
+        <AuthContext.Provider value={{
+            user,
+            profile,
+            loading,
+            signInWithGoogle,
+            logout,
+            isAdmin,
+            adminAuthenticated,
+            loginAdmin,
+            updateAdminPassword,
+            adminEmails
+        }}>
             {children}
         </AuthContext.Provider>
     );

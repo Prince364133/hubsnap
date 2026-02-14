@@ -17,15 +17,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     useEffect(() => {
         if (!loading) {
-            if (!user) {
-                router.push("/login");
-            } else if (!isAdmin) {
-                router.push("/creator_os_dashboard/home");
+            if (!isAdmin) {
+                router.push("/admin-login");
             } else {
                 setIsAuthorized(true);
             }
         }
-    }, [user, profile, loading, router, isAdmin]);
+    }, [loading, router, isAdmin]);
 
     if (loading || !isAuthorized) {
         return (

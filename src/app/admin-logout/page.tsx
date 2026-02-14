@@ -18,6 +18,7 @@ export default function AdminLogoutPage() {
 
         try {
             await signOut(auth);
+            sessionStorage.removeItem('admin_session');
             toast.success('Logged out successfully');
             router.push('/admin-login');
         } catch (error) {
