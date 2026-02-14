@@ -12,7 +12,11 @@ const db = admin.firestore();
  * Aggregate user activity from analytics_events
  * Runs hourly to update user activity summaries
  */
-export const aggregateUserActivity = onSchedule('every 1 hours', async (event) => {
+export const aggregateUserActivity = onSchedule({
+    schedule: 'every 1 hours',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     console.log('Starting user activity aggregation...');
 
     try {
@@ -193,7 +197,11 @@ function classifyUserStatus(
  * Update admin dashboard statistics
  * Runs every 5 minutes for real-time insights
  */
-export const updateAdminStats = onSchedule('every 5 minutes', async (event) => {
+export const updateAdminStats = onSchedule({
+    schedule: 'every 5 minutes',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     console.log('Updating admin dashboard statistics...');
 
     try {
@@ -308,7 +316,10 @@ export const updateAdminStats = onSchedule('every 5 minutes', async (event) => {
  * Get detailed activity timeline for a specific user
  * Used in User Detail Panel
  */
-export const getUserActivityTimeline = onCall(async (request) => {
+export const getUserActivityTimeline = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { userId, limit = 50, startAfter } = request.data;
 
     // Check admin authentication

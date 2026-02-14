@@ -1,5 +1,4 @@
 
-
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
@@ -16,11 +15,10 @@ import {
   Sparkles,
   ArrowRight,
   CheckCircle2,
-  ShieldCheck,
-  Globe
 } from "lucide-react";
 
 import { Metadata } from "next";
+import { websiteConfigService } from "@/lib/website-config";
 
 export const metadata: Metadata = {
   title: "HubSnap - AI Tools & Analytics for Modern Creators",
@@ -33,7 +31,9 @@ export const metadata: Metadata = {
   }
 };
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const config = await websiteConfigService.getConfig();
+
   return (
     <div className="min-h-screen bg-white text-slate-900 selection:bg-blue-100 font-sans">
       <PublicHeader />
@@ -46,15 +46,15 @@ export default function LandingPage() {
               <Sparkles className="size-3" /> Now with AI Script Generation
             </div>
             <h1 className="text-5xl lg:text-7xl font-bold tracking-tight leading-[1.1]">
-              AI-Powered Tools for <span className="text-primary italic">Modern</span> Creators
+              {config.hero.headline}
             </h1>
             <p className="text-xl text-slate-500 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              HubSnap brings together the best AI tools, data-driven insights, and proven frameworks to help creators build sustainable businesses.
+              {config.hero.subheadline}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
               <Link href="/signup">
                 <Button className="h-14 px-8 rounded-full text-lg font-bold gap-2 group shadow-xl shadow-primary/25">
-                  Start For Free <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
+                  {config.hero.ctaText} <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
               <Link href="/creator_os_dashboard/home">
@@ -78,11 +78,12 @@ export default function LandingPage() {
             <Card className="relative border-slate-200 shadow-2xl overflow-hidden rounded-2xl">
               <div className="relative aspect-video w-full">
                 <Image
-                  src="/hero.png"
-                  alt="HubSnap Dashboard Preview - AI Tools for Creators"
+                  src={config.hero.imageUrl || "/hero.png"}
+                  alt={config.hero.headline}
                   fill
                   className="object-cover opacity-90 hover:scale-105 transition-transform duration-700"
                   priority
+                  unoptimized // Fix for broken images on Firebase Hosting
                 />
                 <div className="absolute top-6 left-6 bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-lg text-sm font-bold shadow-lg flex items-center gap-2">
                   <div className="size-2 bg-green-500 rounded-full animate-pulse" />
@@ -320,39 +321,6 @@ export default function LandingPage() {
                 </div>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-24 px-6 text-center">
-        <div className="max-w-5xl mx-auto relative group">
-          {/* Glow underneath */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-400 rounded-[2.5rem] blur opacity-40 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-
-          {/* Main Glass Container */}
-          <div className="relative p-12 md:p-20 rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-blue-600/90 to-cyan-500/90 backdrop-blur-3xl border border-white/20 shadow-2xl ring-1 ring-white/10">
-
-            {/* Frozen/Icy Accents */}
-            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-            <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
-
-            <div className="relative z-10 space-y-8">
-              <h2 className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
-                Ready to join the top 1% of creators?
-              </h2>
-              <p className="text-blue-50 text-xl max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-md opacity-90">
-                Stop burning hours on manual research. Let Creator OS handle the data so you can handle the art.
-              </p>
-              <div className="pt-8 flex justify-center gap-4">
-                <Link href="/signup">
-                  <Button className="h-20 px-12 rounded-full text-2xl font-bold bg-white text-blue-600 hover:bg-blue-50 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.6)] hover:scale-105 border border-transparent">
-                    Start Creating Smarter
-                  </Button>
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>

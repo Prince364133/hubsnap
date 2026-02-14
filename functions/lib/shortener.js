@@ -53,7 +53,10 @@ const generateShortCode = (0, nanoid_1.customAlphabet)('0123456789ABCDEFGHIJKLMN
  * Create a short URL
  * Admin-only function
  */
-exports.createShortUrl = (0, https_1.onCall)(async (request) => {
+exports.createShortUrl = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     const { originalUrl, customAlias, title, description, tags } = request.data;
     // Check authentication
@@ -190,7 +193,10 @@ exports.redirectShortUrl = (0, https_1.onRequest)(async (req, res) => {
  * Get analytics for a specific short URL
  * Admin-only
  */
-exports.getUrlAnalytics = (0, https_1.onCall)(async (request) => {
+exports.getUrlAnalytics = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     const { urlId, startDate, endDate } = request.data;
     // Check authentication
@@ -272,7 +278,10 @@ exports.getUrlAnalytics = (0, https_1.onCall)(async (request) => {
  * List all short URLs
  * Admin-only
  */
-exports.listShortUrls = (0, https_1.onCall)(async (request) => {
+exports.listShortUrls = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     // Check authentication
     const userId = (_a = request.auth) === null || _a === void 0 ? void 0 : _a.uid;
@@ -293,7 +302,10 @@ exports.listShortUrls = (0, https_1.onCall)(async (request) => {
  * Update short URL (enable/disable, edit)
  * Admin-only
  */
-exports.updateShortUrl = (0, https_1.onCall)(async (request) => {
+exports.updateShortUrl = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     const { urlId, enabled, title, description, tags } = request.data;
     // Check authentication
@@ -324,7 +336,10 @@ exports.updateShortUrl = (0, https_1.onCall)(async (request) => {
  * Delete short URL
  * Admin-only
  */
-exports.deleteShortUrl = (0, https_1.onCall)(async (request) => {
+exports.deleteShortUrl = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     const { urlId } = request.data;
     // Check authentication

@@ -46,7 +46,11 @@ const db = admin.firestore();
  * Process Email Queue (Runs every minute)
  * Fetches pending emails and sends them via SMTP
  */
-exports.processEmailQueueWorker = (0, scheduler_1.onSchedule)('*/1 * * * *', async (event) => {
+exports.processEmailQueueWorker = (0, scheduler_1.onSchedule)({
+    schedule: '*/1 * * * *',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     console.log('Starting email queue processing...');
     // 1. Fetch pending emails
     // Order by priority (1=High) and then creation time

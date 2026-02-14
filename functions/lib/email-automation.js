@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onContactMessageCreated = exports.onUserCreated = void 0;
+exports.onNewContactMessage = exports.onUserSignup = void 0;
 const functions = __importStar(require("firebase-functions/v2"));
 const admin = __importStar(require("firebase-admin"));
 // Initialize Firebase Admin if not already initialized
@@ -44,7 +44,11 @@ const db = admin.firestore();
 /**
  * On User Created -> Send Welcome Email
  */
-exports.onUserCreated = functions.firestore.onDocumentCreated('users/{userId}', async (event) => {
+exports.onUserSignup = functions.firestore.onDocumentCreated({
+    document: 'users/{userId}',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const snapshot = event.data;
     if (!snapshot)
         return;
@@ -93,7 +97,11 @@ exports.onUserCreated = functions.firestore.onDocumentCreated('users/{userId}', 
 /**
  * On Contact Message Created -> Send Notification to Admin & Confirmation to User
  */
-exports.onContactMessageCreated = functions.firestore.onDocumentCreated('contact_messages/{messageId}', async (event) => {
+exports.onNewContactMessage = functions.firestore.onDocumentCreated({
+    document: 'contact_messages/{messageId}',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const snapshot = event.data;
     if (!snapshot)
         return;

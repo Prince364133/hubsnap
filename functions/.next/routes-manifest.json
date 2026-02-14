@@ -20,7 +20,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://integrate.api.nvidia.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https://*.google-analytics.com https://*.googletagmanager.com; font-src 'self'; connect-src 'self' https://integrate.api.nvidia.com https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.cloudfunctions.net https://*.run.app;"
         }
       ],
       "regex": "^(?:/(.*))(?:/)?$"
@@ -107,10 +107,52 @@
       "namedRegex": "^/about(?:/)?$"
     },
     {
+      "page": "/admin-login",
+      "regex": "^/admin\\-login(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin\\-login(?:/)?$"
+    },
+    {
+      "page": "/admin-logout",
+      "regex": "^/admin\\-logout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/admin\\-logout(?:/)?$"
+    },
+    {
+      "page": "/api/analytics/active-users",
+      "regex": "^/api/analytics/active\\-users(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/analytics/active\\-users(?:/)?$"
+    },
+    {
+      "page": "/api/analytics/short-urls",
+      "regex": "^/api/analytics/short\\-urls(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/analytics/short\\-urls(?:/)?$"
+    },
+    {
+      "page": "/api/analytics/url-analytics",
+      "regex": "^/api/analytics/url\\-analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/analytics/url\\-analytics(?:/)?$"
+    },
+    {
+      "page": "/api/campaigns/create",
+      "regex": "^/api/campaigns/create(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/campaigns/create(?:/)?$"
+    },
+    {
       "page": "/api/create-order",
       "regex": "^/api/create\\-order(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/api/create\\-order(?:/)?$"
+    },
+    {
+      "page": "/api/waitlist",
+      "regex": "^/api/waitlist(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/api/waitlist(?:/)?$"
     },
     {
       "page": "/blog",
@@ -149,6 +191,12 @@
       "namedRegex": "^/creator_os_dashboard/channel\\-name(?:/)?$"
     },
     {
+      "page": "/creator_os_dashboard/content",
+      "regex": "^/creator_os_dashboard/content(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/content(?:/)?$"
+    },
+    {
       "page": "/creator_os_dashboard/content/day-1",
       "regex": "^/creator_os_dashboard/content/day\\-1(?:/)?$",
       "routeKeys": {},
@@ -159,6 +207,12 @@
       "regex": "^/creator_os_dashboard/content/generate(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/creator_os_dashboard/content/generate(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/content/history",
+      "regex": "^/creator_os_dashboard/content/history(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/content/history(?:/)?$"
     },
     {
       "page": "/creator_os_dashboard/content-mode",
@@ -207,6 +261,12 @@
       "regex": "^/creator_os_dashboard/saved(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/creator_os_dashboard/saved(?:/)?$"
+    },
+    {
+      "page": "/creator_os_dashboard/settings",
+      "regex": "^/creator_os_dashboard/settings(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/creator_os_dashboard/settings(?:/)?$"
     },
     {
       "page": "/creator_os_dashboard/setup-pack",
@@ -317,6 +377,12 @@
       "namedRegex": "^/profile(?:/)?$"
     },
     {
+      "page": "/set-admin",
+      "regex": "^/set\\-admin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/set\\-admin(?:/)?$"
+    },
+    {
       "page": "/signup",
       "regex": "^/signup(?:/)?$",
       "routeKeys": {},
@@ -329,10 +395,22 @@
       "namedRegex": "^/terms(?:/)?$"
     },
     {
+      "page": "/waitlist",
+      "regex": "^/waitlist(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/waitlist(?:/)?$"
+    },
+    {
       "page": "/website_admin_pannel",
       "regex": "^/website_admin_pannel(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/website_admin_pannel(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/analytics",
+      "regex": "^/website_admin_pannel/analytics(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/analytics(?:/)?$"
     },
     {
       "page": "/website_admin_pannel/blogs",
@@ -341,10 +419,40 @@
       "namedRegex": "^/website_admin_pannel/blogs(?:/)?$"
     },
     {
+      "page": "/website_admin_pannel/blogs/new",
+      "regex": "^/website_admin_pannel/blogs/new(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/blogs/new(?:/)?$"
+    },
+    {
       "page": "/website_admin_pannel/coupons",
       "regex": "^/website_admin_pannel/coupons(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/website_admin_pannel/coupons(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/email",
+      "regex": "^/website_admin_pannel/email(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/email(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/email/campaigns",
+      "regex": "^/website_admin_pannel/email/campaigns(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/email/campaigns(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/email/campaigns/new",
+      "regex": "^/website_admin_pannel/email/campaigns/new(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/email/campaigns/new(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/email/inbox",
+      "regex": "^/website_admin_pannel/email/inbox(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/email/inbox(?:/)?$"
     },
     {
       "page": "/website_admin_pannel/guides",
@@ -357,6 +465,12 @@
       "regex": "^/website_admin_pannel/help\\-center(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/website_admin_pannel/help\\-center(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/profile",
+      "regex": "^/website_admin_pannel/profile(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/profile(?:/)?$"
     },
     {
       "page": "/website_admin_pannel/seed",
@@ -375,6 +489,12 @@
       "regex": "^/website_admin_pannel/users(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/website_admin_pannel/users(?:/)?$"
+    },
+    {
+      "page": "/website_admin_pannel/waitlist",
+      "regex": "^/website_admin_pannel/waitlist(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/website_admin_pannel/waitlist(?:/)?$"
     }
   ],
   "dataRoutes": [],

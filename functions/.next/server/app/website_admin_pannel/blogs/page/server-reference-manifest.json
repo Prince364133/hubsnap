@@ -1,20 +1,4 @@
 {
-  "node": {
-    "00e47b917c80956fe5faa1c29eed9fa46638b9f40a": {
-      "workers": {
-        "app/website_admin_pannel/blogs/page": {
-          "moduleId": 21080,
-          "async": false,
-          "exportedName": "runBlogSeed",
-          "filename": "src/app/actions/seed-actions.ts"
-        }
-      },
-      "layer": {
-        "app/website_admin_pannel/blogs/page": "action-browser"
-      },
-      "exportedName": "runBlogSeed",
-      "filename": "src/app/actions/seed-actions.ts"
-    }
-  },
+  "node": {},
   "edge": {}
 }

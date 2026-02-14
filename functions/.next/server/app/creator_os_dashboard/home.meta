@@ -2,15 +2,14 @@
   "headers": {
     "x-nextjs-stale-time": "300",
     "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/(app)/layout,_N_T_/(app)/creator_os_dashboard/layout,_N_T_/(app)/creator_os_dashboard/home/layout,_N_T_/(app)/creator_os_dashboard/home/page,_N_T_/creator_os_dashboard/home"
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/creator_os_dashboard/layout,_N_T_/creator_os_dashboard/home/layout,_N_T_/creator_os_dashboard/home/page,_N_T_/creator_os_dashboard/home"
   },
   "segmentPaths": [
     "/_tree",
     "/_full",
-    "/!KGFwcCk/creator_os_dashboard/home/__PAGE__",
-    "/!KGFwcCk/creator_os_dashboard/home",
-    "/!KGFwcCk/creator_os_dashboard",
-    "/!KGFwcCk",
+    "/creator_os_dashboard/home/__PAGE__",
+    "/creator_os_dashboard/home",
+    "/creator_os_dashboard",
     "/_index",
     "/_head"
   ]

@@ -18,7 +18,10 @@ const generateShortCode = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZab
  * Create a short URL
  * Admin-only function
  */
-export const createShortUrl = onCall(async (request) => {
+export const createShortUrl = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { originalUrl, customAlias, title, description, tags } = request.data;
 
     // Check authentication
@@ -168,7 +171,10 @@ export const redirectShortUrl = onRequest(async (req, res) => {
  * Get analytics for a specific short URL
  * Admin-only
  */
-export const getUrlAnalytics = onCall(async (request) => {
+export const getUrlAnalytics = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { urlId, startDate, endDate } = request.data;
 
     // Check authentication
@@ -263,7 +269,10 @@ export const getUrlAnalytics = onCall(async (request) => {
  * List all short URLs
  * Admin-only
  */
-export const listShortUrls = onCall(async (request) => {
+export const listShortUrls = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     // Check authentication
     const userId = request.auth?.uid;
     if (!userId) {
@@ -291,7 +300,10 @@ export const listShortUrls = onCall(async (request) => {
  * Update short URL (enable/disable, edit)
  * Admin-only
  */
-export const updateShortUrl = onCall(async (request) => {
+export const updateShortUrl = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { urlId, enabled, title, description, tags } = request.data;
 
     // Check authentication
@@ -324,7 +336,10 @@ export const updateShortUrl = onCall(async (request) => {
  * Delete short URL
  * Admin-only
  */
-export const deleteShortUrl = onCall(async (request) => {
+export const deleteShortUrl = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { urlId } = request.data;
 
     // Check authentication

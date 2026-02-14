@@ -98,6 +98,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     Waitlist
                 </Button>
             </Link>
+            <Link href="/website_admin_pannel/website-management" onClick={() => setMobileMenuOpen(false)}>
+                <Button variant="ghost" className="w-full justify-start text-slate-300 hover:text-white hover:bg-slate-800">
+                    <LayoutDashboard className="size-4 mr-2" />
+                    Website Content
+                </Button>
+            </Link>
         </nav>
     );
 

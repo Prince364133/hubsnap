@@ -64,6 +64,7 @@ export default function BlogPage() {
                                             alt={featuredBlog.title}
                                             fill
                                             className="object-cover"
+                                            unoptimized
                                         />
                                     </div>
                                     <div className="p-8 flex flex-col justify-center">
@@ -139,6 +140,7 @@ export default function BlogPage() {
                                                 alt={blog.title}
                                                 fill
                                                 className="object-cover"
+                                                unoptimized
                                             />
                                         </div>
                                         <div className="p-6">

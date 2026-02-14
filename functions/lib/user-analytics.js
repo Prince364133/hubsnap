@@ -45,7 +45,11 @@ const db = admin.firestore();
  * Aggregate user activity from analytics_events
  * Runs hourly to update user activity summaries
  */
-exports.aggregateUserActivity = (0, scheduler_1.onSchedule)('every 1 hours', async (event) => {
+exports.aggregateUserActivity = (0, scheduler_1.onSchedule)({
+    schedule: 'every 1 hours',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     var _a, _b, _c;
     console.log('Starting user activity aggregation...');
     try {
@@ -199,7 +203,11 @@ function classifyUserStatus(sessionCount7d, sessionCount30d, lastActive) {
  * Update admin dashboard statistics
  * Runs every 5 minutes for real-time insights
  */
-exports.updateAdminStats = (0, scheduler_1.onSchedule)('every 5 minutes', async (event) => {
+exports.updateAdminStats = (0, scheduler_1.onSchedule)({
+    schedule: 'every 5 minutes',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     console.log('Updating admin dashboard statistics...');
     try {
         const now = new Date();
@@ -290,7 +298,10 @@ exports.updateAdminStats = (0, scheduler_1.onSchedule)('every 5 minutes', async 
  * Get detailed activity timeline for a specific user
  * Used in User Detail Panel
  */
-exports.getUserActivityTimeline = (0, https_1.onCall)(async (request) => {
+exports.getUserActivityTimeline = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     const { userId, limit = 50, startAfter } = request.data;
     // Check admin authentication

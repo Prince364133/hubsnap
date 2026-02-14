@@ -2,15 +2,14 @@
   "headers": {
     "x-nextjs-stale-time": "300",
     "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/(marketing)/layout,_N_T_/(marketing)/founder/layout,_N_T_/(marketing)/founder/prince-kumar/layout,_N_T_/(marketing)/founder/prince-kumar/page,_N_T_/founder/prince-kumar"
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/founder/layout,_N_T_/founder/prince-kumar/layout,_N_T_/founder/prince-kumar/page,_N_T_/founder/prince-kumar"
   },
   "segmentPaths": [
     "/_tree",
     "/_full",
-    "/!KG1hcmtldGluZyk/founder/prince-kumar/__PAGE__",
-    "/!KG1hcmtldGluZyk/founder/prince-kumar",
-    "/!KG1hcmtldGluZyk/founder",
-    "/!KG1hcmtldGluZyk",
+    "/founder/prince-kumar/__PAGE__",
+    "/founder/prince-kumar",
+    "/founder",
     "/_index",
     "/_head"
   ]

@@ -2,15 +2,14 @@
   "headers": {
     "x-nextjs-stale-time": "300",
     "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/(app)/layout,_N_T_/(app)/creator_os_dashboard/layout,_N_T_/(app)/creator_os_dashboard/income-sources/layout,_N_T_/(app)/creator_os_dashboard/income-sources/page,_N_T_/creator_os_dashboard/income-sources"
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/creator_os_dashboard/layout,_N_T_/creator_os_dashboard/income-sources/layout,_N_T_/creator_os_dashboard/income-sources/page,_N_T_/creator_os_dashboard/income-sources"
   },
   "segmentPaths": [
     "/_tree",
     "/_full",
-    "/!KGFwcCk/creator_os_dashboard/income-sources/__PAGE__",
-    "/!KGFwcCk/creator_os_dashboard/income-sources",
-    "/!KGFwcCk/creator_os_dashboard",
-    "/!KGFwcCk",
+    "/creator_os_dashboard/income-sources/__PAGE__",
+    "/creator_os_dashboard/income-sources",
+    "/creator_os_dashboard",
     "/_index",
     "/_head"
   ]

@@ -12,6 +12,7 @@ firebase-debug.log.*
 
 # Ignore dependencies
 node_modules/
+functions/node_modules/
 
 # Ignore Next.js build artifacts (except what's needed for standalone if using it, but frameworks usually handle this)
 .next/

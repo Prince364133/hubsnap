@@ -11,7 +11,11 @@ const db = admin.firestore();
 /**
  * On User Created -> Send Welcome Email
  */
-export const onUserCreated = functions.firestore.onDocumentCreated('users/{userId}', async (event) => {
+export const onUserSignup = functions.firestore.onDocumentCreated({
+    document: 'users/{userId}',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const snapshot = event.data;
     if (!snapshot) return;
 
@@ -66,7 +70,11 @@ export const onUserCreated = functions.firestore.onDocumentCreated('users/{userI
 /**
  * On Contact Message Created -> Send Notification to Admin & Confirmation to User
  */
-export const onContactMessageCreated = functions.firestore.onDocumentCreated('contact_messages/{messageId}', async (event) => {
+export const onNewContactMessage = functions.firestore.onDocumentCreated({
+    document: 'contact_messages/{messageId}',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const snapshot = event.data;
     if (!snapshot) return;
 

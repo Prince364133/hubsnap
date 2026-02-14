@@ -49,6 +49,7 @@ export default function FounderProfilePage() {
                                     alt="Prince Kumar"
                                     fill
                                     className="object-cover"
+                                    unoptimized
                                 />
                             </div>
 

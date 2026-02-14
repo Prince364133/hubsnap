@@ -69,8 +69,18 @@ export default function ProfilePage() {
         <div className="min-h-screen bg-slate-50 py-12 px-6">
             <div className="max-w-4xl mx-auto space-y-6">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold text-slate-900">My Profile</h1>
-                    <Button variant="ghost" onClick={logout} className="text-red-500 hover:text-red-600 hover:bg-red-50">
+                    <div className="flex flex-col">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => router.push('/')}
+                            className="w-fit mb-2 pl-0 hover:bg-transparent text-slate-500 hover:text-primary transition-colors flex items-center gap-1"
+                        >
+                            <User className="size-4" /> Back to Home
+                        </Button>
+                        <h1 className="text-3xl font-bold text-slate-900">My Profile</h1>
+                    </div>
+                    <Button variant="ghost" onClick={logout} className="text-red-500 hover:text-red-600 hover:bg-red-50 font-medium">
                         <LogOut className="size-4 mr-2" />
                         Log Out
                     </Button>

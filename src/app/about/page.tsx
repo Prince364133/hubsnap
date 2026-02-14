@@ -99,6 +99,7 @@ export default function AboutPage() {
                                         alt="Prince Kumar"
                                         fill
                                         className="object-cover"
+                                        unoptimized
                                     />
                                 </Link>
 

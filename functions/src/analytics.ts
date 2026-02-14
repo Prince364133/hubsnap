@@ -85,7 +85,10 @@ function extractMetadata(req: any): Partial<AnalyticsEvent['metadata']> {
  * Track analytics event
  * Callable function from client
  */
-export const trackEvent = onCall(async (request) => {
+export const trackEvent = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { type, userId, sessionId, page, referrer, metadata } = request.data;
 
     if (!sessionId || !page) {
@@ -115,7 +118,10 @@ export const trackEvent = onCall(async (request) => {
 /**
  * Start a new session
  */
-export const startSession = onCall(async (request) => {
+export const startSession = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { userId } = request.data;
     const sessionId = `sess_${nanoid(16)}`;
     const metadata = extractMetadata(request);
@@ -164,7 +170,10 @@ export const startSession = onCall(async (request) => {
 /**
  * End session and calculate metrics
  */
-export const endSession = onCall(async (request) => {
+export const endSession = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { sessionId, userId } = request.data;
 
     if (!sessionId) {
@@ -218,7 +227,10 @@ export const endSession = onCall(async (request) => {
 /**
  * Track page view
  */
-export const trackPageView = onCall(async (request) => {
+export const trackPageView = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { sessionId, page, userId, timeOnPage } = request.data;
 
     if (!sessionId || !page) {
@@ -272,7 +284,10 @@ export const trackPageView = onCall(async (request) => {
 /**
  * Get currently active users
  */
-export const getActiveUsers = onCall(async (request) => {
+export const getActiveUsers = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     // Check if user is admin
     const userId = request.auth?.uid;
     if (!userId) {
@@ -327,7 +342,11 @@ export const getActiveUsers = onCall(async (request) => {
  * Aggregate daily analytics
  * Runs at midnight UTC
  */
-export const aggregateDailyStats = onSchedule('0 0 * * *', async (event: any) => {
+export const aggregateDailyStats = onSchedule({
+    schedule: '0 0 * * *',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event: any) => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(0, 0, 0, 0);
@@ -429,7 +448,11 @@ export const aggregateDailyStats = onSchedule('0 0 * * *', async (event: any) =>
  * Cleanup old events (older than 90 days)
  * Runs weekly
  */
-export const cleanupOldEvents = onSchedule('0 2 * * 0', async (event: any) => {
+export const cleanupOldEvents = onSchedule({
+    schedule: '0 2 * * 0',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event: any) => {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 90);
 

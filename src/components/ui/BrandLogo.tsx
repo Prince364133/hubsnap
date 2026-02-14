@@ -1,4 +1,5 @@
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { websiteConfigService, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
 
 interface BrandLogoProps {
     size?: "sm" | "md" | "lg" | "xl";
@@ -6,6 +7,16 @@ interface BrandLogoProps {
 }
 
 export function BrandLogo({ size = "md", className = "" }: BrandLogoProps) {
+    const [logoUrl, setLogoUrl] = useState(DEFAULT_WEBSITE_CONFIG.branding.headerLogoUrl);
+
+    useEffect(() => {
+        const loadConfig = async () => {
+            const config = await websiteConfigService.getConfig();
+            setLogoUrl(config.branding.headerLogoUrl);
+        };
+        loadConfig();
+    }, []);
+
     const sizes = {
         sm: { width: 60, height: 18 },
         md: { width: 80, height: 24 },
@@ -17,12 +28,13 @@ export function BrandLogo({ size = "md", className = "" }: BrandLogoProps) {
 
     return (
         <Image
-            src="/logo.gif"
+            src={logoUrl || "/logo.gif"}
             alt="HubSnap"
             width={dimensions.width}
             height={dimensions.height}
             className={className}
             priority
+            unoptimized
         />
     );
 }

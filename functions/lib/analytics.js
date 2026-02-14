@@ -48,7 +48,20 @@ if (!admin.apps.length) {
     admin.initializeApp();
 }
 const db = admin.firestore();
-const rtdb = admin.database();
+// Lazy initialization for RTDB to prevent crashes if not configured
+let rtdbInstance = null;
+function getRtdb() {
+    if (rtdbInstance)
+        return rtdbInstance;
+    try {
+        rtdbInstance = admin.database();
+        return rtdbInstance;
+    }
+    catch (e) {
+        console.warn('RTDB not configured, skipping realtime features.');
+        return null;
+    }
+}
 /**
  * Extract device and location metadata from request
  */
@@ -82,7 +95,10 @@ function extractMetadata(req) {
  * Track analytics event
  * Callable function from client
  */
-exports.trackEvent = (0, https_1.onCall)(async (request) => {
+exports.trackEvent = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { type, userId, sessionId, page, referrer, metadata } = request.data;
     if (!sessionId || !page) {
         throw new Error('sessionId and page are required');
@@ -103,7 +119,10 @@ exports.trackEvent = (0, https_1.onCall)(async (request) => {
 /**
  * Start a new session
  */
-exports.startSession = (0, https_1.onCall)(async (request) => {
+exports.startSession = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { userId } = request.data;
     const sessionId = `sess_${(0, nanoid_1.nanoid)(16)}`;
     const metadata = extractMetadata(request);
@@ -124,26 +143,32 @@ exports.startSession = (0, https_1.onCall)(async (request) => {
     };
     await db.collection('analytics_sessions').doc(sessionId).set(session);
     // Update Realtime Database for presence
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).set({
-            online: true,
-            lastSeen: Date.now(),
+    const rtdb = getRtdb();
+    if (rtdb) {
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).set({
+                online: true,
+                lastSeen: Date.now(),
+                currentPage: '/',
+                sessionId
+            });
+        }
+        await rtdb.ref(`active_sessions/${sessionId}`).set({
+            userId: userId || null,
+            startTime: Date.now(),
             currentPage: '/',
-            sessionId
+            lastActivity: Date.now()
         });
     }
-    await rtdb.ref(`active_sessions/${sessionId}`).set({
-        userId: userId || null,
-        startTime: Date.now(),
-        currentPage: '/',
-        lastActivity: Date.now()
-    });
     return { sessionId };
 });
 /**
  * End session and calculate metrics
  */
-exports.endSession = (0, https_1.onCall)(async (request) => {
+exports.endSession = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { sessionId, userId } = request.data;
     if (!sessionId) {
         throw new Error('sessionId is required');
@@ -163,13 +188,16 @@ exports.endSession = (0, https_1.onCall)(async (request) => {
         isActive: false
     });
     // Update presence in RTDB
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).update({
-            online: false,
-            lastSeen: Date.now()
-        });
+    const rtdb = getRtdb();
+    if (rtdb) {
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).update({
+                online: false,
+                lastSeen: Date.now()
+            });
+        }
+        await rtdb.ref(`active_sessions/${sessionId}`).remove();
     }
-    await rtdb.ref(`active_sessions/${sessionId}`).remove();
     // Update user profile with activity stats
     if (userId) {
         const userRef = db.collection('users').doc(userId);
@@ -184,7 +212,10 @@ exports.endSession = (0, https_1.onCall)(async (request) => {
 /**
  * Track page view
  */
-exports.trackPageView = (0, https_1.onCall)(async (request) => {
+exports.trackPageView = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     const { sessionId, page, userId, timeOnPage } = request.data;
     if (!sessionId || !page) {
         throw new Error('sessionId and page are required');
@@ -206,15 +237,18 @@ exports.trackPageView = (0, https_1.onCall)(async (request) => {
         metadata: Object.assign(Object.assign({}, metadata), { timeOnPage: timeOnPage || null })
     });
     // Update RTDB presence
-    await rtdb.ref(`active_sessions/${sessionId}`).update({
-        currentPage: page,
-        lastActivity: Date.now()
-    });
-    if (userId) {
-        await rtdb.ref(`presence/${userId}`).update({
+    const rtdb = getRtdb();
+    if (rtdb) {
+        await rtdb.ref(`active_sessions/${sessionId}`).update({
             currentPage: page,
-            lastSeen: Date.now()
+            lastActivity: Date.now()
         });
+        if (userId) {
+            await rtdb.ref(`presence/${userId}`).update({
+                currentPage: page,
+                lastSeen: Date.now()
+            });
+        }
     }
     return { success: true };
 });
@@ -224,7 +258,10 @@ exports.trackPageView = (0, https_1.onCall)(async (request) => {
 /**
  * Get currently active users
  */
-exports.getActiveUsers = (0, https_1.onCall)(async (request) => {
+exports.getActiveUsers = (0, https_1.onCall)({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     var _a, _b;
     // Check if user is admin
     const userId = (_a = request.auth) === null || _a === void 0 ? void 0 : _a.uid;
@@ -236,8 +273,9 @@ exports.getActiveUsers = (0, https_1.onCall)(async (request) => {
         throw new Error('Admin access required');
     }
     // Get active sessions from RTDB
-    const sessionsSnapshot = await rtdb.ref('active_sessions').once('value');
-    const sessions = sessionsSnapshot.val() || {};
+    const rtdb = getRtdb();
+    const sessionsSnapshot = rtdb ? await rtdb.ref('active_sessions').once('value') : null;
+    const sessions = (sessionsSnapshot === null || sessionsSnapshot === void 0 ? void 0 : sessionsSnapshot.val()) || {};
     const activeSessions = Object.entries(sessions).map(([sessionId, data]) => ({
         sessionId,
         userId: data.userId,
@@ -246,8 +284,8 @@ exports.getActiveUsers = (0, https_1.onCall)(async (request) => {
         lastActivity: data.lastActivity
     }));
     // Get presence data
-    const presenceSnapshot = await rtdb.ref('presence').once('value');
-    const presence = presenceSnapshot.val() || {};
+    const presenceSnapshot = rtdb ? await rtdb.ref('presence').once('value') : null;
+    const presence = (presenceSnapshot === null || presenceSnapshot === void 0 ? void 0 : presenceSnapshot.val()) || {};
     const onlineUsers = Object.entries(presence)
         .filter(([_, data]) => data.online)
         .map(([userId, data]) => ({
@@ -271,7 +309,11 @@ exports.getActiveUsers = (0, https_1.onCall)(async (request) => {
  * Aggregate daily analytics
  * Runs at midnight UTC
  */
-exports.aggregateDailyStats = (0, scheduler_1.onSchedule)('0 0 * * *', async (event) => {
+exports.aggregateDailyStats = (0, scheduler_1.onSchedule)({
+    schedule: '0 0 * * *',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(0, 0, 0, 0);
@@ -360,7 +402,11 @@ exports.aggregateDailyStats = (0, scheduler_1.onSchedule)('0 0 * * *', async (ev
  * Cleanup old events (older than 90 days)
  * Runs weekly
  */
-exports.cleanupOldEvents = (0, scheduler_1.onSchedule)('0 2 * * 0', async (event) => {
+exports.cleanupOldEvents = (0, scheduler_1.onSchedule)({
+    schedule: '0 2 * * 0',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - 90);
     const oldEventsSnapshot = await db.collection('analytics_events')

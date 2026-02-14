@@ -2,14 +2,13 @@
   "headers": {
     "x-nextjs-stale-time": "300",
     "x-nextjs-prerender": "1",
-    "x-next-cache-tags": "_N_T_/layout,_N_T_/(marketing)/layout,_N_T_/(marketing)/digital-business-ideas/layout,_N_T_/(marketing)/digital-business-ideas/page,_N_T_/digital-business-ideas"
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/digital-business-ideas/layout,_N_T_/digital-business-ideas/page,_N_T_/digital-business-ideas"
   },
   "segmentPaths": [
     "/_tree",
     "/_full",
-    "/!KG1hcmtldGluZyk/digital-business-ideas/__PAGE__",
-    "/!KG1hcmtldGluZyk/digital-business-ideas",
-    "/!KG1hcmtldGluZyk",
+    "/digital-business-ideas/__PAGE__",
+    "/digital-business-ideas",
     "/_index",
     "/_head"
   ]

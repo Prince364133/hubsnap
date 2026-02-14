@@ -8,20 +8,32 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useHeaderTitle } from "@/context/HeaderTitleContext";
+import { websiteConfigService, WebsiteConfig, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
+import { useEffect } from "react";
 
 export function PublicHeader() {
     const { user, profile, logout } = useAuth();
     const { title } = useHeaderTitle();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [config, setConfig] = useState<WebsiteConfig>(DEFAULT_WEBSITE_CONFIG);
+
+    useEffect(() => {
+        const loadConfig = async () => {
+            const data = await websiteConfigService.getConfig();
+            setConfig(data);
+        };
+        loadConfig();
+    }, []);
 
     const navLinks = [
+        { href: "/", label: "Home" },
         { href: "/features", label: "Features" },
         { href: "/products/creator-os", label: "Creator OS" },
         { href: "/explore", label: "Explore Tools" },
+        { href: "/waitlist", label: "Join Waitlist" },
         { href: "/digital-business-ideas", label: "Digital Business Ideas" },
         { href: "/blog", label: "Blogs" },
-        { href: "/about", label: "About" },
-        { href: "/contact", label: "Contact" }
+        { href: "/about", label: "About" }
     ];
 
     return (
@@ -32,11 +44,12 @@ export function PublicHeader() {
                     <Link href="/" className="flex items-center gap-3 group">
                         <div className="relative">
                             <Image
-                                src="/hubsnap_logo.jpeg"
+                                src={config.branding.headerLogoUrl || "/logo.gif"}
                                 alt="HubSnap Logo"
                                 width={56}
                                 height={56}
-                                className="rounded-xl group-hover:scale-105 transition-transform shadow-lg shadow-sky-500/20"
+                                className="rounded-xl group-hover:scale-105 transition-transform shadow-lg shadow-sky-500/20 max-h-[56px] object-contain"
+                                unoptimized
                             />
                             <div className="absolute inset-0 bg-sky-500/10 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                         </div>

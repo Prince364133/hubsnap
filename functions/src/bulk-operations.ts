@@ -17,7 +17,10 @@ interface BulkUpdateRequest {
     };
 }
 
-export const batchUpdateUsers = onCall(async (request) => {
+export const batchUpdateUsers = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     // Check admin auth
     if (!request.auth || !request.auth.token.admin) {
         throw new Error('Unauthorized: Admin access required');
@@ -72,7 +75,10 @@ interface BulkEmailRequest {
     body: string;
 }
 
-export const sendBulkEmail = onCall(async (request) => {
+export const sendBulkEmail = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     // Check admin auth
     if (!request.auth || !request.auth.token.admin) {
         throw new Error('Unauthorized: Admin access required');
@@ -178,7 +184,11 @@ export const sendBulkEmail = onCall(async (request) => {
 import * as sgMail from '@sendgrid/mail';
 import { onDocumentCreated } from 'firebase-functions/v2/firestore';
 
-export const processEmailQueue = onDocumentCreated('emailQueue/{emailId}', async (event) => {
+export const processEmailQueue = onDocumentCreated({
+    document: 'emailQueue/{emailId}',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const snapshot = event.data;
     if (!snapshot) {
         return;
@@ -249,7 +259,10 @@ interface ExportRequest {
     format: 'csv' | 'json';
 }
 
-export const exportUsers = onCall(async (request) => {
+export const exportUsers = onCall({
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (request) => {
     // Check admin auth
     if (!request.auth || !request.auth.token.admin) {
         throw new Error('Unauthorized: Admin access required');
@@ -359,7 +372,11 @@ export const exportUsers = onCall(async (request) => {
 // SCHEDULED EXPORT
 // ============================================
 
-export const scheduledExport = onSchedule('0 0 * * *', async (event) => {
+export const scheduledExport = onSchedule({
+    schedule: '0 0 * * *',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     // Fetch all active export schedules
     const schedulesSnapshot = await db.collection('exportSchedules')
         .where('enabled', '==', true)
@@ -467,7 +484,11 @@ export const scheduledExport = onSchedule('0 0 * * *', async (event) => {
 // CLEANUP OLD EXPORTS
 // ============================================
 
-export const cleanupOldExports = onSchedule('0 3 * * *', async (event) => {
+export const cleanupOldExports = onSchedule({
+    schedule: '0 3 * * *',
+    memory: '512MiB',
+    timeoutSeconds: 300
+}, async (event) => {
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 
     // Find expired exports

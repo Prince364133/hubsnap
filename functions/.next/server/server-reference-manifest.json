@@ -1,65 +1,130 @@
 {
   "node": {
-    "7fa3dd3c530f65bd0b98558a23427e4fd3901df779": {
+    "60b718840c4ae603c21a1918a36cc7355131216f97": {
       "workers": {
-        "app/(app)/creator_os_dashboard/add-profile/page": {
-          "moduleId": 77008,
+        "app/creator_os_dashboard/add-profile/page": {
+          "moduleId": 68430,
           "async": false,
-          "exportedName": "ai",
+          "exportedName": "generateChannelNames",
+          "filename": "src/lib/ai-logic.ts"
+        },
+        "app/creator_os_dashboard/channel-name/page": {
+          "moduleId": 99709,
+          "async": false,
+          "exportedName": "generateChannelNames",
+          "filename": "src/lib/ai-logic.ts"
+        },
+        "app/creator_os_dashboard/logo-selection/page": {
+          "moduleId": 47641,
+          "async": false,
+          "exportedName": "generateChannelNames",
           "filename": "src/lib/ai-logic.ts"
         }
       },
       "layer": {
-        "app/(app)/creator_os_dashboard/add-profile/page": "action-browser"
+        "app/creator_os_dashboard/add-profile/page": "action-browser",
+        "app/creator_os_dashboard/channel-name/page": "action-browser",
+        "app/creator_os_dashboard/logo-selection/page": "action-browser"
       },
       "filename": "src/lib/ai-logic.ts",
-      "exportedName": "ai"
+      "exportedName": "generateChannelNames"
     },
-    "408366827c32d98ca6426d0b033054a5823ddb5674": {
+    "78f063a77c2b9384746ee7ac42601f35f2be5a3813": {
       "workers": {
-        "app/(app)/creator_os_dashboard/channel/[id]/page": {
-          "moduleId": 11693,
+        "app/creator_os_dashboard/add-profile/page": {
+          "moduleId": 68430,
+          "async": false,
+          "exportedName": "generateChannelBranding",
+          "filename": "src/lib/ai-logic.ts"
+        },
+        "app/creator_os_dashboard/channel-name/page": {
+          "moduleId": 99709,
+          "async": false,
+          "exportedName": "generateChannelBranding",
+          "filename": "src/lib/ai-logic.ts"
+        },
+        "app/creator_os_dashboard/logo-selection/page": {
+          "moduleId": 47641,
+          "async": false,
+          "exportedName": "generateChannelBranding",
+          "filename": "src/lib/ai-logic.ts"
+        }
+      },
+      "layer": {
+        "app/creator_os_dashboard/add-profile/page": "action-browser",
+        "app/creator_os_dashboard/channel-name/page": "action-browser",
+        "app/creator_os_dashboard/logo-selection/page": "action-browser"
+      },
+      "filename": "src/lib/ai-logic.ts",
+      "exportedName": "generateChannelBranding"
+    },
+    "40136f0e2196429ff7a5e1f849e799bc9c6910cb04": {
+      "workers": {
+        "app/creator_os_dashboard/channel/[id]/page": {
+          "moduleId": 84167,
           "async": false,
           "exportedName": "generateDailyContentAction",
           "filename": "src/app/actions.ts"
         },
-        "app/(app)/creator_os_dashboard/content/day-1/page": {
-          "moduleId": 4394,
+        "app/creator_os_dashboard/content/day-1/page": {
+          "moduleId": 16125,
           "async": false,
           "exportedName": "generateDailyContentAction",
           "filename": "src/app/actions.ts"
         },
-        "app/(app)/creator_os_dashboard/content/generate/page": {
-          "moduleId": 27401,
+        "app/creator_os_dashboard/content/generate/page": {
+          "moduleId": 75447,
           "async": false,
           "exportedName": "generateDailyContentAction",
           "filename": "src/app/actions.ts"
         }
       },
       "layer": {
-        "app/(app)/creator_os_dashboard/channel/[id]/page": "action-browser",
-        "app/(app)/creator_os_dashboard/content/day-1/page": "action-browser",
-        "app/(app)/creator_os_dashboard/content/generate/page": "action-browser"
+        "app/creator_os_dashboard/channel/[id]/page": "action-browser",
+        "app/creator_os_dashboard/content/day-1/page": "action-browser",
+        "app/creator_os_dashboard/content/generate/page": "action-browser"
       },
       "filename": "src/app/actions.ts",
       "exportedName": "generateDailyContentAction"
     },
-    "00e47b917c80956fe5faa1c29eed9fa46638b9f40a": {
+    "405c7bd5752f3fae18d105e69dfcf0f96dc7ac8566": {
       "workers": {
-        "app/website_admin_pannel/blogs/page": {
-          "moduleId": 21080,
+        "app/creator_os_dashboard/content/history/page": {
+          "moduleId": 7845,
           "async": false,
-          "exportedName": "runBlogSeed",
-          "filename": "src/app/actions/seed-actions.ts"
+          "exportedName": "getHistoryAnalyticsAction",
+          "filename": "src/app/actions.ts"
+        },
+        "app/creator_os_dashboard/content/page": {
+          "moduleId": 27107,
+          "async": false,
+          "exportedName": "getHistoryAnalyticsAction",
+          "filename": "src/app/actions.ts"
         }
       },
       "layer": {
-        "app/website_admin_pannel/blogs/page": "action-browser"
+        "app/creator_os_dashboard/content/history/page": "action-browser",
+        "app/creator_os_dashboard/content/page": "action-browser"
       },
-      "filename": "src/app/actions/seed-actions.ts",
-      "exportedName": "runBlogSeed"
+      "filename": "src/app/actions.ts",
+      "exportedName": "getHistoryAnalyticsAction"
+    },
+    "40388e85e14f13201a49c27eb23042545261b3b9d0": {
+      "workers": {
+        "app/creator_os_dashboard/trends/page": {
+          "moduleId": 28995,
+          "async": false,
+          "exportedName": "generateTrends",
+          "filename": "src/lib/ai-logic.ts"
+        }
+      },
+      "layer": {
+        "app/creator_os_dashboard/trends/page": "action-browser"
+      },
+      "filename": "src/lib/ai-logic.ts",
+      "exportedName": "generateTrends"
     }
   },
   "edge": {},
-  "encryptionKey": "dkgP3YebvHAeFSfm188dvZgH7jvbbQ1BadO8b4o/1dc="
+  "encryptionKey": "F/vvrcbiKePW/5Nl8gDxw0AYuXATSWQC3RdFkB4zh5w="
 }

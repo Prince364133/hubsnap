@@ -1,10 +1,17 @@
-import Link from "next/link";
-import Image from "next/image";
-import { BrandLogo } from "@/components/ui/BrandLogo";
-import { BackToTop } from "@/components/ui/BackToTop";
-import { Twitter, Instagram, Linkedin, Github } from "lucide-react";
+import { useState, useEffect } from "react";
+import { websiteConfigService, WebsiteConfig, DEFAULT_WEBSITE_CONFIG } from "@/lib/website-config";
 
 export function PublicFooter() {
+    const [config, setConfig] = useState<WebsiteConfig>(DEFAULT_WEBSITE_CONFIG);
+
+    useEffect(() => {
+        const loadConfig = async () => {
+            const data = await websiteConfigService.getConfig();
+            setConfig(data);
+        };
+        loadConfig();
+    }, []);
+
     return (
         <>
             <footer className="relative mt-24 border-t border-slate-200/60 overflow-hidden">
@@ -17,10 +24,18 @@ export function PublicFooter() {
                         {/* Brand Column - 4 Cols */}
                         <div className="md:col-span-4 space-y-6">
                             <Link href="/" className="inline-flex items-center gap-4 group">
-                                <BrandLogo size="md" className="origin-left" />
+                                <Image
+                                    src={config.branding.footerLogoUrl || "/logo.jpeg"}
+                                    alt="HubSnap Logo"
+                                    width={48}
+                                    height={48}
+                                    className="rounded-lg opacity-80 group-hover:opacity-100 transition-opacity"
+                                    unoptimized
+                                />
+                                <span className="text-xl font-black tracking-tighter text-slate-900 group-hover:text-primary transition-colors">HUBSNAP</span>
                             </Link>
                             <p className="text-slate-500 text-base leading-relaxed max-w-sm">
-                                The operating system for modern creators. From idea to income, we provide the AI tools and blueprints you need to scale.
+                                {config.hero.subheadline.split('.')[0]}. From idea to income, we provide the AI tools and blueprints you need to scale.
                             </p>
                             <div className="flex items-center gap-3 pt-2">
                                 {[

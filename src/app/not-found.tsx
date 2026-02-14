@@ -19,6 +19,7 @@ export default function NotFound() {
                         width={48}
                         height={48}
                         className="rounded-lg"
+                        unoptimized
                     />
                     <BrandLogo size="lg" />
                 </Link>
